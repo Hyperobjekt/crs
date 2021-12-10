@@ -67,7 +67,9 @@ export default function Map() {
 	}
 
 	function addStates() {
-		const scaleMin = 0;
+		const scaleMax = statesGeo.features.reduce((a, b) => b.properties.actions.length > a ? b.properties.actions.length : a, 0);
+		const scheme = "Oranges";
+		const color = d3.scaleQuantize([0, scaleMax], d3[`scheme${scheme}`][7]);
 		const states = d3.select(svgRef.current)
 			.select("g")
 				.append("g")
@@ -77,7 +79,7 @@ export default function Map() {
 				.attr("stroke-width", `${STROKE_WIDTH}px`)
 			.enter().append("path")
 				.attr("stroke", "black")
-				.attr("fill", "white")
+				.attr("fill", d => color(d.properties.actions.length))
 				.attr("d", geoPath);
 	}
 
