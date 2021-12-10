@@ -3,6 +3,7 @@ import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
 import statesGeo from "../../data/states";
+import pointsGeo from "../../data/points";
 import conusGeo from "../../data/conus";
 
 export default function Map() {
@@ -28,6 +29,7 @@ export default function Map() {
 		if(svgRef.current.classList.contains("ready")) return;
 		setUpMap();
 		addStates();
+		addPoints();
 	}, [winSizes]);
 
 	function onResize() {
@@ -77,6 +79,24 @@ export default function Map() {
 				.attr("stroke", "black")
 				.attr("fill", "white")
 				.attr("d", geoPath);
+	}
+
+	function addPoints() {
+		const points = d3.select(svgRef.current)
+			.select("g")
+				.append("g")
+					.attr("class", "markers")
+			.selectAll("circle")
+				.data(pointsGeo.features)
+			.enter().append("circle")
+				.attr("cx", function(d) {
+					return projection(d.geometry.coordinates)[0];
+				})
+				.attr("cy", function(d) {
+					return projection(d.geometry.coordinates)[1];
+				})
+				.attr("r", `${CIRCLE_RADIUS}px`)
+				.attr("fill", "black");
 	}
 
 	return (
