@@ -1,8 +1,12 @@
+require("dotenv").config();
 const Papa = require("papaparse");
 const neatCsv = require("neat-csv");
 const topojson = require("topojson-client");
 const fs = require("fs");
 const fetch = (...args) => import("node-fetch").then(({default: fetch}) => fetch(...args));
+
+const isDry = process.argv.indexOf("--dry") > -1;
+const isNoApi = process.argv.indexOf("--no-api") > -1;
 
 let d3, fetchJson, stateCodes, actions;
 
@@ -25,9 +29,9 @@ let d3, fetchJson, stateCodes, actions;
 	actions = await neatCsv(actionsCsv);
 }).then(async () => {
 	//GET COORDINATES
+	if(isNoApi) return;
 	const accessToken = process.env.MAPBOX_ACCESS_TOKEN;
 	const endpoint = "mapbox.places";
-
 	actions = await Promise.all(actions.map(async (row) => {
 		if(!row["Address"]) return row;
 		const search_text = encodeURIComponent(row["Address"]);
@@ -37,6 +41,7 @@ let d3, fetchJson, stateCodes, actions;
 		  .then(resJson => {
 		  	return resJson.features ? { ...row, geometry: resJson.features[0].geometry } : row;
 		  });
+		return await res;
 	}));
 }).then(async () => {
 	//GET STATES
@@ -64,7 +69,7 @@ let d3, fetchJson, stateCodes, actions;
 				type: "Feature",
 				properties: {
 					state: state,
-					actions: actions.filter((row) => !row["County"] && row["State/US"] === state)
+					actions: actions.filter((row) => row["Level"] === "State" && row["State/US"] === state)
 				},
 				geometry: d.geometry
 			});
@@ -86,6 +91,8 @@ let d3, fetchJson, stateCodes, actions;
 				});
 			})
 	};
+
+	if(isDry) return;
 	fs.writeFileSync("./pages/data/conus.js", `export default ${JSON.stringify(conus)}`);
 	fs.writeFileSync("./pages/data/states.js", `export default ${JSON.stringify(states)}`);
 	fs.writeFileSync("./pages/data/points.js", `export default ${JSON.stringify(points)}`);

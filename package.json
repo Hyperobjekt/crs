@@ -19,7 +19,9 @@
     "start": "next start",
     "export": "next export",
     "lint": "next lint",
-    "import": "./scripts/_import"
+    "import": "node ./scripts/import",
+    "import:dry": "npm run import -- --dry",
+    "import:no-api": "npm run import:dry -- --no-api"
   },
   "dependencies": {
     "@zeit/next-sass": "^1.0.1",
@@ -34,6 +36,7 @@
     "topojson-client": "^3.1.0"
   },
   "devDependencies": {
+    "dotenv": "^10.0.0",
     "eslint": "8.4.0",
     "eslint-config-next": "12.0.7",
     "node-fetch": "^3.1.0"

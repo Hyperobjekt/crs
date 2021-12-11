@@ -1,5 +1,5 @@
 module.exports = {
   env: {
-    MAPBOX_ACCESS_TOKEN: "TEST",
+    MAPBOX_ACCESS_TOKEN: process.env.MAPBOX_ACCESS_TOKEN,
   },
 };
