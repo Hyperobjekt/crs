@@ -43,15 +43,15 @@ export default function Map() {
 	const zoom = d3.zoom()
 		.scaleExtent([1, 8])
 		.on("zoom", (e) => {
-			zoomed(e, svgRef.current, STROKE_WIDTH, CIRCLE_RADIUS)
+			zoomed(e)
 		});
 
-	function zoomed(e, svg, strokeWidth, circleRadius) {
-		let g = d3.select(svg).select("g");
+	function zoomed(e) {
+		let g = d3.select(svgRef.current).select("g");
 		const { transform } = e;
 		g.attr("transform", transform);
-		g.attr("stroke-width", strokeWidth / transform.k);
-		g.selectAll("circle").attr("r", circleRadius / transform.k);
+		g.attr("stroke-width", STROKE_WIDTH / transform.k);
+		g.selectAll("circle").attr("r", CIRCLE_RADIUS / transform.k);
 	}
 
 	function setUpMap () {
@@ -68,8 +68,7 @@ export default function Map() {
 
 	function addStates() {
 		const scaleMax = statesGeo.features.reduce((a, b) => b.properties.actions.length > a ? b.properties.actions.length : a, 0);
-		const scheme = "Oranges";
-		const color = d3.scaleQuantize([0, scaleMax], d3[`scheme${scheme}`][7]);
+		const stateColor = d3.scaleQuantize([0, scaleMax], d3.schemeOranges[7]);
 		const states = d3.select(svgRef.current)
 			.select("g")
 				.append("g")
@@ -79,16 +78,20 @@ export default function Map() {
 				.attr("stroke-width", `${STROKE_WIDTH}px`)
 			.enter().append("path")
 				.attr("stroke", "black")
-				.attr("fill", d => color(d.properties.actions.length))
+				.attr("fill", d => stateColor(d.properties.actions.length))
 				.attr("d", geoPath);
 	}
 
 	function addPoints() {
+		const authTypes = [...new Set(pointsGeo.features.reduce((a, b) => [...a, b.properties["Authority Type"]], []))];
+		const pointIcon = d3.scaleOrdinal()
+			.domain(authTypes)
+			.range(["icon-1", "icon-2", "icon-3", "icon-4", "icon-5"])
 		const points = d3.select(svgRef.current)
 			.select("g")
 				.append("g")
 					.attr("class", "markers")
-			.selectAll("circle")
+			.selectAll("path")
 				.data(pointsGeo.features)
 			.enter().append("circle")
 				.attr("cx", function(d) {
@@ -98,7 +101,6 @@ export default function Map() {
 					return projection(d.geometry.coordinates)[1];
 				})
 				.attr("r", `${CIRCLE_RADIUS}px`)
-				.attr("fill", "black");
 	}
 
 	return (
