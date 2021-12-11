@@ -12,6 +12,7 @@ export default function Map() {
 
 	const STROKE_WIDTH = 1;
 	const CIRCLE_RADIUS = 5;
+	const IMAGE_SIZE = 15;
 
 	let projection, geoPath;
 
@@ -51,7 +52,10 @@ export default function Map() {
 		const { transform } = e;
 		g.attr("transform", transform);
 		g.attr("stroke-width", STROKE_WIDTH / transform.k);
-		g.selectAll("circle").attr("r", CIRCLE_RADIUS / transform.k);
+		// g.selectAll("circle").attr("r", CIRCLE_RADIUS / transform.k);
+		g.selectAll("image")
+				.attr("width", IMAGE_SIZE / transform.k)
+				.attr("height", IMAGE_SIZE / transform.k)
 	}
 
 	function setUpMap () {
@@ -93,14 +97,18 @@ export default function Map() {
 					.attr("class", "markers")
 			.selectAll("path")
 				.data(pointsGeo.features)
-			.enter().append("circle")
-				.attr("cx", function(d) {
+			// .enter().append("circle")
+			.enter().append("image")
+				.attr("xlink:href", d => `${pointIcon(d.properties["Authority Type"])}.png`)
+				.attr("x", function(d) {
 					return projection(d.geometry.coordinates)[0];
 				})
-				.attr("cy", function(d) {
+				.attr("y", function(d) {
 					return projection(d.geometry.coordinates)[1];
 				})
-				.attr("r", `${CIRCLE_RADIUS}px`)
+				.attr("width", `${IMAGE_SIZE}px`)
+				.attr("height", `${IMAGE_SIZE}px`)
+				// .attr("r", `${CIRCLE_RADIUS}px`)
 	}
 
 	return (
