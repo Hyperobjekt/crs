@@ -3,6 +3,7 @@ import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
 import Filter from "./_filter";
+import Panel from "./_panel";
 
 import statesGeo from "../../data/states";
 import pointsGeo from "../../data/points";
@@ -11,6 +12,8 @@ import conusGeo from "../../data/conus";
 export default function Map() {
 	const [winSizes, setWinSizes] = useState({});
 	const [filterData, setFilterData] = useState({});
+	const [pointData, setPointData] = useState(null);
+	const [panelData, setPanelData] = useState(null);
 	const svgRef = useRef(null);
 
 	const STROKE_WIDTH = 1;
@@ -109,7 +112,19 @@ export default function Map() {
 				})
 				.attr("width", `${IMAGE_SIZE}px`)
 				.attr("height", `${IMAGE_SIZE}px`)
+				.attr("cursor", "pointer")
+				.on("click", clickPoint)
+				.on('dblclick', (e) => e.stopPropagation());
+	};
+
+	const clickPoint = (e, d) => {
+		setPointData({ ...d.properties, timestamp: e.timeStamp });
 	}
+
+	const onPanelChange = (panelData) => {
+		console.log(panelData);
+		setPanelData(panelData);
+	};
 
 	const onFilterChange = (filterData) => {
 		setFilterData(filterData);
@@ -118,7 +133,7 @@ export default function Map() {
 			const activeOptions = activeGroups.filter((groupKey) => filterData[groupKey].includes(d.properties[groupKey]));
 			return activeGroups.length > activeOptions.length ? 0 : 1;
 		});
-	}
+	};
 
 	return (
 		<>
@@ -128,6 +143,9 @@ export default function Map() {
 					 ref={svgRef}
 					 width={winSizes.width}
 					 height={winSizes.height} />
+			<Panel
+				pointData={pointData}
+				onPanelChange={onPanelChange} />
 		</>
 	)
 }

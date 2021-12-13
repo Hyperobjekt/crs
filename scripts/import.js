@@ -63,7 +63,7 @@ let d3, fetchJson, stateCodes, actions;
 	const states = {
 		type: "FeatureCollection",
 		name: "states",
-		features: topojson.feature(countryTopo, countryTopo.objects.states).features.map((d) => {
+		features: topojson.feature(countryTopo, countryTopo.objects.states).features.map(d => {
 			const { [d.id]: state } = stateCodes;
 			return({
 				type: "Feature",
@@ -81,12 +81,12 @@ let d3, fetchJson, stateCodes, actions;
 		name: "local",
 		features: actions
 			.filter((row) => row["geometry"])
-			.map((row) => {
+			.map((row, i) => {
 				const { geometry } = row;
 				delete row.geometry;
 				return({
 					type: "Feature",
-					properties: row,
+					properties: { ...row, index: i },
 					geometry: geometry
 				});
 			})

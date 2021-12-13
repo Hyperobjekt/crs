@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import * as d3 from "d3";
 
 const filterGroups = {
 	"Authority Type": {
@@ -23,6 +22,7 @@ const filterGroups = {
 export default function Filter({ onFilterChange }) {
 	const initialFilterData = Object.keys(filterGroups).reduce((o, k) => ({...o, [k]: []}), {});
 	const [filterData, setFilterData] = useState(initialFilterData);
+
 	useEffect(() => {
 		onFilterChange(filterData);
 	}, [filterData]);
@@ -67,9 +67,8 @@ export default function Filter({ onFilterChange }) {
 	return (
 		<div
 			id="filters"
-			style={{ zIndex: 2, position: "fixed", left: "20px", top: "20px" }}>
+			style={{ zIndex: 2, position: "fixed", right: 0, top: 0, padding: 20 }}>
 			{Object.keys(filterGroups).map(key => filterGroupElem(key))}
 		</div>
-
 	)
 }
