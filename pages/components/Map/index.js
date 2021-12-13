@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { Helmet } from 'react-helmet-async';
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
@@ -122,7 +123,6 @@ export default function Map() {
 	}
 
 	const onPanelChange = (panelData) => {
-		console.log(panelData);
 		setPanelData(panelData);
 	};
 
@@ -137,6 +137,9 @@ export default function Map() {
 
 	return (
 		<>
+			<Helmet>
+				<body style="overflow: hidden" />
+			</Helmet>
 			<Filter
 				onFilterChange={onFilterChange} />
 			<svg id="map"

@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import * as d3 from "d3";
 
 const fieldTitles = {
 	"Title/Summary": "Title",
 	"Body Name": "Body Name",
+	"State/US": "State",
 	"Level": "Level of government involved",
 	"Bill #": "Bill #",
 	"Authority Type": "Type of action involved",

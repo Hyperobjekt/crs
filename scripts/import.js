@@ -80,6 +80,7 @@ let d3, fetchJson, stateCodes, actions;
 		type: "FeatureCollection",
 		name: "local",
 		features: actions
+			.filter((row) => row["Level"].indexOf("Local") > -1)
 			.filter((row) => row["geometry"])
 			.map((row, i) => {
 				const { geometry } = row;
@@ -91,9 +92,20 @@ let d3, fetchJson, stateCodes, actions;
 				});
 			})
 	};
+	//HANDLE TABLE DATA
+	const table = actions
+		.filter(row => row["Level"])
+		.reduce((obj, row) => {
+		const level = row["Level"].indexOf("Local") > -1 ? "Local" : row["Level"];
+		obj[level] = obj[level] ? obj[level] : [];
+		obj[level].push(row);
+		return obj;
+	}, {});
 
+	fs.writeFileSync("./pages/data/table.js", `export default ${JSON.stringify(table)}`);
 	if(isDry) return;
 	fs.writeFileSync("./pages/data/conus.js", `export default ${JSON.stringify(conus)}`);
 	fs.writeFileSync("./pages/data/states.js", `export default ${JSON.stringify(states)}`);
 	fs.writeFileSync("./pages/data/points.js", `export default ${JSON.stringify(points)}`);
+	
 });
