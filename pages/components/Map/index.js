@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Helmet } from 'react-helmet-async';
 import * as d3 from "d3";
 import * as topojson from "topojson-client";

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import Map from "./components/Map";
 import Table from "./components/Table";
@@ -35,7 +35,7 @@ export default function Home() {
 	return(
 		<div id="page">
 
-			<form style={{ position: "fixed", top: 0, left: 0, padding: 20 }}>
+			<form style={{ padding: "20px 20px 0 20px" }}>
 				{views.map(viewToggleElem)}
 			</form>
 

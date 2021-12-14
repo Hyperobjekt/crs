@@ -13,6 +13,8 @@ const filterGroups = {
 	"Level": {
 		label: "Level",
 		options: [
+			"Federal",
+			"State",
 			"LocalOth",
 			"LocalSch",
 		]
@@ -67,7 +69,7 @@ export default function Filter({ onFilterChange }) {
 	return (
 		<div
 			id="filters"
-			style={{ padding: 20 }}>
+			style={{ padding: 20, position: "sticky", top: 0, background: "white" }}>
 			{Object.keys(filterGroups).map(key => filterGroupElem(key))}
 		</div>
 	)
