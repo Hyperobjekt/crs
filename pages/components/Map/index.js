@@ -14,7 +14,8 @@ export default function Map() {
 	const [winSizes, setWinSizes] = useState({});
 	const [filterData, setFilterData] = useState({});
 	const [pointData, setPointData] = useState(null);
-	const [panelData, setPanelData] = useState(null);
+	const [stateData, setStateData] = useState(null);
+	const [activeFeature, setActiveFeature] = useState(null);
 	const svgRef = useRef(null);
 
 	const STROKE_WIDTH = 1;
@@ -89,7 +90,9 @@ export default function Map() {
 			.enter().append("path")
 				.attr("stroke", "black")
 				.attr("fill", d => stateColor(d.properties.actions.length))
-				.attr("d", geoPath);
+				.attr("d", geoPath)
+				.on("click", clickState)
+				.on('dblclick', (e) => e.stopPropagation());;
 	};
 
 	const addPoints = () => {
@@ -118,12 +121,16 @@ export default function Map() {
 				.on('dblclick', (e) => e.stopPropagation());
 	};
 
-	const clickPoint = (e, d) => {
-		setPointData({ ...d.properties, timestamp: e.timeStamp });
+	const clickState = (e, d) => {
+		setActiveFeature({ ...d.properties, timestamp: e.timeStamp });
 	}
 
-	const onPanelChange = (panelData) => {
-		setPanelData(panelData);
+	const clickPoint = (e, d) => {
+		setActiveFeature({ ...d.properties, timestamp: e.timeStamp });
+	}
+
+	const onPanelChange = (activeFeature) => {
+		// setActiveFeature(activeFeature);
 	};
 
 	const onFilterChange = (filterData) => {
@@ -147,8 +154,9 @@ export default function Map() {
 					 width={winSizes.width}
 					 height={winSizes.height} />
 			<Panel
-				pointData={pointData}
-				onPanelChange={onPanelChange} />
+				activeFeature={activeFeature}
+				onPanelChange={onPanelChange}
+				/>
 		</>
 	)
 }

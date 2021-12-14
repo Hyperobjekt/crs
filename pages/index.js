@@ -4,7 +4,7 @@ import Map from "./components/Map";
 import Table from "./components/Table";
 
 export default function Home() {
-	const [activeView, setActiveView] = useState("table");
+	const [activeView, setActiveView] = useState("map");
 
 	const views = ["map", "table"];
 

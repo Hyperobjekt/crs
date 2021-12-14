@@ -63,13 +63,14 @@ let d3, fetchJson, stateCodes, actions;
 	const states = {
 		type: "FeatureCollection",
 		name: "states",
-		features: topojson.feature(countryTopo, countryTopo.objects.states).features.map(d => {
+		features: topojson.feature(countryTopo, countryTopo.objects.states).features.map((d, i) => {
 			const { [d.id]: state } = stateCodes;
 			return({
 				type: "Feature",
 				properties: {
 					state: state,
-					actions: actions.filter((row) => row["Level"] === "State" && row["State/US"] === state)
+					actions: actions.filter((row) => row["Level"] === "State" && row["State/US"] === state),
+					index: i
 				},
 				geometry: d.geometry
 			});
@@ -102,10 +103,9 @@ let d3, fetchJson, stateCodes, actions;
 		return obj;
 	}, {});
 
-	fs.writeFileSync("./pages/data/table.js", `export default ${JSON.stringify(table)}`);
 	if(isDry) return;
 	fs.writeFileSync("./pages/data/conus.js", `export default ${JSON.stringify(conus)}`);
 	fs.writeFileSync("./pages/data/states.js", `export default ${JSON.stringify(states)}`);
 	fs.writeFileSync("./pages/data/points.js", `export default ${JSON.stringify(points)}`);
-	
+	fs.writeFileSync("./pages/data/table.js", `export default ${JSON.stringify(table)}`);
 });

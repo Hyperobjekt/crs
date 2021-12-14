@@ -10,13 +10,13 @@ const fieldTitles = {
 	"Date Intro": "Date initiated",
 };
 
-export default function Panel({ pointData, onPanelChange }) {
+export default function Panel({ activeFeature, onPanelChange }) {
 	const [panelData, setPanelData] = useState(null);
 
 	useEffect(() => {
-		const newPanelData = panelData ? panelData.index === pointData.index ? null : pointData : pointData;
+		const newPanelData = panelData ? panelData.index === activeFeature.index ? null : activeFeature : activeFeature;
 		setPanelData(newPanelData);
-	}, [pointData]);
+	}, [activeFeature]);
 
 	useEffect(() => {
 		onPanelChange(panelData);
