@@ -13,6 +13,8 @@ const filterGroups = {
 	"Level": {
 		label: "Level",
 		options: [
+			"Federal",
+			"State",
 			"LocalOth",
 			"LocalSch",
 		]

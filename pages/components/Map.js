@@ -3,20 +3,20 @@ import { Helmet } from 'react-helmet-async';
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
-import Filter from "./_filter";
-import Panel from "./_panel";
+import Filter from "./Filter";
+import Panel from "./Panel";
 
-import statesGeo from "../../data/states";
-import pointsGeo from "../../data/points";
-import conusGeo from "../../data/conus";
+import statesGeo from "../data/states";
+import pointsGeo from "../data/points";
+import conusGeo from "../data/conus";
 
-export default function Map() {
-	const [winSizes, setWinSizes] = useState({});
-	const [filterData, setFilterData] = useState({});
+export default function Map({ filterData }) {
+	const [mapSizes, setMapSizes] = useState({});
 	const [pointData, setPointData] = useState(null);
 	const [stateData, setStateData] = useState(null);
 	const [activeFeature, setActiveFeature] = useState(null);
-	const svgRef = useRef(null);
+	const mapRef = useRef({});
+	const svgRef = useRef({});
 
 	const STROKE_WIDTH = 1;
 	const CIRCLE_RADIUS = 5;
@@ -34,18 +34,22 @@ export default function Map() {
 	}, []);
 
 	useEffect(() => {
-		if(!Object.keys(winSizes).length) return;
+		if(!Object.keys(mapSizes).length) return;
 		if(svgRef.current.classList.contains("ready")) return;
 		setUpMap();
 		addStates();
 		addPoints();
-	}, [winSizes]);
+	}, [mapSizes]);
+
+	useEffect(() => {
+		filterMap();
+	}, [filterData]);
 
 	const onResize = () => {
-		const { innerWidth, innerHeight } = window;
-		setWinSizes({
-			width: innerWidth,
-			height: innerHeight
+		const { width, height } = mapRef.current.getBoundingClientRect();
+		setMapSizes({
+			width: width,
+			height: height,
 		});
 	}
 
@@ -69,7 +73,10 @@ export default function Map() {
 		const svg = d3.select(svgRef.current),
 					svgWidth = +svg.attr("width"),
 					svgHeight = +svg.attr("height");
-		projection = d3.geoMercator().fitSize([svgWidth, svgHeight], conusGeo);
+
+
+
+		projection = d3.geoAlbersUsa().fitSize([svgWidth, svgHeight], statesGeo);
 		svg.append("g");
 		geoPath = d3.geoPath()
 			.projection(projection);
@@ -91,6 +98,7 @@ export default function Map() {
 				.attr("stroke", "black")
 				.attr("fill", d => stateColor(d.properties.actions.length))
 				.attr("d", geoPath)
+				.attr("cursor", "pointer")
 				.on("click", clickState)
 				.on('dblclick', (e) => e.stopPropagation());;
 	};
@@ -133,8 +141,7 @@ export default function Map() {
 		// setActiveFeature(activeFeature);
 	};
 
-	const onFilterChange = (filterData) => {
-		setFilterData(filterData);
+	const filterMap = () => {
 		d3.select(svgRef.current).selectAll(".markers image").attr("opacity", (d, i) => {
 			const activeGroups = Object.keys(filterData).filter((groupKey) => filterData[groupKey].length)
 			const activeOptions = activeGroups.filter((groupKey) => filterData[groupKey].includes(d.properties[groupKey]));
@@ -147,16 +154,19 @@ export default function Map() {
 			<Helmet>
 				<body style="overflow: hidden" />
 			</Helmet>
-			<Filter
-				onFilterChange={onFilterChange} />
-			<svg id="map"
-					 ref={svgRef}
-					 width={winSizes.width}
-					 height={winSizes.height} />
-			<Panel
-				activeFeature={activeFeature}
-				onPanelChange={onPanelChange}
-				/>
+			{/*<Filter
+				onFilterChange={onFilterChange} />*/}
+			<div ref={mapRef}
+				id="map"
+				style={{ width: "100%", height: "100%" }}>
+				<svg ref={svgRef}
+						 width={mapSizes.width}
+						 height={mapSizes.height} />
+				<Panel
+					activeFeature={activeFeature}
+					onPanelChange={onPanelChange}
+					/>
+			</div>
 		</>
 	)
 }

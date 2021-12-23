@@ -2,9 +2,11 @@ import { useEffect, useState, useRef } from "react";
 
 import Map from "./components/Map";
 import Table from "./components/Table";
+import Filter from "./components/Filter";
 
 export default function Home() {
 	const [activeView, setActiveView] = useState("map");
+	const [filterData, setFilterData] = useState({});
 
 	const views = ["map", "table"];
 
@@ -30,18 +32,25 @@ export default function Home() {
 				</label>
 			</span>
 		);
-	}
+	};
+
+	const onFilterChange = (filterData) => {
+		setFilterData(filterData);
+	};
 
 	return(
-		<div id="page">
+		<div id="page" style={{ width: "100vw", height: "100vh", display: "flex", flexDirection: "column" }}>
 
-			<form style={{ padding: "20px 20px 0 20px" }}>
-				{views.map(viewToggleElem)}
-			</form>
+			<header>
+				<form style={{ padding: "20px 20px 0 20px" }}>
+					{views.map(viewToggleElem)}
+				</form>
+				<Filter onFilterChange={onFilterChange} />
+			</header>
 
-			<main>
-				{activeView === "map" ? <Map /> : null}
-				{activeView === "table" ? <Table /> : null}
+			<main style={{ overflow: activeView === "map" ? "hidden" : null, flex: 1 }}>
+				{activeView === "map" ? <Map filterData={filterData} /> : null}
+				{activeView === "table" ? <Table filterData={filterData} /> : null}
 			</main>
 		</div>
 	);
