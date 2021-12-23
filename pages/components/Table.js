@@ -1,11 +1,7 @@
 import { useEffect, useState, useRef } from "react";
-
 import Filter from "./Filter";
 
-import tableData from "../data/table";
-
-export default function Table({ filterData }) {
-	const levels = Object.keys(tableData);
+export default function Table({ filterData = {}, tableData = [] }) {
 
 	const fieldTitles = {
 		"Title/Summary": "Title",
@@ -15,7 +11,6 @@ export default function Table({ filterData }) {
 		"Authority Type": "Type of action involved",
 		"Date Intro": "Date initiated",
 	};
-
 
 	const colHeaderElem = (colKey, i) => {
 		return <td key={i}>{fieldTitles[colKey]}</td>

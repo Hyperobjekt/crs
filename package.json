@@ -24,11 +24,10 @@
     "import:no-api": "npm run import:dry -- --no-api"
   },
   "dependencies": {
-    "@zeit/next-sass": "^1.0.1",
     "d3": "^7.2.0",
     "d3-geo": "^3.0.1",
     "neat-csv": "^6.0.1",
-    "next": "12.0.7",
+    "next": "^12.0.7",
     "papaparse": "^5.3.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",

@@ -4,7 +4,21 @@ import Map from "./components/Map";
 import Table from "./components/Table";
 import Filter from "./components/Filter";
 
-export default function Home() {
+import statesGeo from "../data/states";
+import pointsGeo from "../data/points";
+import tableData from "../data/table";
+
+export const getStaticProps = async () => {
+	return {
+		props: {
+			statesGeo: statesGeo,
+			pointsGeo: pointsGeo,
+			tableData: tableData,
+		}
+	}
+}
+
+export default function Index({ tableData, statesGeo, pointsGeo }) {
 	const [activeView, setActiveView] = useState("map");
 	const [filterData, setFilterData] = useState({});
 
@@ -49,8 +63,8 @@ export default function Home() {
 			</header>
 
 			<main style={{ overflow: activeView === "map" ? "hidden" : null, flex: 1 }}>
-				{activeView === "map" ? <Map filterData={filterData} /> : null}
-				{activeView === "table" ? <Table filterData={filterData} /> : null}
+				{activeView === "map" ? <Map filterData={filterData} statesGeo={statesGeo} pointsGeo={pointsGeo} /> : null}
+				{activeView === "table" ? <Table filterData={filterData} tableData={tableData} /> : null}
 			</main>
 		</div>
 	);

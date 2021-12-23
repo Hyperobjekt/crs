@@ -15,14 +15,14 @@ let d3, fetchJson, stateCodes, actions;
 	d3 = await import("d3");
 })().then(async () => {
 	//GET ANSI
-	const stateCodesCsv = fs.readFileSync("./data/ANSI_State_Codes.csv", {
+	const stateCodesCsv = fs.readFileSync("./data/raw/ANSI_State_Codes.csv", {
 		encoding: "utf8",
 		flag: "r",
 	});
 	stateCodes = (await neatCsv(stateCodesCsv)).reduce((obj, row) => ({ ...obj, [row.id]: row.code}), {});
 }).then(async () => {
 	//GET ACTIONS
-	const actionsCsv = fs.readFileSync("./data/CRS_Test_Data.csv", {
+	const actionsCsv = fs.readFileSync("./data/raw/CRS_Test_Data.csv", {
 		encoding: "utf8",
 		flag: "r",
 	});
@@ -45,20 +45,20 @@ let d3, fetchJson, stateCodes, actions;
 	}));
 }).then(async () => {
 	//GET STATES
-	const countryStr = fs.readFileSync("./data/US_Shapes.json", {
+	const countryStr = fs.readFileSync("./data/raw/US_Shapes.json", {
 		encoding: "utf8",
 		flag: "r",
 	});
 	const countryTopo = JSON.parse(countryStr);
 	//HANDLE CONUS
-	const conus = topojson.feature(countryTopo, {
-		type: "GeometryCollection",
-		geometries: countryTopo.objects.states.geometries.filter(function(d) {
-			return d.id !== 2 // AK
-				&& d.id !== 15 // HI
-				&& d.id < 60; // outlying areas
-		})
-	});
+	// const conus = topojson.feature(countryTopo, {
+	// 	type: "GeometryCollection",
+	// 	geometries: countryTopo.objects.states.geometries.filter(function(d) {
+	// 		return d.id !== 2 // AK
+	// 			&& d.id !== 15 // HI
+	// 			&& d.id < 60; // outlying areas
+	// 	})
+	// });
 	//HANDLE STATE ACTIONS
 	const states = {
 		type: "FeatureCollection",
@@ -105,8 +105,8 @@ let d3, fetchJson, stateCodes, actions;
 	const table = actions;
 
 	if(isDry) return;
-	fs.writeFileSync("./pages/data/conus.js", `export default ${JSON.stringify(conus)}`);
-	fs.writeFileSync("./pages/data/states.js", `export default ${JSON.stringify(states)}`);
-	fs.writeFileSync("./pages/data/points.js", `export default ${JSON.stringify(points)}`);
-	fs.writeFileSync("./pages/data/table.js", `export default ${JSON.stringify(table)}`);
+	// fs.writeFileSync("./data/conus.js", `export default ${JSON.stringify(conus)}`);
+	fs.writeFileSync("./data/states.js", `export default ${JSON.stringify(states)}`);
+	fs.writeFileSync("./data/points.js", `export default ${JSON.stringify(points)}`);
+	fs.writeFileSync("./data/table.js", `export default ${JSON.stringify(table)}`);
 });

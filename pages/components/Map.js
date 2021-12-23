@@ -6,11 +6,7 @@ import * as topojson from "topojson-client";
 import Filter from "./Filter";
 import Panel from "./Panel";
 
-import statesGeo from "../data/states";
-import pointsGeo from "../data/points";
-import conusGeo from "../data/conus";
-
-export default function Map({ filterData }) {
+export default function Map({ filterData, statesGeo, pointsGeo }) {
 	const [mapSizes, setMapSizes] = useState({});
 	const [pointData, setPointData] = useState(null);
 	const [stateData, setStateData] = useState(null);
