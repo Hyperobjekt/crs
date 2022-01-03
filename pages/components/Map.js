@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet-async';
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
-import Filter from "./Filter";
 import Panel from "./Panel";
 
 export default function Map({ filterData, statesGeo, pointsGeo }) {
@@ -22,11 +21,11 @@ export default function Map({ filterData, statesGeo, pointsGeo }) {
 
 	useEffect(() => {
 		const svg = d3.select(svgRef.current);
-		svg.selectAll('*').remove();
+		svg.selectAll("*").remove();
 		svg.classed("ready", false);
 		onResize();
 		window.addEventListener("resize", onResize);
-		return () => window.removeEventListener('resize', onResize);
+		return () => window.removeEventListener("resize", onResize);
 	}, []);
 
 	useEffect(() => {
@@ -69,9 +68,6 @@ export default function Map({ filterData, statesGeo, pointsGeo }) {
 		const svg = d3.select(svgRef.current),
 					svgWidth = +svg.attr("width"),
 					svgHeight = +svg.attr("height");
-
-
-
 		projection = d3.geoAlbersUsa().fitSize([svgWidth, svgHeight], statesGeo);
 		svg.append("g");
 		geoPath = d3.geoPath()
@@ -148,13 +144,11 @@ export default function Map({ filterData, statesGeo, pointsGeo }) {
 	return (
 		<>
 			<Helmet>
-				<body style="overflow: hidden" />
+				<body className="overflow-hidden" />
 			</Helmet>
-			{/*<Filter
-				onFilterChange={onFilterChange} />*/}
 			<div ref={mapRef}
 				id="map"
-				style={{ width: "100%", height: "100%" }}>
+				className="w-full h-full relative">
 				<svg ref={svgRef}
 						 width={mapSizes.width}
 						 height={mapSizes.height} />

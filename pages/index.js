@@ -19,7 +19,7 @@ export const getStaticProps = async () => {
 }
 
 export default function Index({ tableData, statesGeo, pointsGeo }) {
-	const [activeView, setActiveView] = useState("map");
+	const [activeView, setActiveView] = useState("table");
 	const [filterData, setFilterData] = useState({});
 
 	const views = ["map", "table"];
@@ -32,16 +32,16 @@ export default function Index({ tableData, statesGeo, pointsGeo }) {
 		return(
 			<span key={view}>
 				<input
-					style={{ cursor: "pointer", margin: 0 }}
 					type="radio"
 					name="view"
 					id={view}
 					value={view}
 					checked={view === activeView}
-					onChange={changeView} />
+					onChange={changeView}
+					className="m-0 cursor-pointer" />
 				<label
-					style={{ cursor: "pointer", padding: 5 }}
-					htmlFor={view}>
+					htmlFor={view}
+					className="p-1 cursor-pointer" >
 					{view.charAt(0).toUpperCase() + view.slice(1)}
 				</label>
 			</span>
@@ -53,16 +53,24 @@ export default function Index({ tableData, statesGeo, pointsGeo }) {
 	};
 
 	return(
-		<div id="page" style={{ width: "100vw", height: "100vh", display: "flex", flexDirection: "column" }}>
+		<div
+			id="page"
+			className="w-screen h-screen flex flex-col">
 
-			<header>
-				<form style={{ padding: "20px 20px 0 20px" }}>
+			<header className="relative z-20">
+				<form className="border-b p-4">
 					{views.map(viewToggleElem)}
 				</form>
 				<Filter onFilterChange={onFilterChange} />
 			</header>
 
-			<main style={{ overflow: activeView === "map" ? "hidden" : null, flex: 1 }}>
+			<main
+				className="flex-1"
+				style={{
+					// overflow: activeView === "map" ? "hidden" : null,
+					overflow: "hidden",
+					height: activeView === "table" ? "100%" : null,
+				}}>
 				{activeView === "map" ? <Map filterData={filterData} statesGeo={statesGeo} pointsGeo={pointsGeo} /> : null}
 				{activeView === "table" ? <Table filterData={filterData} tableData={tableData} /> : null}
 			</main>

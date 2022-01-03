@@ -27,7 +27,7 @@ export default function Panel({ activeFeature, onPanelChange }) {
 		return(
 			<li
 				key={fieldKey}
-				style={{ marginBottom: 10 }}>
+				className="mb-2">
 				<small>{fieldTitle}</small>
 				<div>{panelData[fieldKey]}</div>
 			</li>
@@ -42,8 +42,8 @@ export default function Panel({ activeFeature, onPanelChange }) {
 		panelData ?
 			<div
 				id="panel"
-				style={{ zIndex: 2, position: "fixed", left: 0, top: 0, background: "white", padding: 20 }}>
-				<ul style={{ marginBottom: 10 }}>
+				className="w-80 h-full absolute left-0 top-0 z-10 p-4 bg-white border-r">
+				<ul className="mb-2">
 					{Object.keys(fieldTitles).map(key => fieldElem(key))}
 				</ul>
 				<button
