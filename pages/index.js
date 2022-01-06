@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
+import Header from "./components/Header";
 import Map from "./components/Map";
 import Table from "./components/Table";
 
@@ -20,30 +21,9 @@ export const getStaticProps = async () => {
 export default function Index({ tableData, statesGeo, pointsGeo }) {
 	const [activeView, setActiveView] = useState("map");
 
-	const views = ["map", "table"];
-
-	const changeView = (e) => {
+	const onViewClick = (e) => {
+		console.log(e);
 		setActiveView(e.target.value);
-	};
-
-	const viewToggleElem = (view) => {
-		return(
-			<span key={view}>
-				<input
-					type="radio"
-					name="view"
-					id={view}
-					value={view}
-					checked={view === activeView}
-					onChange={changeView}
-					className="m-0 cursor-pointer" />
-				<label
-					htmlFor={view}
-					className="p-1 cursor-pointer" >
-					{view.charAt(0).toUpperCase() + view.slice(1)}
-				</label>
-			</span>
-		);
 	};
 
 	return(
@@ -51,11 +31,7 @@ export default function Index({ tableData, statesGeo, pointsGeo }) {
 			id="page"
 			className="w-screen h-screen flex flex-col">
 
-			<header className="relative z-20">
-				<form className="border-b p-4">
-					{views.map(viewToggleElem)}
-				</form>
-			</header>
+			<Header activeView={activeView} onViewClick={onViewClick} />
 
 			<main
 				className="flex-1"

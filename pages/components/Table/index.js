@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-export default function Table({ filterData = {}, tableData = [] }) {
+export default function Table({ tableData }) {
 
 	const fieldTitles = {
 		"Title/Summary": {
@@ -81,11 +81,11 @@ export default function Table({ filterData = {}, tableData = [] }) {
 		)
 	};
 
-	const filterTable = (row) => {
-		const activeGroups = Object.keys(filterData).filter((groupKey) => filterData[groupKey].length);
-		const activeOptions = activeGroups.filter((groupKey) => filterData[groupKey].includes(row[groupKey]));
-		return activeGroups.length > activeOptions.length ? 0 : 1;
-	};
+	// const filterTable = (row) => {
+	// 	const activeGroups = Object.keys(filterData).filter((groupKey) => filterData[groupKey].length);
+	// 	const activeOptions = activeGroups.filter((groupKey) => filterData[groupKey].includes(row[groupKey]));
+	// 	return activeGroups.length > activeOptions.length ? 0 : 1;
+	// };
 
 	return (
 		<table
@@ -99,7 +99,8 @@ export default function Table({ filterData = {}, tableData = [] }) {
 				</tr>
 			</thead>
 			<tbody>
-				{tableData.filter(filterTable).map(rowElem)}
+				{/*{tableData.filter(filterTable).map(rowElem)}*/}
+				{tableData.map(rowElem)}
 			</tbody>
 		</table>
 	)
