@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 
 import Map from "./components/Map";
 import Table from "./components/Table";
-import Filter from "./components/Filter";
 
 import statesGeo from "../data/states";
 import pointsGeo from "../data/points";
@@ -19,8 +18,7 @@ export const getStaticProps = async () => {
 }
 
 export default function Index({ tableData, statesGeo, pointsGeo }) {
-	const [activeView, setActiveView] = useState("table");
-	const [filterData, setFilterData] = useState({});
+	const [activeView, setActiveView] = useState("map");
 
 	const views = ["map", "table"];
 
@@ -48,10 +46,6 @@ export default function Index({ tableData, statesGeo, pointsGeo }) {
 		);
 	};
 
-	const onFilterChange = (filterData) => {
-		setFilterData(filterData);
-	};
-
 	return(
 		<div
 			id="page"
@@ -61,7 +55,6 @@ export default function Index({ tableData, statesGeo, pointsGeo }) {
 				<form className="border-b p-4">
 					{views.map(viewToggleElem)}
 				</form>
-				<Filter onFilterChange={onFilterChange} />
 			</header>
 
 			<main
@@ -71,8 +64,8 @@ export default function Index({ tableData, statesGeo, pointsGeo }) {
 					overflow: "hidden",
 					height: activeView === "table" ? "100%" : null,
 				}}>
-				{activeView === "map" ? <Map filterData={filterData} statesGeo={statesGeo} pointsGeo={pointsGeo} /> : null}
-				{activeView === "table" ? <Table filterData={filterData} tableData={tableData} /> : null}
+				{activeView === "map" ? <Map statesGeo={statesGeo} pointsGeo={pointsGeo} /> : null}
+				{activeView === "table" ? <Table tableData={tableData} /> : null}
 			</main>
 		</div>
 	);

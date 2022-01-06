@@ -3,13 +3,15 @@ import { Helmet } from 'react-helmet-async';
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
-import Panel from "./Panel";
+import Panel from "./_Panel";
+import Filter from "./_Filter";
 
-export default function Map({ filterData, statesGeo, pointsGeo }) {
+export default function Map({ statesGeo, pointsGeo }) {
 	const [mapSizes, setMapSizes] = useState({});
 	const [pointData, setPointData] = useState(null);
 	const [stateData, setStateData] = useState(null);
 	const [activeFeature, setActiveFeature] = useState(null);
+	const [filterData, setFilterData] = useState({});
 	const mapRef = useRef({});
 	const svgRef = useRef({});
 
@@ -133,6 +135,10 @@ export default function Map({ filterData, statesGeo, pointsGeo }) {
 		// setActiveFeature(activeFeature);
 	};
 
+	const onFilterChange = (filterData) => {
+		setFilterData(filterData);
+	};
+
 	const filterMap = () => {
 		d3.select(svgRef.current).selectAll(".markers image").attr("opacity", (d, i) => {
 			const activeGroups = Object.keys(filterData).filter((groupKey) => filterData[groupKey].length)
@@ -152,10 +158,11 @@ export default function Map({ filterData, statesGeo, pointsGeo }) {
 				<svg ref={svgRef}
 						 width={mapSizes.width}
 						 height={mapSizes.height} />
+				<Filter
+					onFilterChange={onFilterChange} />
 				<Panel
 					activeFeature={activeFeature}
-					onPanelChange={onPanelChange}
-					/>
+					onPanelChange={onPanelChange} />
 			</div>
 		</>
 	)
