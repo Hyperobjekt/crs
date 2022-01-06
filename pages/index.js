@@ -13,7 +13,7 @@ export const getStaticProps = async () => {
 		props: {
 			statesGeo: statesGeo,
 			pointsGeo: pointsGeo,
-			tableData: tableData,
+			tableData: tableData.data,
 		}
 	}
 }

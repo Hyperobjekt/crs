@@ -105,8 +105,8 @@ let d3, fetchJson, stateCodes, actions;
 	const table = actions;
 
 	if(isDry) return;
-	// fs.writeFileSync("./data/conus.js", `export default ${JSON.stringify(conus)}`);
-	fs.writeFileSync("./data/states.js", `export default ${JSON.stringify(states)}`);
-	fs.writeFileSync("./data/points.js", `export default ${JSON.stringify(points)}`);
-	fs.writeFileSync("./data/table.js", `export default ${JSON.stringify(table)}`);
+	// fs.writeFileSync("./data/conus.json", JSON.stringify(conus));
+	fs.writeFileSync("./data/states.json", JSON.stringify(states));
+	fs.writeFileSync("./data/points.json", JSON.stringify(points));
+	fs.writeFileSync("./data/table.json", JSON.stringify({data:table}));
 });
