@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-export default function Header({ activeView, onViewClick }) {
+export default function Header({ activeView, onViewClick, onFilterToggle }) {
 	return (
 		<header className="relative z-20 p-4 border-b grid grid-cols-2">
 			<div>

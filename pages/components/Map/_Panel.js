@@ -1,55 +1,30 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
-const fieldTitles = {
-	"Title/Summary": "Title",
-	"Body Name": "Body Name",
-	"State/US": "State",
-	"Level": "Level of government involved",
-	"Bill #": "Bill #",
-	"Authority Type": "Type of action involved",
-	"Date Intro": "Date initiated",
-};
+import CloseBttn from "../Icon/_CloseBttn";
 
-export default function Panel({ activeFeature, onPanelChange }) {
-	const [panelData, setPanelData] = useState(null);
+export default function Panel({ children, onClosePanel }) {
 
-	useEffect(() => {
-		const newPanelData = panelData ? panelData.index === activeFeature.index ? null : activeFeature : activeFeature;
-		setPanelData(newPanelData);
-	}, [activeFeature]);
+	const [active, setActive] = useState(true);
 
-	useEffect(() => {
-		onPanelChange(panelData);
-	}, [panelData]);
-
-	const fieldElem = (fieldKey) => {
-		const fieldTitle = fieldTitles[fieldKey];
-		return(
-			<li
-				key={fieldKey}
-				className="mb-2">
-				<small>{fieldTitle}</small>
-				<div>{panelData[fieldKey]}</div>
-			</li>
-		);
+	const onCloseClick = () => {
+		onClosePanel();
 	};
 
-	const closePanel = () => {
-		setPanelData(null);
-	};
+	const PanelContent = children ? React.Children.map(children, (child) => {
+  	if (React.isValidElement(child)) {
+      return React.cloneElement(child, {
+      	closeBttn: <CloseBttn className="ml-auto" callback={onCloseClick} />
+      });
+    }
+    return child;
+  }) : null;
 
 	return (
-		panelData ?
+		active ?
 			<div
 				id="panel"
-				className="w-80 h-full absolute left-0 top-0 z-10 p-4 bg-white border-r">
-				<ul className="mb-2">
-					{Object.keys(fieldTitles).map(key => fieldElem(key))}
-				</ul>
-				<button
-					onClick={closePanel}>
-					Close
-				</button>
+				className="w-96 h-full absolute left-0 top-0 z-10 p-4 bg-white border-r">
+				{PanelContent}
 			</div>
 		: null
 	);

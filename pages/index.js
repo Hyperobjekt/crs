@@ -22,7 +22,6 @@ export default function Index({ tableData, statesGeo, pointsGeo }) {
 	const [activeView, setActiveView] = useState("map");
 
 	const onViewClick = (e) => {
-		console.log(e);
 		setActiveView(e.target.value);
 	};
 

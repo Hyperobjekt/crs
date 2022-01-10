@@ -2,7 +2,7 @@
 
 import Checkbox from "./_Checkbox";
 
-export default function Accordion({ group, onClick }) {
+export default function Accordion({ group, activeFilters, onChange }) {
 	return(
 		<details
 			open
@@ -24,8 +24,8 @@ export default function Accordion({ group, onClick }) {
 							val={val}
 							id={`${group.label}_${val}`}
 							group={group.label}
-							// selected={filterData[group.label].includes(val)}
-							onClick={onClick} />
+							active={activeFilters[group.label] ? activeFilters[group.label].includes(val) : false}
+							onChange={onChange} />
 					))}
 				</div>
 			: null}

@@ -1,6 +1,6 @@
 // import { useEffect, useState, useRef } from "react";
 
-export default function Checkbox({ val, id, group, selected, onClick }) {
+export default function Checkbox({ val, id, group, active, onChange }) {
 	return(
 		<div>
 			<input
@@ -10,9 +10,10 @@ export default function Checkbox({ val, id, group, selected, onClick }) {
 				value={val}
 				data-group={group}
 				data-value={val}
-				aria-selected={selected}
+				aria-selected={active}
+				checked={active}
 				tabIndex={0}
-				onClick={onClick}
+				onChange={onChange}
 				className="cursor-pointer" />
 			<label
 				htmlFor={id}

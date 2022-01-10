@@ -4,14 +4,16 @@ import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
 import Panel from "./_Panel";
-import Filter from "./_Filter";
+import DataPanel from "./_DataPanel";
+import FilterPanel from "./_FilterPanel";
 
 export default function Map({ statesGeo, pointsGeo }) {
 	const [mapSizes, setMapSizes] = useState({});
 	const [pointData, setPointData] = useState(null);
 	const [stateData, setStateData] = useState(null);
 	const [activeFeature, setActiveFeature] = useState(null);
-	const [filterData, setFilterData] = useState({});
+	const [activeFilters, setActiveFilters] = useState({});
+	const [filterOpen, setFilterOpen] = useState(true);
 	const mapRef = useRef({});
 	const svgRef = useRef({});
 
@@ -40,10 +42,18 @@ export default function Map({ statesGeo, pointsGeo }) {
 
 	useEffect(() => {
 		filterMap();
-	}, [filterData]);
+		onResize();
+	}, [activeFilters]);
 
 	const onResize = () => {
-		const { width, height } = mapRef.current.getBoundingClientRect();
+		const mapStyle = getComputedStyle(mapRef.current);
+		let width = parseFloat(mapStyle.width);
+		let height = parseFloat(mapStyle.height);
+
+		if(Object.keys(activeFilters).length) {
+			height -= parseFloat(mapStyle.marginTop);
+		}
+
 		setMapSizes({
 			width: width,
 			height: height,
@@ -81,6 +91,7 @@ export default function Map({ statesGeo, pointsGeo }) {
 	const addStates = () => {
 		const scaleMax = statesGeo.features.reduce((a, b) => b.properties.actions.length > a ? b.properties.actions.length : a, 0);
 		const stateColor = d3.scaleQuantize([0, scaleMax], d3.schemeOranges[7]);
+
 		const states = d3.select(svgRef.current)
 			.select("g")
 				.append("g")
@@ -91,6 +102,7 @@ export default function Map({ statesGeo, pointsGeo }) {
 			.enter().append("path")
 				.attr("stroke", "black")
 				.attr("fill", d => stateColor(d.properties.actions.length))
+				// .attr("fill", d => d3.interpolateGreys(d.properties.actions.length))
 				.attr("d", geoPath)
 				.attr("cursor", "pointer")
 				.on("click", clickState)
@@ -131,18 +143,23 @@ export default function Map({ statesGeo, pointsGeo }) {
 		setActiveFeature({ ...d.properties, timestamp: e.timeStamp });
 	}
 
-	const onPanelChange = (activeFeature) => {
-		// setActiveFeature(activeFeature);
+	const onFilterPanelClose = () => {
+		setFilterOpen(false);
 	};
 
-	const onFilterChange = (filterData) => {
-		setFilterData(filterData);
+	const onDataPanelClose = () => {
+		setActiveFeature(null);
+	};
+
+	const onFilterChange = (activeFilters) => {
+		setActiveFilters(activeFilters);
+		d3.select(svgRef.current).classed("mt-16", Object.keys(activeFilters).length);
 	};
 
 	const filterMap = () => {
 		d3.select(svgRef.current).selectAll(".markers image").attr("opacity", (d, i) => {
-			const activeGroups = Object.keys(filterData).filter((groupKey) => filterData[groupKey].length)
-			const activeOptions = activeGroups.filter((groupKey) => filterData[groupKey].includes(d.properties[groupKey]));
+			const activeGroups = Object.keys(activeFilters).filter((groupKey) => activeFilters[groupKey].length)
+			const activeOptions = activeGroups.filter((groupKey) => activeFilters[groupKey].includes(d.properties[groupKey]));
 			return activeGroups.length > activeOptions.length ? 0 : 1;
 		});
 	};
@@ -154,15 +171,30 @@ export default function Map({ statesGeo, pointsGeo }) {
 			</Helmet>
 			<div ref={mapRef}
 				id="map"
-				className="w-full h-full relative">
+				className={`w-full h-full relative ${Object.keys(activeFilters).length ? "mt-16" : ""}`}>
 				<svg ref={svgRef}
-						 width={mapSizes.width}
-						 height={mapSizes.height} />
-				<Filter
-					onFilterChange={onFilterChange} />
-				<Panel
-					activeFeature={activeFeature}
-					onPanelChange={onPanelChange} />
+					width={mapSizes.width}
+					height={mapSizes.height} />
+
+				{filterOpen ?
+					<Panel
+						onClosePanel={onFilterPanelClose}>
+						<FilterPanel
+							onFilterChange={onFilterChange} />
+					</Panel>
+				: <button
+						className="border rounded px-2 py-1 absolute top-4 left-4"
+						onClick={() => setFilterOpen(true)}>
+						Show filters
+					</button>}
+				
+				{activeFeature ?
+					<Panel
+						onClosePanel={onDataPanelClose}>
+						<DataPanel
+							activeFeature={activeFeature} />
+					</Panel>
+				: null}
 			</div>
 		</>
 	)
