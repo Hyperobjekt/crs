@@ -1,6 +1,6 @@
 // import { useEffect, useState, useRef } from "react";
 
-export default function Checkbox({ val, id, group, active, onChange }) {
+export default function Checkbox({ val, label, id, group, active, onChange }) {
 	return(
 		<div>
 			<input
@@ -18,7 +18,7 @@ export default function Checkbox({ val, id, group, active, onChange }) {
 			<label
 				htmlFor={id}
 				className="pl-2 cursor-pointer">
-				{val}
+				{label}
 			</label>
 		</div>
 	);

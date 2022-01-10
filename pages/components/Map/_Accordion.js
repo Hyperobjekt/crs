@@ -2,29 +2,30 @@
 
 import Checkbox from "./_Checkbox";
 
-export default function Accordion({ group, activeFilters, onChange }) {
+export default function Accordion({ schema, activeFilters, onChange }) {
 	return(
 		<details
 			open
 			className="relative p-4 border-b">
 			<summary
-				data-group={group.label}
+				data-group={schema.label}
 				className="w-full pb-2 cursor-pointer">
-				{group.label}
+				{schema.label}
 			</summary>
 
-			{group.options ?
+			{schema.options ?
 				<div
 					role="listbox"
 					aria-multiselectable="true"
 					className="">
-					{group.options.map((val, key) => (
+					{schema.options.map((option, i) => (
 						<Checkbox
-							key={key}
-							val={val}
-							id={`${group.label}_${val}`}
-							group={group.label}
-							active={activeFilters[group.label] ? activeFilters[group.label].includes(val) : false}
+							key={i}
+							val={option.key}
+							label={option.label}
+							id={`${schema.label}_${option.key}`}
+							group={schema.label}
+							active={activeFilters[schema.label] ? activeFilters[schema.label].includes(option.key) : false}
 							onChange={onChange} />
 					))}
 				</div>

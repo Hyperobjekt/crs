@@ -16,7 +16,7 @@ export default function DataPanel({ activeFeature, closeBttn }) {
 	const [panelData, setPanelData] = useState({});
 
 	useEffect(() => {
-		const newPanelData = panelData ? panelData.index === activeFeature.index ? null : activeFeature : activeFeature;
+		const newPanelData = panelData ? panelData.index === activeFeature.index ? {} : activeFeature : activeFeature;
 		setPanelData(newPanelData);
 	}, [activeFeature]);
 
@@ -26,7 +26,7 @@ export default function DataPanel({ activeFeature, closeBttn }) {
 
 	const fieldElem = (fieldKey) => {
 		const fieldTitle = fieldTitles[fieldKey];
-		return(
+		return (
 			<li
 				key={fieldKey}
 				className="mb-2">
@@ -37,12 +37,11 @@ export default function DataPanel({ activeFeature, closeBttn }) {
 	};
 
 	return (
-		<div
-			className="w-96 h-full absolute left-0 top-0 z-10 p-4 bg-white border-r">
+		<>
 			<ul className="mb-2">
 				{Object.keys(fieldTitles).map(key => fieldElem(key))}
 			</ul>
 			{closeBttn}
-		</div>
+		</>
 	);
 }
