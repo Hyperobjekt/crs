@@ -39,12 +39,20 @@ export default function FilterPanel({ activeFilters, filtersSchema, closeBttn, o
 		onFilterChange({});
 	}
 
+	const onClickEnableAll = () => {
+		onFilterChange(Object.fromEntries(
+			Object.keys(filtersSchema).map(key => (
+		  	[key, filtersSchema[key].options.reduce((prev, curr) => [...prev, curr.key], [])]
+			))
+		));
+	}
+
 	return (
 		<>
-			<div className="flex p-4">
-				<strong className="py-1">
-					Data Filters
-				</strong>
+			<header className="flex p-4">
+				<h2 className="py-1">
+					<strong>Data Filters</strong>
+				</h2>
 				<button
 					className="border rounded px-2 py-1 ml-2"
 					onClick={onClickClearAll}>
@@ -52,16 +60,17 @@ export default function FilterPanel({ activeFilters, filtersSchema, closeBttn, o
 				</button>
 				<button
 					className="border rounded px-2 py-1 ml-2"
-					onClick={null}>
+					onClick={onClickEnableAll}>
 					Enable All
 				</button>
 				{closeBttn}
-			</div>
+			</header>
 
 			<div className="border-t">
 				{Object.keys(filtersSchema).map(key => (
 					<Accordion
 						key={key}
+						group={key}
 						schema={filtersSchema[key]}
 						activeFilters={activeFilters}
 						onChange={onChangeCheckbox} />

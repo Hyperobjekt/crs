@@ -23,7 +23,7 @@ export default function Panel({ children, onClosePanel }) {
 		active ?
 			<div
 				id="panel"
-				className="w-96 h-full absolute left-0 top-0 z-10 p-4 bg-white border-r">
+				className="w-96 h-full absolute left-0 top-0 z-10 bg-white border-r">
 				{PanelContent}
 			</div>
 		: null

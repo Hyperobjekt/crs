@@ -36,12 +36,18 @@ export default function DataPanel({ activeFeature, closeBttn }) {
 		);
 	};
 
+	console.log(panelData);
 	return (
 		<>
-			<ul className="mb-2">
+			<header className="flex p-4">
+				<h2>
+					<strong>{panelData["State/US"] || panelData["state"]}</strong>
+				</h2>
+				{closeBttn}
+			</header>
+			<ul className="mb-2 p-4 border-t">
 				{Object.keys(fieldTitles).map(key => fieldElem(key))}
 			</ul>
-			{closeBttn}
 		</>
 	);
 }

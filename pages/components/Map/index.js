@@ -6,6 +6,8 @@ import * as topojson from "topojson-client";
 import Panel from "./_Panel";
 import DataPanel from "./_DataPanel";
 import FilterPanel from "./_FilterPanel";
+import AppliedFilters from "./_AppliedFilters";
+import ZoomBttns from "./_ZoomBttns";
 
 export default function Map({ statesGeo, pointsGeo, filtersSchema }) {
 	const [mapSizes, setMapSizes] = useState({});
@@ -200,16 +202,6 @@ export default function Map({ statesGeo, pointsGeo, filtersSchema }) {
 		d3.select(svgRef.current).classed("mt-16", Object.keys(activeFilters).length);
 	};
 
-	const onClickApplied = (e) => {
-		const newActiveFilters = {...activeFilters};
-		delete newActiveFilters[e.target.value];
-		setActiveFilters(newActiveFilters);
-	};
-
-	const onClickClear = () => {
-		setActiveFilters({});
-	};
-
 	const onZoomClick = (e) => {
 		const zoomLevel = e.target.innerText === "+" ? 1.3 : 0.7;
 		d3.select(svgRef.current).transition()
@@ -232,46 +224,18 @@ export default function Map({ statesGeo, pointsGeo, filtersSchema }) {
 				<body className="overflow-hidden" />
 			</Helmet>
 			<div ref={mapRef}
-				id="map"
 				className={`w-full h-full relative ${Object.keys(activeFilters).length ? "mt-16" : ""}`}>
+
 				<svg ref={svgRef}
 					width={mapSizes.width}
 					height={mapSizes.height} />
 
-				<div className="absolute top-4 right-4 flex flex-col border rounded text-center">
-					<button
-						className="w-7 h-7 text-center border-b"
-						onClick={onZoomClick}>
-						+
-					</button>
+				<ZoomBttns
+					onZoomClick={onZoomClick} />
 
-					<button
-						className="w-7 h-7 text-center"
-						onClick={onZoomClick}>
-						-
-					</button>
-				</div>
-
-				{Object.keys(activeFilters).length ?
-					<div id="applied-filters"
-						className="w-full h-16 absolute left-0 -top-16 z-20 bg-white border-b p-4">
-						<span>Applied Fiters:</span>
-						{Object.keys(activeFilters).map(key => (
-							<button
-								key={key}
-								value={key}
-								className="text-slate-600 bg-slate-200 rounded-full px-4 py-1 mr-2"
-								onClick={onClickApplied}>
-								{key}: {activeFilters[key].map((o, i) => `${o}${i < activeFilters[key].length - 1 ? ", " : ""}`)}
-							</button>
-						))}
-						<button
-							className="px-4 py-1"
-							onClick={onClickClear}>
-							Clear all
-						</button>
-					</div>
-				: null}
+				<AppliedFilters
+					activeFilters={activeFilters}
+					onFilterChange={onFilterChange} />			
 
 				{filterOpen ?
 					<Panel
@@ -294,6 +258,7 @@ export default function Map({ statesGeo, pointsGeo, filtersSchema }) {
 							activeFeature={activeFeature} />
 					</Panel>
 				: null}
+
 			</div>
 		</>
 	)

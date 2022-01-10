@@ -8,7 +8,7 @@ export default function Accordion({ schema, activeFilters, onChange }) {
 			open
 			className="relative p-4 border-b">
 			<summary
-				data-group={schema.label}
+				data-group={schema.key}
 				className="w-full pb-2 cursor-pointer">
 				{schema.label}
 			</summary>
@@ -23,9 +23,9 @@ export default function Accordion({ schema, activeFilters, onChange }) {
 							key={i}
 							val={option.key}
 							label={option.label}
-							id={`${schema.label}_${option.key}`}
-							group={schema.label}
-							active={activeFilters[schema.label] ? activeFilters[schema.label].includes(option.key) : false}
+							id={`${schema.key}_${option.key}`}
+							group={schema.key}
+							active={activeFilters[schema.key] ? activeFilters[schema.key].includes(option.key) : false}
 							onChange={onChange} />
 					))}
 				</div>
