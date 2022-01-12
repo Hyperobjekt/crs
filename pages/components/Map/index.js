@@ -3,16 +3,19 @@ import { Helmet } from "react-helmet-async";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
+import Tooltip from "./_Tooltip";
 import Panel from "./_Panel";
-import DataPanel from "./_DataPanel";
+import ActionPanel from "./_ActionPanel";
 import FilterPanel from "./_FilterPanel";
 import AppliedFilters from "./_AppliedFilters";
 import ZoomBttns from "./_ZoomBttns";
 
 export default function Map({ statesGeo, pointsGeo, filtersSchema }) {
 	const [mapSizes, setMapSizes] = useState({});
+	const [mapTransform, setMapTransform] = useState({});
 	const [pointData, setPointData] = useState(null);
 	const [stateData, setStateData] = useState(null);
+	const [hoveredFeature, setHoveredFeature] = useState(null);
 	const [activeFeature, setActiveFeature] = useState(null);
 	const [activeFilters, setActiveFilters] = useState({});
 	const [filterOpen, setFilterOpen] = useState(true);
@@ -64,22 +67,24 @@ export default function Map({ statesGeo, pointsGeo, filtersSchema }) {
 		});
 	}
 
-	const zoom = d3.zoom()
-		.scaleExtent([MIN_ZOOM, MAX_ZOOM])
-		.on("zoom", (e) => {
-			zoomed(e)
-		});
-
 	const zoomed = (e) => {
-		let g = d3.select(svgRef.current).select("g");
+		const svg = d3.select(svgRef.current);
+		const g = svg.select("g");
 		const { transform } = e;
 		g.attr("transform", transform);
 		g.attr("stroke-width", STROKE_WIDTH / transform.k);
 		g.selectAll("image")
 			.attr("width", IMAGE_SIZE / transform.k)
 			.attr("height", IMAGE_SIZE / transform.k)
-			.attr("style", `filter: drop-shadow(0px 2px 1px rgba(0,0,0,.4))`)
+			.attr("style", `filter: drop-shadow(0px 2px 1px rgba(0,0,0,.4))`);
+		svg.classed("moving", true);
+		setMapTransform(transform);
 	};
+
+	const zoom = d3.zoom()
+		.scaleExtent([MIN_ZOOM, MAX_ZOOM])
+		.on("zoom", zoomed)
+		.on("end", e => d3.select(svgRef.current).classed("moving", false));
 
 	const setUpMap = () => {
 		const svg = d3.select(svgRef.current),
@@ -177,16 +182,37 @@ export default function Map({ statesGeo, pointsGeo, filtersSchema }) {
 				.attr("cursor", "pointer")
 				// .attr("filter", "url(#drop-shadow)")
 				.attr("style", "filter: drop-shadow(0px 2px 1px rgba(0,0,0,.4))")
+				.on("mouseover", hoverPoint)
+				.on("mouseout", unhoverPoint)
 				.on("click", clickPoint)
 				.on("dblclick", (e) => e.stopPropagation());
 	};
 
 	const clickState = (e, d) => {
-		setActiveFeature({ ...d.properties, timestamp: e.timeStamp });
+		// setActiveFeature({ ...d.properties, timestamp: e.timeStamp });
+		setActiveFeature(d.properties);
 	}
 
 	const clickPoint = (e, d) => {
-		setActiveFeature({ ...d.properties, timestamp: e.timeStamp });
+		// setActiveFeature({ ...d.properties, timestamp: e.timeStamp });
+		setActiveFeature(d.properties);
+	}
+
+	const hoverPoint = (e, d) => {
+		const g = d3.select(svgRef.current).select("g");
+		const coords = projection(d.geometry.coordinates);
+		// const { k, x, y } = mapTransform;
+		// if(transform) {
+		// 	pos[0] *= k;
+		// 	pos[1] *= k;
+		// 	pos[0] += x;
+		// 	pos[1] += y;
+		// } 
+		setHoveredFeature({ ...d.properties, coords: coords });
+	}
+
+	const unhoverPoint = (e, d) => {
+		if(!d3.select(svgRef.current).classed("moving")) setHoveredFeature(null);
 	}
 
 	const onFilterPanelClose = () => {
@@ -254,9 +280,15 @@ export default function Map({ statesGeo, pointsGeo, filtersSchema }) {
 				{activeFeature ?
 					<Panel
 						onClosePanel={onDataPanelClose}>
-						<DataPanel
-							activeFeature={activeFeature} />
+						<ActionPanel
+							action={activeFeature} />
 					</Panel>
+				: null}
+
+				{hoveredFeature ?
+					<Tooltip
+						data={hoveredFeature}
+						transform={mapTransform} />
 				: null}
 
 			</div>

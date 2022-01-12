@@ -44,6 +44,7 @@ export default function Index({ tableData, statesGeo, pointsGeo }) {
 				{activeView === "map" ? <Map statesGeo={statesGeo} pointsGeo={pointsGeo} filtersSchema={filtersSchema} /> : null}
 				{activeView === "table" ? <Table tableData={tableData} /> : null}
 			</main>
+			
 		</div>
 	);
 }

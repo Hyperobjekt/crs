@@ -12,13 +12,13 @@ const fieldTitles = {
 	"Date Intro": "Date initiated",
 };
 
-export default function DataPanel({ activeFeature, closeBttn }) {
+export default function ActionPanel({ action, closeBttn }) {
 	const [panelData, setPanelData] = useState({});
 
 	useEffect(() => {
-		const newPanelData = panelData ? panelData.index === activeFeature.index ? {} : activeFeature : activeFeature;
+		const newPanelData = panelData ? panelData.index === action.index ? {} : action : action;
 		setPanelData(newPanelData);
-	}, [activeFeature]);
+	}, [action]);
 
 	// useEffect(() => {
 	// 	onActionChange(panelData);
@@ -36,7 +36,6 @@ export default function DataPanel({ activeFeature, closeBttn }) {
 		);
 	};
 
-	console.log(panelData);
 	return (
 		<>
 			<header className="flex p-4">
