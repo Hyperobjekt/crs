@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 
-export default function Tooltip({ data, transform = {k:0,x:0,y:0} }) {
+export default function Tooltip({ data, transform }) {
 	const tooltipRef = useRef(null);
-	const [style, setStyle] = useState({left: -999999, top: -999999});
+	const [style, setStyle] = useState({ left: -999999, top: -999999 });
 
 	useEffect(() => {
 		if(!data) return;
@@ -10,15 +10,10 @@ export default function Tooltip({ data, transform = {k:0,x:0,y:0} }) {
 		const { coords } = data;
 		let [x, y] = coords;
 
-		x *= transform.k;
-		y *= transform.k;
-		x += transform.x;
-		y += transform.y;
+		x = x * transform.k + transform.x - rect.width/2 + 15/2;
+		y = y * transform.k + transform.y + 20;
 
-		setStyle({
-			left: x - rect.width/2 + 15/2,
-			top: y + 20
-		});
+		setStyle({ left: x, top: y });
 
 	}, [data, transform, tooltipRef]);
 	

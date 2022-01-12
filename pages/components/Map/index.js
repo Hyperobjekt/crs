@@ -9,10 +9,11 @@ import ActionPanel from "./_ActionPanel";
 import FilterPanel from "./_FilterPanel";
 import AppliedFilters from "./_AppliedFilters";
 import ZoomBttns from "./_ZoomBttns";
+import Legend from "./_Legend";
 
 export default function Map({ statesGeo, pointsGeo, filtersSchema }) {
 	const [mapSizes, setMapSizes] = useState({});
-	const [mapTransform, setMapTransform] = useState({});
+	const [mapTransform, setMapTransform] = useState({k:1,x:0,y:0});
 	const [pointData, setPointData] = useState(null);
 	const [stateData, setStateData] = useState(null);
 	const [hoveredFeature, setHoveredFeature] = useState(null);
@@ -290,6 +291,9 @@ export default function Map({ statesGeo, pointsGeo, filtersSchema }) {
 						data={hoveredFeature}
 						transform={mapTransform} />
 				: null}
+
+				<Legend
+					levelSchema={filtersSchema["Level"]} />
 
 			</div>
 		</>
