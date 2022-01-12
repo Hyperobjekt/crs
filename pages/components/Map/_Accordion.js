@@ -2,7 +2,7 @@
 
 import Checkbox from "./_Checkbox";
 
-export default function Accordion({ schema, activeFilters, onChange }) {
+export default function Accordion({ schema = {}, activeFilters = {}, onChange }) {
 	return(
 		<details
 			open

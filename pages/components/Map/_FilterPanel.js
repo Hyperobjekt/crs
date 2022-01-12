@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 // import CloseBttn from "../Icon/_CloseBttn";
 import Accordion from "./_Accordion";
 
-export default function FilterPanel({ activeFilters, filtersSchema, closeBttn, onFilterChange }) {
+export default function FilterPanel({ activeFilters = {}, filtersSchema = {}, closeBttn, onFilterChange }) {
 	// const initialActiveFilters = Object.keys(filterGroups).reduce((o, k) => ({...o, [k]: []}), {});
 	const [openedFilter, setOpenedFilter] = useState(null);
 

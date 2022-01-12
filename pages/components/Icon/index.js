@@ -1,1 +1,3 @@
-export { default as CloseBttn } from "./_CloseBttn";
+import CloseBttn from "./_CloseBttn";
+
+export default CloseBttn;

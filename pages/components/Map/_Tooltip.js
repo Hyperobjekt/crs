@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-export default function Tooltip({ data, transform }) {
+export default function Tooltip({ data = {}, transform }) {
 	const tooltipRef = useRef(null);
 	const [style, setStyle] = useState({ left: -999999, top: -999999 });
 

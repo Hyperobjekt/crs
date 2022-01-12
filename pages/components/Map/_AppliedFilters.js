@@ -1,4 +1,4 @@
-export default function AppliedFilters({activeFilters, onFilterChange}) {
+export default function AppliedFilters({activeFilters = {}, onFilterChange}) {
 
 	const onClickApplied = (e) => {
 		const {[0]: key, [1]: val} = e.target.value.split(":");

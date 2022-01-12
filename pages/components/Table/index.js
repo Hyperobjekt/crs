@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-export default function Table({ tableData }) {
+export default function Table({ tableData = [] }) {
 
 	const fieldTitles = {
 		"Title/Summary": {
