@@ -24,7 +24,7 @@ export default function Table({ tableData = [] }) {
 			size: "w-1/12"
 		},
 		"Authority Type": {
-			title: "Type of action involved",
+			title: "Type of activity involved",
 			size: "w-1/12"
 		},
 		"See Status": {

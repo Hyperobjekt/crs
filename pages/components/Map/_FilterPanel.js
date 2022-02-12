@@ -42,7 +42,7 @@ export default function FilterPanel({ activeFilters = {}, filtersSchema = {}, cl
 	const onClickEnableAll = () => {
 		onFilterChange(Object.fromEntries(
 			Object.keys(filtersSchema).map(key => (
-		  	[key, filtersSchema[key].options.reduce((prev, curr) => [...prev, curr.key], [])]
+		  	[key, filtersSchema[key].options.reduce((prev, curr) => [...prev, curr], [])]
 			))
 		));
 	}

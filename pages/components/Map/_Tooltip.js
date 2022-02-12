@@ -35,7 +35,7 @@ export default function Tooltip({ data = {}, transform }) {
 				{data["Title/Summary"]}
 			</div>
 			<div className="p-2 border-t border-white text-xs">
-				Click to learn more about this action
+				Click to learn more about this activity
 			</div>
 		</div>
 	);

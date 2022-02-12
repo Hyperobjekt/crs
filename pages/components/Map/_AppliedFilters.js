@@ -1,3 +1,5 @@
+import getText from "./../../helpers";
+
 export default function AppliedFilters({activeFilters = {}, onFilterChange}) {
 
 	const onClickApplied = (e) => {
@@ -18,7 +20,7 @@ export default function AppliedFilters({activeFilters = {}, onFilterChange}) {
 				{Object.keys(activeFilters).map(key => (
 					<span key={key}>
 						<span className="mr-2">
-							{key}:
+							{getText(key)}:
 						</span>
 						{activeFilters[key].map((val, i) => (
 							<button
@@ -26,7 +28,7 @@ export default function AppliedFilters({activeFilters = {}, onFilterChange}) {
 								value={`${key}:${val}`}
 								className="text-slate-600 bg-slate-200 rounded-full px-3 py-1 mr-2"
 								onClick={onClickApplied}>
-								{val} &times;
+								{getText(val)} &times;
 							</button>
 						))}
 					</span>

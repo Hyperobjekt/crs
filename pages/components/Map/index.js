@@ -5,13 +5,13 @@ import * as topojson from "topojson-client";
 
 import Tooltip from "./_Tooltip";
 import Panel from "./_Panel";
-import ActionPanel from "./_ActionPanel";
+import ActivityPanel from "./_ActivityPanel";
 import FilterPanel from "./_FilterPanel";
 import AppliedFilters from "./_AppliedFilters";
 import ZoomBttns from "./_ZoomBttns";
 import Legend from "./_Legend";
 
-export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {} }) {
+export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}, activitySchema = {} }) {
 	const [mapSizes, setMapSizes] = useState({});
 	const [mapTransform, setMapTransform] = useState({k:1,x:0,y:0});
 	const [pointData, setPointData] = useState(null);
@@ -100,7 +100,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	};
 
 	const addStates = () => {
-		const scaleMax = statesGeo.features.reduce((a, b) => b.properties.actions.length > a ? b.properties.actions.length : a, 0);
+		const scaleMax = statesGeo.features.reduce((a, b) => b.properties.activities.length > a ? b.properties.activities.length : a, 0);
 		const colorRange = ["#B4B4B4", "#F9F9F9"];
 		const stateColor = d3.scaleLinear()
 			.domain([0, scaleMax])
@@ -116,8 +116,8 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 				.attr("stroke-width", `${STROKE_WIDTH}px`)
 			.enter().append("path")
 				.attr("stroke", "black")
-				.attr("fill", d => stateColor(d.properties.actions.length))
-				// .attr("fill", d => d3.interpolateGreys(d.properties.actions.length))
+				.attr("fill", d => stateColor(d.properties.activities.length))
+				// .attr("fill", d => d3.interpolateGreys(d.properties.activities.length))
 				.attr("d", geoPath)
 				.attr("cursor", "pointer")
 				.on("click", clickState)
@@ -280,8 +280,9 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 				{activeFeature ?
 					<Panel
 						onClosePanel={onDataPanelClose}>
-						<ActionPanel
-							action={activeFeature} />
+						<ActivityPanel
+							activitySchema={activitySchema}
+							activity={activeFeature} />
 					</Panel>
 				: null}
 

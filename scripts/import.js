@@ -8,7 +8,7 @@ const fetch = (...args) => import("node-fetch").then(({default: fetch}) => fetch
 const isDry = process.argv.indexOf("--dry") > -1;
 const isNoApi = process.argv.indexOf("--no-api") > -1;
 
-let d3, fetchJson, stateCodes, actions;
+let d3, fetchJson, stateCodes, activities;
 
 (async () => {
 	//GET D3
@@ -21,18 +21,18 @@ let d3, fetchJson, stateCodes, actions;
 	});
 	stateCodes = (await neatCsv(stateCodesCsv)).reduce((obj, row) => ({ ...obj, [row.id]: row.code}), {});
 }).then(async () => {
-	//GET ACTIONS
-	const actionsCsv = fs.readFileSync("./data/raw/CRS_Test_Data.csv", {
+	//GET ACTIVITIES
+	const activitiesCsv = fs.readFileSync("./data/raw/CRS_Test_Data.csv", {
 		encoding: "utf8",
 		flag: "r",
 	});
-	actions = await neatCsv(actionsCsv);
+	activities = await neatCsv(activitiesCsv);
 }).then(async () => {
 	//GET COORDINATES
 	if(isNoApi) return;
 	const accessToken = process.env.MAPBOX_ACCESS_TOKEN;
 	const endpoint = "mapbox.places";
-	actions = await Promise.all(actions.map(async (row) => {
+	activities = await Promise.all(activities.map(async (row) => {
 		if(!row["Address"]) return row;
 		const search_text = encodeURIComponent(row["Address"]);
 		const url = `https://api.mapbox.com/geocoding/v5/${endpoint}/${search_text}.json?limit=1&access_token=${accessToken}`;
@@ -59,7 +59,7 @@ let d3, fetchJson, stateCodes, actions;
 	// 			&& d.id < 60; // outlying areas
 	// 	})
 	// });
-	//HANDLE STATE ACTIONS
+	//HANDLE STATE ACTIVITIES
 	const states = {
 		type: "FeatureCollection",
 		name: "states",
@@ -69,18 +69,18 @@ let d3, fetchJson, stateCodes, actions;
 				type: "Feature",
 				properties: {
 					state: state,
-					actions: actions.filter((row) => row["Level"] === "State" && row["State/US"] === state),
+					activities: activities.filter((row) => row["Level"] === "State" && row["State/US"] === state),
 					index: i
 				},
 				geometry: d.geometry
 			});
 		})
 	};
-	//HANDLE LOCAL ACTIONS
+	//HANDLE LOCAL ACTIVITIES
 	const points = {
 		type: "FeatureCollection",
 		name: "local",
-		features: actions
+		features: activities
 			.filter((row) => row["Level"].indexOf("Local") > -1)
 			.filter((row) => row["geometry"])
 			.map((row, i) => {
@@ -94,7 +94,7 @@ let d3, fetchJson, stateCodes, actions;
 			})
 	};
 	//HANDLE TABLE DATA
-	// const table = actions
+	// const table = activities
 	// 	.filter(row => row["Level"])
 	// 	.reduce((obj, row) => {
 	// 	const level = row["Level"].indexOf("Local") > -1 ? "Local" : row["Level"];
@@ -102,7 +102,7 @@ let d3, fetchJson, stateCodes, actions;
 	// 	obj[level].push(row);
 	// 	return obj;
 	// }, {});
-	const table = actions;
+	const table = activities;
 
 	if(isDry) return;
 	// fs.writeFileSync("./data/conus.json", JSON.stringify(conus));

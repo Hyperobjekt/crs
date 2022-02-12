@@ -8,6 +8,7 @@ import statesGeo from "../data/states";
 import pointsGeo from "../data/points";
 import tableData from "../data/table";
 import filtersSchema from "../data/filters";
+import activitySchema from "../data/activity";
 
 export const getStaticProps = async () => {
 	return {
@@ -41,8 +42,16 @@ export default function Index({ tableData, statesGeo, pointsGeo }) {
 					overflow: "hidden",
 					height: activeView === "table" ? "100%" : null,
 				}}>
-				{activeView === "map" ? <Map statesGeo={statesGeo} pointsGeo={pointsGeo} filtersSchema={filtersSchema} /> : null}
-				{activeView === "table" ? <Table tableData={tableData} /> : null}
+				{activeView === "map" ?
+					<Map
+						statesGeo={statesGeo}
+						pointsGeo={pointsGeo}
+						filtersSchema={filtersSchema}
+						activitySchema={activitySchema.fields} />
+				: null}
+				{activeView === "table" ?
+					<Table tableData={tableData} />
+				: null}
 			</main>
 			
 		</div>
