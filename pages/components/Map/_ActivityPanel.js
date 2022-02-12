@@ -17,13 +17,14 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 	// }, [panelData]);
 
 	const fieldElem = (fieldKey) => {
+		console.log(fieldKey, getText(fieldKey));
 		const fieldTitle = getText(fieldKey);
 		return (
 			<li
 				key={fieldKey}
 				className="mb-2">
 				<small>{fieldTitle}</small>
-				<div>{panelData[fieldKey]}</div>
+				<div>{getText(panelData[fieldKey])}</div>
 			</li>
 		);
 	};
