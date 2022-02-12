@@ -20,7 +20,6 @@ export default function Accordion({ group, schema = {}, activeFilters = {}, onCh
 					role="listbox"
 					aria-multiselectable="true"
 					className="">
-					{schema.options.map((option, i) => console.log(option))}
 					{schema.options.map((option, i) => (
 						<Checkbox
 							key={i}
