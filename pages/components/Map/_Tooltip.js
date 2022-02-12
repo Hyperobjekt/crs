@@ -22,7 +22,7 @@ export default function Tooltip({ data = {}, transform }) {
 			className="w-64 absolute top-4 right-4 bg-slate-700 text-white"
 			style={style}>
 			<div className="p-2 pb-0">
-				{data["State/US"]}
+				{data["Bill #"]}
 			</div>
 			<div className="p-2 text-sm">
 				{data["Title/Summary"]}

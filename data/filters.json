@@ -1,64 +1,25 @@
 {
 	"Authority Type": {
-		"key": "Authority Type",
-		"label": "Authority Type",
 		"options": [
-			{
-				"key": "Legislation",
-				"label": "Legislation"
-			},
-			{
-				"key": "Exec directive",
-				"label": "Exec directive"
-			},
-			{
-				"key": "Resolution",
-				"label": "Resolution"
-			},
-			{
-				"key": "Other",
-				"label": "Other"
-			}
+			"Legislation",
+			"Exec directive",
+			"Resolution",
+			"Other"
 		]
 	},
 	"Level": {
-		"key": "Level",
-		"label": "Level",
 		"options": [
-			{	
-				"key": "LocalSch",
-				"label": "Local Schoolboard"
-			},
-			{	
-				"key": "LocalOth",
-				"label": "Local Government"
-			}
+			"LocalSch",
+			"LocalOth"
 		]
 	},
 	"Summary Status": {
-		"key": "Summary Status",
-		"label": "Status",
 		"options": [
-			{
-				"key": "Pending",
-				"label": "Pending"
-			},
-			{
-				"key": "Enacted",
-				"label": "Enacted"
-			},
-			{
-				"key": "Rejected",
-				"label": "Rejected"
-			},
-			{
-				"key": "Expired or Withdrawn",
-				"label": "Expired or Withdrawn"
-			},
-			{
-				"key": "",
-				"label": "Unknown"
-			}
+			"Pending",
+			"Enacted",
+			"Rejected",
+			"Expired or Withdrawn",
+			"N/A"
 		]
 	}
 }

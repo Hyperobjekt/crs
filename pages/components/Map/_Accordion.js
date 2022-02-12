@@ -1,8 +1,10 @@
 // import { useEffect, useState, useRef } from "react";
 
+import getText from "./../../helpers";
+
 import Checkbox from "./_Checkbox";
 
-export default function Accordion({ schema = {}, activeFilters = {}, onChange }) {
+export default function Accordion({ group, schema = {}, activeFilters = {}, onChange }) {
 	return(
 		<details
 			open
@@ -10,7 +12,7 @@ export default function Accordion({ schema = {}, activeFilters = {}, onChange })
 			<summary
 				data-group={schema.key}
 				className="w-full pb-2 cursor-pointer">
-				{schema.label}
+				{getText(group)}
 			</summary>
 
 			{schema.options ?
@@ -18,14 +20,15 @@ export default function Accordion({ schema = {}, activeFilters = {}, onChange })
 					role="listbox"
 					aria-multiselectable="true"
 					className="">
+					{schema.options.map((option, i) => console.log(option))}
 					{schema.options.map((option, i) => (
 						<Checkbox
 							key={i}
-							val={option.key}
-							label={option.label}
-							id={`${schema.key}_${option.key}`}
+							val={option}
+							label={getText(option)}
+							id={`${schema.key}_${option}`}
 							group={schema.key}
-							active={activeFilters[schema.key] ? activeFilters[schema.key].includes(option.key) : false}
+							active={activeFilters[schema.key] ? activeFilters[schema.key].includes(option) : false}
 							onChange={onChange} />
 					))}
 				</div>
