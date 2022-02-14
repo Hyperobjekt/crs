@@ -13,7 +13,7 @@ import Legend from "./_Legend";
 
 export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}, activitySchema = {} }) {
 	const [mapSizes, setMapSizes] = useState({});
-	const [mapTransform, setMapTransform] = useState({k:1,x:0,y:0});
+	const [mapTransform, setMapTransform] = useState({ k:1, x:0, y:0 });
 	const [pointData, setPointData] = useState(null);
 	const [stateData, setStateData] = useState(null);
 	const [activeCount, setActiveCount] = useState(pointsGeo.features.length);

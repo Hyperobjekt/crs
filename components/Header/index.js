@@ -15,7 +15,7 @@ export default function Header({ activeView, onViewClick, onFilterToggle }) {
 				</button>
 
 				<button
-					onClick={() => onViewClick(table)}
+					onClick={() => onViewClick("table")}
 					className="bg-slate-200 rounded px-2 py-1 ml-4">
 					View Federal Activities
 				</button>

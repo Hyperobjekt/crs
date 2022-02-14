@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-import getText from "./../../helpers";
+import getText from "./../../helpers/getText";
 
 import CloseBttn from "../Icon/_CloseBttn";
 
@@ -37,7 +37,7 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 				{closeBttn}
 			</header>
 			<ul className="mb-2 p-4 border-t">
-				{activitySchema.map(key => fieldElem(key))}
+				{activitySchema ? activitySchema.map(key => fieldElem(key)) : null}
 			</ul>
 		</>
 	);

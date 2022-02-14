@@ -1,4 +1,4 @@
-import getText from "./../../helpers";
+import getText from "./../../helpers/getText";
 
 export default function AppliedFilters({activeFilters = {}, onFilterChange}) {
 

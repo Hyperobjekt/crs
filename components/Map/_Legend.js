@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-import getText from "./../../helpers";
+import getText from "./../../helpers/getText";
 
 export default function Legend({ levelSchema = {},  }) {
 
