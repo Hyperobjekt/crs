@@ -21,11 +21,11 @@ export const getStaticProps = async () => {
 	}
 }
 
-export default function Index({ tableData, statesGeo, pointsGeo }) {
+export default function Index({ statesGeo, pointsGeo, tableData, filtersSchema }) {
 	const [activeView, setActiveView] = useState("map");
 
-	const onViewClick = (e) => {
-		setActiveView(e.target.value);
+	const onViewClick = (view) => {
+		setActiveView(view);
 	};
 
 	return(
@@ -38,20 +38,26 @@ export default function Index({ tableData, statesGeo, pointsGeo }) {
 			<main
 				className="flex-1"
 				style={{
-					// overflow: activeView === "map" ? "hidden" : null,
 					overflow: "hidden",
 					height: activeView === "table" ? "100%" : null,
 				}}>
-				{activeView === "map" ?
+
+				<div 
+					className="w-full h-full"
+					style={{ display: activeView === "map" ? "block" : "none" }}>
 					<Map
 						statesGeo={statesGeo}
 						pointsGeo={pointsGeo}
 						filtersSchema={filtersSchema}
 						activitySchema={activitySchema.fields} />
-				: null}
-				{activeView === "table" ?
+				</div>
+
+				<div 
+					className="w-full h-full"
+					style={{ display: activeView === "table" ? "block" : "none" }}>
 					<Table tableData={tableData} />
-				: null}
+				</div>
+
 			</main>
 			
 		</div>

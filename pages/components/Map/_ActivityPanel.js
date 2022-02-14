@@ -17,7 +17,6 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 	// }, [panelData]);
 
 	const fieldElem = (fieldKey) => {
-		console.log(fieldKey, getText(fieldKey));
 		const fieldTitle = getText(fieldKey);
 		return (
 			<li

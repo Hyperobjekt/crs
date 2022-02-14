@@ -8,15 +8,14 @@ export default function Header({ activeView, onViewClick, onFilterToggle }) {
 			</div>
 			<div className="flex justify-end">
 				<button
-					value={activeView === "map" ? "table" : "map"}
-					onClick={onViewClick}
-					className="border border-black rounded px-2 py-1 ml-4">
-					{activeView === "map" ? "Table" : "Map"}
+					onClick={() => onViewClick(activeView === "map" ? "table" : "map")}
+					className="flex border border-black rounded px-2 py-1 ml-4">
+					<img src={`Icon${activeView === "map" ? "Table" : "Map"}.svg`} className="inline mr-2" />
+					<span>{activeView === "map" ? "Table" : "Map"}</span>
 				</button>
 
 				<button
-					value="table"
-					onClick={onViewClick}
+					onClick={() => onViewClick(table)}
 					className="bg-slate-200 rounded px-2 py-1 ml-4">
 					View Federal Activities
 				</button>

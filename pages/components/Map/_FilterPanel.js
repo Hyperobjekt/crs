@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 // import CloseBttn from "../Icon/_CloseBttn";
 import Accordion from "./_Accordion";
 
-export default function FilterPanel({ activeFilters = {}, filtersSchema = {}, closeBttn, onFilterChange }) {
+export default function FilterPanel({ activeCount, activeFilters = {}, filtersSchema = {}, closeBttn, onFilterChange }) {
 	// const initialActiveFilters = Object.keys(filterGroups).reduce((o, k) => ({...o, [k]: []}), {});
 	const [openedFilter, setOpenedFilter] = useState(null);
 
@@ -65,6 +65,10 @@ export default function FilterPanel({ activeFilters = {}, filtersSchema = {}, cl
 				</button>
 				{closeBttn}
 			</header>
+
+			<div className="px-4 pb-4">
+				This map displays {activeCount} places in the USA where people are trying to implement laws against teaching Critical Race Theory. Filter results by:
+			</div>
 
 			<div className="border-t">
 				{Object.keys(filtersSchema).map(key => (

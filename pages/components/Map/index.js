@@ -16,6 +16,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	const [mapTransform, setMapTransform] = useState({k:1,x:0,y:0});
 	const [pointData, setPointData] = useState(null);
 	const [stateData, setStateData] = useState(null);
+	const [activeCount, setActiveCount] = useState(pointsGeo.features.length);
 	const [hoveredFeature, setHoveredFeature] = useState(null);
 	const [activeFeature, setActiveFeature] = useState(null);
 	const [activeFilters, setActiveFilters] = useState({});
@@ -27,7 +28,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	const MAX_ZOOM = 4;
 	const STROKE_WIDTH = 1;
 	const CIRCLE_RADIUS = 5;
-	const IMAGE_SIZE = 15;
+	const MARKER_SIZE = 15;
 
 	let projection, geoPath;
 
@@ -74,9 +75,10 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 		const { transform } = e;
 		g.attr("transform", transform);
 		g.attr("stroke-width", STROKE_WIDTH / transform.k);
-		g.selectAll("image")
-			.attr("width", IMAGE_SIZE / transform.k)
-			.attr("height", IMAGE_SIZE / transform.k)
+		g.selectAll(".markers path")
+			// .attr("width", MARKER_SIZE / transform.k)
+			// .attr("height", MARKER_SIZE / transform.k)
+			.attr("transform", (d) => `translate(${projection(d.geometry.coordinates)}) scale(${1/transform.k})`)
 			.attr("style", `filter: drop-shadow(0px 2px 1px rgba(0,0,0,.4))`);
 		svg.classed("moving", true);
 		setMapTransform(transform);
@@ -124,63 +126,31 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 				.on("dblclick", (e) => e.stopPropagation());;
 	};
 
+
 	const addPoints = () => {
 		const authTypes = [...new Set(pointsGeo.features.reduce((a, b) => [...a, b.properties["Authority Type"]], []))];
-		// const pointIcon = d3.scaleOrdinal()
-		// 	.domain(authTypes)
-		// 	.range(["icon-1", "icon-2"]);
-
-		// const defs = d3.select(svgRef.current).append("defs");
-
-		// const shadow = defs.append("filter")
-		// 	.attr("id", "drop-shadow")
-		// 	.attr("width", "130%")
-		// 	.attr("height", "150%");
-
-		// shadow.append("feGaussianBlur")
-		// 	.attr("in", "SourceAlpha")
-		// 	.attr("stdDeviation", 1)
-		// 	.attr("result", "blur");
-
-		// shadow.append("feOffset")
-			// .attr("in", "blur")
-			// .attr("dx", 0)
-			// .attr("dy", 5)
-			// .attr("result", "offsetBlur");
-
-		// shadow.append("feFlood")
-	 //    .attr("in", "offsetBlur")
-	 //    .attr("flood-color", "#ffffff")
-	 //    .attr("flood-opacity", ".5")
-	 //    .attr("result", "offsetColor");
-
-		// var feMerge = shadow.append("feMerge");
-
-		// feMerge.append("feMergeNode")
-		// 	.attr("in", "offsetBlur")
-		// // feMerge.append("feMergeNode")
-		// // 	.attr("in", "offsetColor")
-		// feMerge.append("feMergeNode")
-		// 	.attr("in", "SourceGraphic");
 		const points = d3.select(svgRef.current)
 			.select("g")
 				.append("g")
 					.attr("class", "markers")
 			.selectAll("path")
 				.data(pointsGeo.features)
-			.enter().append("image")
+			.enter().append("path")
 				// .attr("xlink:href", d => `${pointIcon(d.properties["Level"])}.svg`)
-				.attr("xlink:href", d => `${d.properties["Level"]}.svg`)
-				.attr("x", function(d) {
-					return projection(d.geometry.coordinates)[0];
+				// .attr("xlink:href", d => `${d.properties["Level"]}.svg`)
+				// .attr("d", "M6 1L12 11H0L6 1Z")
+				.attr("d", d => {
+					const SIZE = 8;
+					if(d.properties["Level"] === "LocalOth") return `M${SIZE} 1L${SIZE*2} 15H0L${SIZE} 1Z`;
+					if(d.properties["Level"] === "LocalSch") return `M 0, ${SIZE} a ${SIZE},${SIZE} 0 1,0 ${SIZE * 2},0 a ${SIZE},${SIZE} 0 1,0 -${SIZE * 2},0`;
+				// 	return d3.symbol().type(d3.symbolTriangle).size(MARKER_SIZE);
 				})
-				.attr("y", function(d) {
-					return projection(d.geometry.coordinates)[1];
-				})
-				.attr("width", `${IMAGE_SIZE}px`)
-				.attr("height", `${IMAGE_SIZE}px`)
+				.attr("transform", d => `translate(${projection(d.geometry.coordinates)})`)
+				// .attr("width", `${MARKER_SIZE}px`)
+				// .attr("height", `${MARKER_SIZE}px`)
 				.attr("cursor", "pointer")
 				// .attr("filter", "url(#drop-shadow)")
+				.attr("fill", d => d.properties["Summary Status"] === "Enacted" ? "#999" : "#ccc")
 				.attr("style", "filter: drop-shadow(0px 2px 1px rgba(0,0,0,.4))")
 				.on("mouseover", hoverPoint)
 				.on("mouseout", unhoverPoint)
@@ -237,6 +207,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	};
 
 	const filterMap = () => {
+		let count = 0;
 		d3.select(svgRef.current).selectAll(".markers image").attr("opacity", (d, i) => {
 			const activeGroups = Object.keys(activeFilters).filter((groupKey) => activeFilters[groupKey].length)
 			const activeOptions = activeGroups.filter((groupKey) => activeFilters[groupKey].includes(d.properties[groupKey]));
@@ -267,6 +238,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 					<Panel
 						onClosePanel={onFilterPanelClose}>
 						<FilterPanel
+							activeCount={activeCount}
 							filtersSchema={filtersSchema}
 							activeFilters={activeFilters}
 							onFilterChange={onFilterChange} />
