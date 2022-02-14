@@ -13,3 +13,9 @@ body {
 button {
 	text-align: left;
 }
+
+/*MUI OVERRIDES*/
+
+.MuiTouchRipple-root {
+	display: none;
+}

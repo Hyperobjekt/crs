@@ -1,8 +1,9 @@
 import getText from "./../../helpers/getText";
-
 import Checkbox from "./_Checkbox";
+import DateSelector from "./_DateSelector";
 
 export default function Accordion({ group, schema = {}, activeFilters = {}, onChange }) {
+
 	return(
 		<details
 			open
@@ -13,7 +14,7 @@ export default function Accordion({ group, schema = {}, activeFilters = {}, onCh
 				{getText(group)}
 			</summary>
 
-			{schema.options ?
+			{schema.options && schema.options.length ?
 				<div
 					role="listbox"
 					aria-multiselectable="true"
@@ -30,6 +31,13 @@ export default function Accordion({ group, schema = {}, activeFilters = {}, onCh
 					))}
 				</div>
 			: null}
+
+			{group === "Date Intro" ?
+				<div>
+					<DateSelector />
+				</div>
+			: null}
+
 		</details>
 	);
 }
