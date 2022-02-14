@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 
-// import CloseBttn from "../Icon/_CloseBttn";
+import getText from "./../../helpers/getText";
+
 import Accordion from "./_Accordion";
+import Filter from "./_Filter";
 
 export default function FilterPanel({ activeCount, activeFilters = {}, filtersSchema = {}, closeBttn, onFilterChange }) {
-	// const initialActiveFilters = Object.keys(filterGroups).reduce((o, k) => ({...o, [k]: []}), {});
 	const [openedFilter, setOpenedFilter] = useState(null);
 
 	useEffect(() => {
@@ -74,10 +75,13 @@ export default function FilterPanel({ activeCount, activeFilters = {}, filtersSc
 				{Object.keys(filtersSchema).map(key => (
 					<Accordion
 						key={key}
-						group={key}
-						schema={filtersSchema[key]}
-						activeFilters={activeFilters}
-						onChange={onChangeCheckbox} />
+						label={getText(key)}>
+						<Filter
+							group={key}
+							schema={filtersSchema[key]}
+							activeFilters={activeFilters}
+							onChange={onChangeCheckbox}	/>
+					</Accordion>
 				))}
 			</div>
 		</>

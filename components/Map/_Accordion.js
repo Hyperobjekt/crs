@@ -1,42 +1,37 @@
-import getText from "./../../helpers/getText";
-import Checkbox from "./_Checkbox";
-import DateSelector from "./_DateSelector";
+import { useState } from "react";
+import Image from "next/image";
 
-export default function Accordion({ group, schema = {}, activeFilters = {}, onChange }) {
+import getText from "./../../helpers/getText";
+
+export default function Accordion({ label, children }) {
+	const DEFAULT_OPEN = true;
+
+	const [pseudoOpen, setPseudoOpen] = useState(DEFAULT_OPEN);
 
 	return(
 		<details
-			open
-			className="relative p-4 border-b">
+			open={DEFAULT_OPEN}
+			className="relative border-b">
 			<summary
-				data-group={group}
-				className="w-full pb-2 cursor-pointer">
-				{getText(group)}
+				className="w-full flex p-4 cursor-pointer font-bold list-none"
+				onClick={() => setPseudoOpen(!pseudoOpen)}>
+				<div className="w-full pr-4 text-sm">
+					{label}
+				</div>
+				<div
+					className="w-4 ml-auto mb-auto"
+					style={{ transform: pseudoOpen ? "rotate(180deg)" : "" }}>
+					<Image
+						src="/IconChevron.svg"
+						alt=""
+						width={16}
+						height={16} />
+				</div>
 			</summary>
 
-			{schema.options && schema.options.length ?
-				<div
-					role="listbox"
-					aria-multiselectable="true"
-					className="">
-					{schema.options.map((option, i) => (
-						<Checkbox
-							key={i}
-							val={option}
-							label={getText(option)}
-							id={`${group}_${option}`}
-							group={group}
-							active={activeFilters[group] ? activeFilters[group].includes(option) : false}
-							onChange={onChange} />
-					))}
-				</div>
-			: null}
-
-			{group === "Date Intro" ?
-				<div>
-					<DateSelector />
-				</div>
-			: null}
+			<div className="px-4 pb-4">
+				{children}
+			</div>
 
 		</details>
 	);

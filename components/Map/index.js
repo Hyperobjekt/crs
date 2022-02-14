@@ -6,6 +6,7 @@ import * as topojson from "topojson-client";
 import Tooltip from "./_Tooltip";
 import Panel from "./_Panel";
 import ActivityPanel from "./_ActivityPanel";
+import StatePanel from "./_StatePanel";
 import FilterPanel from "./_FilterPanel";
 import AppliedFilters from "./_AppliedFilters";
 import ZoomBttns from "./_ZoomBttns";
@@ -18,7 +19,8 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	const [stateData, setStateData] = useState(null);
 	const [activeCount, setActiveCount] = useState(pointsGeo.features.length);
 	const [hoveredFeature, setHoveredFeature] = useState(null);
-	const [activeFeature, setActiveFeature] = useState(null);
+	const [activeActivity, setActiveActivity] = useState(null);
+	const [activeState, setActiveState] = useState(null);
 	const [activeFilters, setActiveFilters] = useState({});
 	const [filterOpen, setFilterOpen] = useState(true);
 	const mapRef = useRef({});
@@ -46,7 +48,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 		if(svgRef.current.classList.contains("ready")) return;
 		setUpMap();
 		addStates();
-		addPoints();
+		addMarkers();
 	}, [mapSizes]);
 
 	useEffect(() => {
@@ -127,7 +129,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	};
 
 
-	const addPoints = () => {
+	const addMarkers = () => {
 		const authTypes = [...new Set(pointsGeo.features.reduce((a, b) => [...a, b.properties["Authority Type"]], []))];
 		const points = d3.select(svgRef.current)
 			.select("g")
@@ -154,18 +156,18 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 				.attr("style", "filter: drop-shadow(0px 2px 1px rgba(0,0,0,.4))")
 				.on("mouseover", hoverPoint)
 				.on("mouseout", unhoverPoint)
-				.on("click", clickPoint)
+				.on("click", clickMarker)
 				.on("dblclick", (e) => e.stopPropagation());
 	};
 
 	const clickState = (e, d) => {
-		// setActiveFeature({ ...d.properties, timestamp: e.timeStamp });
-		setActiveFeature(d.properties);
+		setActiveActivity(null);
+		setActiveState(d.properties);
 	}
 
-	const clickPoint = (e, d) => {
-		// setActiveFeature({ ...d.properties, timestamp: e.timeStamp });
-		setActiveFeature(d.properties);
+	const clickMarker = (e, d) => {
+		setActiveState(null);
+		setActiveActivity(d.properties);
 	}
 
 	const hoverPoint = (e, d) => {
@@ -189,8 +191,12 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 		setFilterOpen(false);
 	};
 
-	const onDataPanelClose = () => {
-		setActiveFeature(null);
+	const onActivityPanelClose = () => {
+		setActiveActivity(null);
+	};
+
+	const onStatePanelClose = () => {
+		setActiveState(null);
 	};
 
 	const onFilterChange = (activeFilters) => {
@@ -208,7 +214,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 
 	const filterMap = () => {
 		let count = 0;
-		d3.select(svgRef.current).selectAll(".markers image").attr("opacity", (d, i) => {
+		d3.select(svgRef.current).selectAll(".markers path").attr("opacity", (d, i) => {
 			const activeGroups = Object.keys(activeFilters).filter((groupKey) => activeFilters[groupKey].length)
 			const activeOptions = activeGroups.filter((groupKey) => activeFilters[groupKey].includes(d.properties[groupKey]));
 			return activeGroups.length > activeOptions.length ? 0 : 1;
@@ -249,12 +255,21 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 						Show filters
 					</button>}
 				
-				{activeFeature ?
+				{activeActivity ?
 					<Panel
-						onClosePanel={onDataPanelClose}>
+						onClosePanel={onActivityPanelClose}>
 						<ActivityPanel
 							activitySchema={activitySchema}
-							activity={activeFeature} />
+							activity={activeActivity} />
+					</Panel>
+				: null}
+
+				{activeState ?
+					<Panel
+						onClosePanel={onStatePanelClose}>
+						<StatePanel
+							activitySchema={activitySchema}
+							state={activeState} />
 					</Panel>
 				: null}
 

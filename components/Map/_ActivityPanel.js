@@ -2,8 +2,6 @@ import { useEffect, useState, useRef } from "react";
 
 import getText from "./../../helpers/getText";
 
-import CloseBttn from "../Icon/_CloseBttn";
-
 export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 	const [panelData, setPanelData] = useState({});
 
@@ -12,18 +10,14 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 		setPanelData(newPanelData);
 	}, [activity]);
 
-	// useEffect(() => {
-	// 	onActivityChange(panelData);
-	// }, [panelData]);
-
 	const fieldElem = (fieldKey) => {
 		const fieldTitle = getText(fieldKey);
 		return (
 			<li
 				key={fieldKey}
 				className="mb-2">
-				<small>{fieldTitle}</small>
-				<div>{getText(panelData[fieldKey])}</div>
+				<div className="text-xs">{fieldTitle}</div>
+				<div className="text-sm">{getText(panelData[fieldKey])}</div>
 			</li>
 		);
 	};
