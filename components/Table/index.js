@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import Image from "next/image";
 
 import getText from "./../../helpers/getText";
 
@@ -69,7 +68,7 @@ export default function Table({ tableData = [] }) {
 						<div
 							className="w-2 h-2"
 							style={{ opacity: currSort.key === colKey && currSort.dir === "desc" ? 1 : 0.5 }}>
-							<Image
+							<img
 								src="/IconArrowSort.svg"
 								alt=""
 								width={8}
@@ -78,7 +77,7 @@ export default function Table({ tableData = [] }) {
 						<div
 							className="w-2 h-2"
 							style={{ opacity: currSort.key === colKey && currSort.dir === "asc" ? 1 : 0.5 }}>
-							<Image
+							<img
 								src="/IconArrowSort.svg"
 								alt=""
 								width={8}

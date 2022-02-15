@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Image from "next/image";
 
 import getText from "./../../helpers/getText";
 
@@ -19,7 +18,7 @@ export default function Accordion({ label, open, children }) {
 				<div
 					className="w-4 ml-auto mb-auto"
 					style={{ transform: pseudoOpen ? "" : "rotate(180deg)" }}>
-					<Image
+					<img
 						src="/IconChevron.svg"
 						alt=""
 						width={16}
