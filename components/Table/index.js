@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 
 import getText from "./../../helpers/getText";
+import getDate from "./../../helpers/getDate";
 
 export default function Table({ tableData = [] }) {
 
@@ -36,17 +37,28 @@ export default function Table({ tableData = [] }) {
 	};
 
 	const onHeaderClick = (colKey) => {
+		const newDir = currSort.dir === "asc" ? "desc" : "asc";
+
 		const sortedActivities = [ ...activities ].sort((a, b) => {
-			if(a[colKey] < b[colKey]) return currSort.dir === "asc" ? 1 : -1;
-	    if(a[colKey] > b[colKey]) return currSort.dir === "asc" ? -1 : 1;
-	    return 0;
+			let aVal = a[colKey];
+			let bVal = b[colKey];
+
+			if(colKey === "Date Intro") {
+				aVal = new Date(a[colKey]);
+				bVal = new Date(b[colKey]);
+			}
+
+			if(aVal < bVal) return newDir === "asc" ? 1 : -1;
+			if(aVal > bVal) return newDir === "asc" ? -1 : 1;
+			return 0;
 		});
+
+		setActivities(prevActivities => [ ...sortedActivities ]);
 
 		setCurrSort({
 			key: colKey,
-			dir: currSort.dir === "asc" ? "desc" : "asc"
+			dir: newDir
 		});
-		setActivities(prevActivities => [ ...sortedActivities ]);
 	}
 
 	const ColHeaderElem = ({ colKey, index }) => {
@@ -59,7 +71,7 @@ export default function Table({ tableData = [] }) {
 				tabIndex={0}
 				onClick={() => onHeaderClick(colKey)}>
 				
-				<div className="my-1">
+				<div className="">
 					{getText(colKey)}
 				</div>
 
@@ -107,9 +119,12 @@ export default function Table({ tableData = [] }) {
 			<td
 				role="cell"
 				className={`${fieldTitles[colKey].size} py-4`}>
-				{getText(colKey) ? getText(colVal) : <a href="#" target="_blank" className="w-full block border rounded-md px-1 py-1 text-center">
-					{getText(colKey)}
-				</a>}
+				{getText(colKey) ?
+					colKey ==="Date Intro" ? getDate(colVal) : getText(colVal) 
+					: <a href="#" target="_blank" className="w-full block border rounded-md px-1 py-1 text-center">
+						{getText(colKey)}
+					</a>
+				}
 			</td>
 		)
 	};
@@ -123,7 +138,7 @@ export default function Table({ tableData = [] }) {
 	return (
 		<table
 			className="w-full h-full block table-fixed overflow-scroll">
-			<thead className="sticky bg-white">
+			<thead className="sticky top-0 bg-white">
 				<tr
 					className="flex space-x-4 px-4 border-b">
 					{Object.keys(fieldTitles).map((colKey, index) => <ColHeaderElem key={index} colKey={colKey} index={index} />)}

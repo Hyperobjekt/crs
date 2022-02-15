@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
-import CloseBttn from "../Icon/_CloseBttn";
+import CloseBttn from "../../Icon/_CloseBttn";
 
 export default function Panel({ children, onClosePanel }) {
 

@@ -1,9 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 
-import getText from "./../../helpers/getText";
+import getText from "./../../../helpers/getText";
 
 import Accordion from "./_Accordion";
-import CloseBttn from "../Icon/_CloseBttn";
+import CloseBttn from "../../Icon/_CloseBttn";
+import FieldRow from "./_FieldRow";
 
 export default function StatePanel({ state, closeBttn, activitySchema }) {
 	const [panelData, setPanelData] = useState({});
@@ -12,18 +13,6 @@ export default function StatePanel({ state, closeBttn, activitySchema }) {
 		const newPanelData = panelData ? panelData.index === state.index ? {} : state : state;
 		setPanelData(newPanelData);
 	}, [state]);
-
-	const fieldElem = (activity, fieldKey) => {
-		const fieldTitle = getText(fieldKey);
-		return (
-			<li
-				key={fieldKey}
-				className="mb-2">
-				<div className="text-xs">{fieldTitle}</div>
-				<div className="text-sm">{getText(activity[fieldKey])}</div>
-			</li>
-		);
-	};
 
 	return (
 		<>
@@ -39,7 +28,12 @@ export default function StatePanel({ state, closeBttn, activitySchema }) {
 					open={false}
 					label={activity["Bill #"] || activity["Title/Summary"]}>
 					<ul>
-						{activitySchema ? activitySchema.map(key => fieldElem(activity, key)) : null}
+						{activitySchema ? activitySchema.map(key => (
+							<FieldRow
+								key={key}
+								fieldKey={key}
+								fieldVal={activity[key]} />
+						)) : null}
 					</ul>
 				</Accordion>
 			))}

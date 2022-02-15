@@ -1,4 +1,4 @@
-import getText from "./../../helpers/getText";
+import getText from "./../../../helpers/getText";
 
 import Checkbox from "./_Checkbox";
 import DateSelector from "./_DateSelector";

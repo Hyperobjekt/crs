@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import getText from "./../../helpers/getText";
+import getText from "./../../../helpers/getText";
 
 export default function Accordion({ label, open, children }) {
 	const [pseudoOpen, setPseudoOpen] = useState(open);
@@ -17,7 +17,7 @@ export default function Accordion({ label, open, children }) {
 				</div>
 				<div
 					className="w-4 ml-auto mb-auto"
-					style={{ transform: pseudoOpen ? "" : "rotate(180deg)" }}>
+					style={{ transform: pseudoOpen ? "rotate(180deg)" : "" }}>
 					<img
 						src="/IconChevron.svg"
 						alt=""

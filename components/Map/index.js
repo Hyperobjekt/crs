@@ -4,10 +4,10 @@ import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
 import Tooltip from "./_Tooltip";
-import Panel from "./_Panel";
-import ActivityPanel from "./_ActivityPanel";
-import StatePanel from "./_StatePanel";
-import FilterPanel from "./_FilterPanel";
+import Panel from "./Panel";
+import ActivityPanel from "./Panel/_ActivityPanel";
+import StatePanel from "./Panel/_StatePanel";
+import FilterPanel from "./Panel/_FilterPanel";
 import AppliedFilters from "./_AppliedFilters";
 import ZoomBttns from "./_ZoomBttns";
 import Legend from "./_Legend";

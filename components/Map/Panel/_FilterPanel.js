@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-import getText from "./../../helpers/getText";
+import getText from "./../../../helpers/getText";
 
 import Accordion from "./_Accordion";
 import Filter from "./_Filter";

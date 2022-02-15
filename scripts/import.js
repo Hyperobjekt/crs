@@ -28,6 +28,19 @@ let d3, fetchJson, stateCodes, activities;
 	});
 	activities = await neatCsv(activitiesCsv);
 }).then(async () => {
+	activities = activities.map(row => {
+		
+		Object.keys(row).forEach((key) => {
+			const val = row[key];
+			let newVal = val.trim();
+			if(key === "Date Intro") {
+				newVal = new Date(val).toJSON();	
+			}
+			row[key] = newVal;
+		});
+		return row;
+	});
+}).then(async () => {
 	//GET COORDINATES
 	if(isNoApi) return;
 	const accessToken = process.env.MAPBOX_ACCESS_TOKEN;
@@ -81,7 +94,7 @@ let d3, fetchJson, stateCodes, activities;
 		type: "FeatureCollection",
 		name: "local",
 		features: activities
-			.filter((row) => row["Level"].indexOf("Local") > -1)
+			.filter((row) => row["Level"] && row["Level"].indexOf("Local") > -1)
 			.filter((row) => row["geometry"])
 			.map((row, i) => {
 				const { geometry } = row;
