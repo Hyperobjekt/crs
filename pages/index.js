@@ -36,14 +36,14 @@ export default function Index({ statesGeo, pointsGeo, tableData, filtersSchema }
 			<Header activeView={activeView} onViewClick={onViewClick} />
 
 			<main
-				className="flex-1"
+				className="flex flex-1"
 				style={{
 					overflow: "hidden",
 					height: activeView === "table" ? "100%" : null,
 				}}>
 
 				<div 
-					className="w-full h-full"
+					className="w-full flex"
 					style={{ display: activeView === "map" ? "block" : "none" }}>
 					<Map
 						statesGeo={statesGeo}

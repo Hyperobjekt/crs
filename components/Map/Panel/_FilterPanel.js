@@ -17,18 +17,8 @@ export default function FilterPanel({ activeCount, activeFilters = {}, filtersSc
 		setOpenedFilter(group === openedFilter ? null : group);
 	};
 
-	const onChangeCheckbox = (e) => {
-		const { group, value } = e.target.dataset;
-		const groupData = activeFilters.hasOwnProperty(group) ? activeFilters[group] : [];
-		const valueIndex = groupData.indexOf(value);
-		const newFilters = valueIndex > -1 ? groupData.filter(f => f !== value) : [...groupData, value];
-
-		if(newFilters.length) {
-			onFilterChange({...activeFilters, [group]: newFilters });
-		} else {
-			delete activeFilters[group];
-			onFilterChange({...activeFilters});
-		}
+	const onChangeFilters = (newFilters) => {
+		onFilterChange(newFilters);
 	};
 
 	const onClickClear = (e) => {
@@ -81,7 +71,7 @@ export default function FilterPanel({ activeCount, activeFilters = {}, filtersSc
 							group={key}
 							schema={filtersSchema[key]}
 							activeFilters={activeFilters}
-							onChange={onChangeCheckbox}	/>
+							onChange={onChangeFilters}	/>
 					</Accordion>
 				))}
 			</div>

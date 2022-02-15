@@ -15,6 +15,7 @@ import Legend from "./_Legend";
 export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}, activitySchema = {} }) {
 	const [mapSizes, setMapSizes] = useState({});
 	const [mapTransform, setMapTransform] = useState({ k:1, x:0, y:0 });
+	const [mapIsReady, setMapIsReady] = useState(false);
 	const [pointData, setPointData] = useState(null);
 	const [stateData, setStateData] = useState(null);
 	const [activeCount, setActiveCount] = useState(pointsGeo.features.length);
@@ -22,6 +23,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	const [activeActivity, setActiveActivity] = useState(null);
 	const [activeState, setActiveState] = useState(null);
 	const [activeFilters, setActiveFilters] = useState({});
+	const [hasFilters, setHasFilters] = useState(false);
 	const [filterOpen, setFilterOpen] = useState(true);
 	const mapRef = useRef({});
 	const svgRef = useRef({});
@@ -37,7 +39,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	useEffect(() => {
 		const svg = d3.select(svgRef.current);
 		svg.selectAll("*").remove();
-		svg.classed("ready", false);
+		setMapIsReady(false);
 		onResize();
 		window.addEventListener("resize", onResize);
 		return () => window.removeEventListener("resize", onResize);
@@ -45,7 +47,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 
 	useEffect(() => {
 		if(!Object.keys(mapSizes).length) return;
-		if(svgRef.current.classList.contains("ready")) return;
+		if(mapIsReady) return;
 		setUpMap();
 		addStates();
 		addMarkers();
@@ -53,16 +55,20 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 
 	useEffect(() => {
 		filterMap();
-		onResize();
+		setHasFilters(Object.keys(activeFilters).length);
 	}, [activeFilters]);
+
+	useEffect(() => {
+		onResize();
+	}, [hasFilters]);
 
 	const onResize = () => {
 		const mapStyle = getComputedStyle(mapRef.current);
 		let width = parseFloat(mapStyle.width);
 		let height = parseFloat(mapStyle.height);
 
-		if(Object.keys(activeFilters).length) {
-			height -= parseFloat(mapStyle.marginTop);
+		if(hasFilters) {
+			height += parseFloat(mapStyle.marginTop);
 		}
 
 		setMapSizes({
@@ -100,7 +106,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 		geoPath = d3.geoPath()
 			.projection(projection);
 		svg.call(zoom);
-		svg.classed("ready", true);
+		setMapIsReady(true);
 	};
 
 	const addStates = () => {
@@ -201,7 +207,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 
 	const onFilterChange = (activeFilters) => {
 		setActiveFilters(activeFilters);
-		d3.select(svgRef.current).classed("mt-16", Object.keys(activeFilters).length);
+		// d3.select(svgRef.current).classed("mt-16", hasFilters);
 	};
 
 	const onZoomClick = (e) => {
@@ -212,13 +218,23 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 			.call(zoom.scaleBy, zoomLevel);
 	};
 
-	const filterMap = () => {
-		let count = 0;
-		d3.select(svgRef.current).selectAll(".markers path").attr("opacity", (d, i) => {
-			const activeGroups = Object.keys(activeFilters).filter((groupKey) => activeFilters[groupKey].length)
-			const activeOptions = activeGroups.filter((groupKey) => activeFilters[groupKey].includes(d.properties[groupKey]));
-			return activeGroups.length > activeOptions.length ? 0 : 1;
+	const toggleMarker = (d, i) => {
+		const activeGroups = Object.keys(activeFilters).filter((groupKey) => activeFilters[groupKey].length)
+		const activeOptions = activeGroups.filter((groupKey) => {
+			if(groupKey === "Date Intro") {
+				const [start, end] = activeFilters[groupKey];
+				if(start && end) return d.properties[groupKey] >= start && d.properties[groupKey] <= end;
+				if(start) return d.properties[groupKey] >= start;
+				if(end) return d.properties[groupKey] <= end;
+			} else {
+				return activeFilters[groupKey].includes(d.properties[groupKey])
+			}
 		});
+		return activeGroups.length > activeOptions.length ? "hidden" : "visibile";
+	}
+
+	const filterMap = () => {
+		d3.select(svgRef.current).selectAll(".markers path").attr("visibility", toggleMarker);
 	};
 
 	return (
@@ -227,11 +243,17 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 				<body className="overflow-hidden" />
 			</Helmet>
 			<div ref={mapRef}
-				className={`w-full h-full relative ${Object.keys(activeFilters).length ? "mt-16" : ""}`}>
+				className={`w-full h-full relative ${hasFilters ? "mt-16" : ""}`}
+				style={{ height: (hasFilters ? `calc(100% - ${16/4}em)` : "100%") }}
+				// style={{ height: `${mapSizes.height}px` }}
+				>
 
-				<svg ref={svgRef}
-					width={mapSizes.width}
-					height={mapSizes.height} />
+				<div className="w-full h-full relative">
+					<svg ref={svgRef}
+						width={mapSizes.width}
+						height={mapSizes.height}
+						className={hasFilters ? "relative -top-16" : ""} />
+				</div>
 
 				<ZoomBttns
 					onZoomClick={onZoomClick} />

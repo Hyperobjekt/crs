@@ -3,9 +3,9 @@ import getText from "./../../helpers/getText";
 export default function AppliedFilters({activeFilters = {}, onFilterChange}) {
 
 	const onClickApplied = (e) => {
-		const {[0]: key, [1]: val} = e.target.value.split(":");
-		const newActiveFilters = {...activeFilters};
-		newActiveFilters[key].splice(newActiveFilters[key].indexOf(val), 1);
+		const { key, value } = e.target.dataset;
+		const newActiveFilters = { ...activeFilters };
+		newActiveFilters[key].splice(newActiveFilters[key].indexOf(value), 1);
 		if(newActiveFilters[key].length <= 0) delete newActiveFilters[key];
 		onFilterChange(newActiveFilters);
 	};
@@ -23,13 +23,16 @@ export default function AppliedFilters({activeFilters = {}, onFilterChange}) {
 							{getText(key)}:
 						</span>
 						{activeFilters[key].map((val, i) => (
-							<button
-								key={i}
-								value={`${key}:${val}`}
-								className="text-slate-600 bg-slate-200 rounded-full px-3 py-1 mr-2"
-								onClick={onClickApplied}>
-								{getText(val)} &times;
-							</button>
+							val ?
+								<button
+									key={i}
+									data-key={key}
+									data-value={val}
+									className="text-slate-600 bg-slate-200 rounded-full px-3 py-1 mr-2"
+									onClick={onClickApplied}>
+									{getText(val)} &times;
+								</button>
+							: null
 						))}
 					</span>
 				))}

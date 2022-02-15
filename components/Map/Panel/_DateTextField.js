@@ -6,12 +6,11 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 	".MuiOutlinedInput-input": {
 		padding: ".5rem",
 	},
-	// ".MuiInputLabel-root:not(.Mui-focused):not(.MuiFormLabel-filled)": {
-	// 	padding: ".5rem",
- //    transform: "unset",
-	// }
 }));
 
 export default function DateTextField(params) {
-  return <StyledTextField { ...params } />;
+  return (
+  	<StyledTextField
+  		{ ...params } />
+	);
 }

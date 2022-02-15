@@ -1,3 +1,4 @@
+import getDate from "./getDate";
 // import siteCopy from "../data/copy";
 
 // const getStaticProps = async () => {
@@ -112,5 +113,8 @@ const siteCopy = {
 };
 
 export default function getText(str) {
+  if(!isNaN(Date.parse(str))) {
+    return getDate(str);
+  }
 	return siteCopy[str] || str;
 }
