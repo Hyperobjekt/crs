@@ -3,14 +3,12 @@ import Image from "next/image";
 
 import getText from "./../../helpers/getText";
 
-export default function Accordion({ label, children }) {
-	const DEFAULT_OPEN = true;
-
-	const [pseudoOpen, setPseudoOpen] = useState(DEFAULT_OPEN);
+export default function Accordion({ label, open, children }) {
+	const [pseudoOpen, setPseudoOpen] = useState(open);
 
 	return(
 		<details
-			open={DEFAULT_OPEN}
+			open={open}
 			className="relative border-b">
 			<summary
 				className="w-full flex p-4 cursor-pointer font-bold list-none"
@@ -20,7 +18,7 @@ export default function Accordion({ label, children }) {
 				</div>
 				<div
 					className="w-4 ml-auto mb-auto"
-					style={{ transform: pseudoOpen ? "rotate(180deg)" : "" }}>
+					style={{ transform: pseudoOpen ? "" : "rotate(180deg)" }}>
 					<Image
 						src="/IconChevron.svg"
 						alt=""

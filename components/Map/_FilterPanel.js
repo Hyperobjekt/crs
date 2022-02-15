@@ -75,6 +75,7 @@ export default function FilterPanel({ activeCount, activeFilters = {}, filtersSc
 				{Object.keys(filtersSchema).map(key => (
 					<Accordion
 						key={key}
+						open={true}
 						label={getText(key)}>
 						<Filter
 							group={key}

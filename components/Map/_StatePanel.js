@@ -36,6 +36,7 @@ export default function StatePanel({ state, closeBttn, activitySchema }) {
 			{state && state.activities.map((activity, index) => (
 				<Accordion
 					key={index}
+					open={false}
 					label={activity["Bill #"] || activity["Title/Summary"]}>
 					<ul>
 						{activitySchema ? activitySchema.map(key => fieldElem(activity, key)) : null}

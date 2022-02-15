@@ -1,82 +1,116 @@
 import { useEffect, useState, useRef } from "react";
+import Image from "next/image";
+
+import getText from "./../../helpers/getText";
 
 export default function Table({ tableData = [] }) {
 
+	const [activities, setActivities] = useState([]);
+	const [currSort, setCurrSort] = useState({});
+	const [limit, setLimit] = useState(500);
+
+	useEffect(() => {
+		setActivities(tableData.filter((row, index) => index < limit));
+	}, [tableData]);
+
 	const fieldTitles = {
 		"Title/Summary": {
-			title: "Title",
-			size: "w-4/12"
+			size: "w-4/12",
+			sortable: false,
 		},
-		// "Body Name": {
-		// 	title: "Body Name",
-		// 	size: "w-2/12"
-		// },
 		"Date Intro": {
-			title: "Date initiated",
-			size: "w-1/12"
+			size: "w-1/12",
+			sortable: true,
 		},
 		"State/US": {
-			title: "State",
-			size: "w-1/12"
+			size: "w-1/12",
+			sortable: true,
 		},
 		"Level": {
-			title: "Level of government involved",
-			size: "w-1/12"
+			size: "w-1/12",
+			sortable: true,
 		},
 		"Authority Type": {
-			title: "Type of activity involved",
-			size: "w-1/12"
+			size: "w-2/12",
+			sortable: true,
 		},
-		"See Status": {
-			size: "w-2/12"
-		},
-		"Read Full Text": {
-			size: "w-2/12"
-		}
 	};
 
-	const colSpanElem = (colKey, i) => {
-		return (
-			<col key={i}
-				span="1"
-				// style={{maxWidth: "10%"}}
-				className={`${fieldTitles[colKey].size}`} />
-		);
-	};
+	const onHeaderClick = (colKey) => {
+		const sortedActivities = [ ...activities ].sort((a, b) => {
+			if(a[colKey] < b[colKey]) return currSort.dir === "asc" ? 1 : -1;
+	    if(a[colKey] > b[colKey]) return currSort.dir === "asc" ? -1 : 1;
+	    return 0;
+		});
 
-	const colHeaderElem = (colKey, i) => {
+		setCurrSort({
+			key: colKey,
+			dir: currSort.dir === "asc" ? "desc" : "asc"
+		});
+		setActivities(prevActivities => [ ...sortedActivities ]);
+	}
+
+	const ColHeaderElem = ({ colKey, index }) => {
 		return (
-			<th key={i}
+			<th
 				scole="col"
 				role="colheader"
 				colSpan="1"
-				// style={{maxWidth: "10%"}}
-				// className="p-5"
-				className={`${fieldTitles[colKey].size} p-5 text-left`}>
-				{fieldTitles[colKey].title}
+				className={`${fieldTitles[colKey].size} flex py-5 text-left text-xs cursor-pointer`}
+				tabIndex={0}
+				onClick={() => onHeaderClick(colKey)}>
+				
+				<div className="my-1">
+					{getText(colKey)}
+				</div>
+
+				{fieldTitles[colKey].sortable ?
+					<div className="w-2 flex flex-col mb-auto ml-2">
+						<div
+							className="w-2 h-2"
+							style={{ opacity: currSort.key === colKey && currSort.dir === "desc" ? 1 : 0.5 }}>
+							<Image
+								src="/IconArrowSort.svg"
+								alt=""
+								width={8}
+								height={8} />
+						</div>
+						<div
+							className="w-2 h-2"
+							style={{ opacity: currSort.key === colKey && currSort.dir === "asc" ? 1 : 0.5 }}>
+							<Image
+								src="/IconArrowSort.svg"
+								alt=""
+								width={8}
+								height={8}
+								className="rotate-180" />
+						</div>
+					</div>
+				: null}
+
 			</th>
 		);
 	};
 
-	const rowElem = (rowData, i) => {
-		const bgColor = i % 2 ? "bg-slate-50" : "bg-white";
+	const RowElem = ({ rowData, index }) => {
+		const bgColor = index % 2 ? "bg-slate-50" : "bg-white";
 		return(
-			<tr key={i}
+			<tr
 				role="row"
-				className={`flex ${bgColor} border-b`}>
-				{Object.keys(fieldTitles).map((t,i) => colElem(rowData[t], i))}
+				className={`flex ${bgColor} px-4 space-x-4 border-b`}>
+				{Object.keys(fieldTitles).map((t,i) => <ColElem key={i} colKey={t} colVal={rowData[t]} index={index} />)}
 			</tr>
 		)
 	};
 
-	const colElem = (colData, i) => {
-		const colKey = Object.keys(fieldTitles)[i];
+	const ColElem = ({ colKey, colVal, index }) => {
 		return(
-			<td key={i}
+			<td
 				role="cell"
-				// style={{maxWidth: "10%"}}
-				className={`${fieldTitles[colKey].size} p-5`}>
-				{fieldTitles[colKey].title ? colData : <a href="#" target="_blank" className="w-full block border rounded-md px-2 py-1 mr-2 text-center">{colKey}</a>}
+				className={`${fieldTitles[colKey].size} py-4`}>
+				{getText(colKey) ? getText(colVal) : <a href="#" target="_blank" className="w-full block border rounded-md px-1 py-1 text-center">
+					{getText(colKey)}
+				</a>}
 			</td>
 		)
 	};
@@ -90,17 +124,14 @@ export default function Table({ tableData = [] }) {
 	return (
 		<table
 			className="w-full h-full block table-fixed overflow-scroll">
-			{/*<colgroup>
-				{Object.keys(fieldTitles).map(colSpanElem)}
-	    </colgroup>*/}
 			<thead className="sticky bg-white">
-				<tr className="flex border-b">
-					{Object.keys(fieldTitles).map(colHeaderElem)}
+				<tr
+					className="flex space-x-4 px-4 border-b">
+					{Object.keys(fieldTitles).map((colKey, index) => <ColHeaderElem key={index} colKey={colKey} index={index} />)}
 				</tr>
 			</thead>
 			<tbody>
-				{/*{tableData.filter(filterTable).map(rowElem)}*/}
-				{tableData.map(rowElem)}
+				{activities.map((rowData, index) => <RowElem key={index} rowData={rowData} index={index} />)}
 			</tbody>
 		</table>
 	)

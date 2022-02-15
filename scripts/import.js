@@ -102,7 +102,7 @@ let d3, fetchJson, stateCodes, activities;
 	// 	obj[level].push(row);
 	// 	return obj;
 	// }, {});
-	const table = activities;
+	const table = activities.map((a, i) => ({ ...a, id: i }));
 
 	if(isDry) return;
 	// fs.writeFileSync("./data/conus.json", JSON.stringify(conus));

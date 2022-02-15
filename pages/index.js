@@ -22,7 +22,7 @@ export const getStaticProps = async () => {
 }
 
 export default function Index({ statesGeo, pointsGeo, tableData, filtersSchema }) {
-	const [activeView, setActiveView] = useState("map");
+	const [activeView, setActiveView] = useState("table");
 
 	const onViewClick = (view) => {
 		setActiveView(view);
