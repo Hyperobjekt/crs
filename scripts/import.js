@@ -78,18 +78,37 @@ let d3, fetchJson, stateCodes, activities;
 		name: "states",
 		features: topojson.feature(countryTopo, countryTopo.objects.states).features.map((d, i) => {
 			const { [d.id]: state } = stateCodes;
+			console.log(state, activities.filter((row) => ["State","Federal"].includes(row["Level"])  && row["State/US"] === state).length);
 			return({
 				type: "Feature",
 				properties: {
 					state: state,
-					activities: activities.filter((row) => row["Level"] === "State" && row["State/US"] === state),
+					activities: activities.filter((row) => ["State","Federal"].includes(row["Level"])  && row["State/US"] === state),
 					index: i
 				},
 				geometry: d.geometry
 			});
 		})
 	};
-	//HANDLE LOCAL ACTIVITIES
+	//HANDLE FEDERAL ACTIVITIES
+	// 38.8938672,-77.0846159
+	// const states = {
+	// 	type: "FeatureCollection",
+	// 	name: "federal",
+	// 	features: topojson.feature(countryTopo, countryTopo.objects.states).features.map((d, i) => {
+	// 		const { [d.id]: state } = stateCodes;
+	// 		return({
+	// 			type: "Feature",
+	// 			properties: {
+	// 				state: state,
+	// 				activities: activities.filter((row) => row["Level"] === "State" && row["State/US"] === state),
+	// 				index: i + 1
+	// 			},
+	// 			geometry: d.geometry
+	// 		});
+	// 	})
+	// };
+	// //HANDLE LOCAL ACTIVITIES
 	const points = {
 		type: "FeatureCollection",
 		name: "local",

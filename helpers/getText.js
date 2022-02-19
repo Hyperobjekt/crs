@@ -51,6 +51,7 @@ const siteCopy = {
 	"\"divisive concepts\"/\"controversial issues\"": "\"Divisive concepts\" or \"controvesial issues\"",
 	"Bill #": "Activity Title",
 	"Title/Summary": "Summary",
+  "US": "Federal",
 	"AL": "Alabama",
   "AK": "Alaska",
   "AS": "American Samoa",

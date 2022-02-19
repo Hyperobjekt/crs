@@ -37,8 +37,8 @@ export default function Table({ tableData = [] }) {
 	};
 
 	const onHeaderClick = (colKey) => {
+		if(!fieldTitles[colKey].sortable) return;
 		const newDir = currSort.dir === "asc" ? "desc" : "asc";
-
 		const sortedActivities = [ ...activities ].sort((a, b) => {
 			let aVal = a[colKey];
 			let bVal = b[colKey];
@@ -67,7 +67,7 @@ export default function Table({ tableData = [] }) {
 				scole="col"
 				role="colheader"
 				colSpan="1"
-				className={`${fieldTitles[colKey].size} flex py-5 text-left text-xs cursor-pointer`}
+				className={`${fieldTitles[colKey].size} ${fieldTitles[colKey].sortable ? "cursor-pointer" : ""} flex py-5 text-left text-xs`}
 				tabIndex={0}
 				onClick={() => onHeaderClick(colKey)}>
 				

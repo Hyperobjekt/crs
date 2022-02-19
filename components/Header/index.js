@@ -13,12 +13,6 @@ export default function Header({ activeView, onViewClick, onFilterToggle }) {
 					<img src={`Icon${activeView === "map" ? "Table" : "Map"}.svg`} className="inline mr-2" />
 					<span>{activeView === "map" ? "Table" : "Map"}</span>
 				</button>
-
-				<button
-					onClick={() => onViewClick("table")}
-					className="bg-slate-200 rounded px-2 py-1 ml-4">
-					View Federal Activities
-				</button>
 			</div>
 		</header>
 	)

@@ -22,8 +22,11 @@ export default function Panel({ children, onClosePanel }) {
 	return (
 		active ?
 			<div
-				className="w-96 h-full absolute left-0 top-0 z-10 bg-white border-r overflow-y-scroll">
-				{PanelContent}
+				className="w-96 h-full absolute left-0 top-0 z-10 bg-white border-r">
+				<div className="w-full h-full overflow-y-scroll pb-16">
+					{PanelContent}
+				</div>
+				<div className="w-full h-16 absolute left-0 bottom-0 bg-gradient-to-t from-white pointer-events-none"></div>
 			</div>
 		: null
 	);

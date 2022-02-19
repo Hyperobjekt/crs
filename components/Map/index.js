@@ -33,8 +33,11 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	const STROKE_WIDTH = 1;
 	const CIRCLE_RADIUS = 5;
 	const MARKER_SIZE = 15;
+	const DC_SIZE = 30;
+	const DC_OFFSET = [90, -20];
 
-	let projection, geoPath;
+	let projection = d3.geoAlbersUsa();
+	let geoPath;
 
 	useEffect(() => {
 		const svg = d3.select(svgRef.current);
@@ -50,7 +53,8 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 		if(mapIsReady) return;
 		setUpMap();
 		addStates();
-		addMarkers();
+		addLocal();
+		addFed();
 	}, [mapSizes]);
 
 	useEffect(() => {
@@ -84,10 +88,15 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 		g.attr("transform", transform);
 		g.attr("stroke-width", STROKE_WIDTH / transform.k);
 		g.selectAll(".markers path")
-			// .attr("width", MARKER_SIZE / transform.k)
-			// .attr("height", MARKER_SIZE / transform.k)
-			.attr("transform", (d) => `translate(${projection(d.geometry.coordinates)}) scale(${1/transform.k})`)
+			.attr("transform", d => `translate(${projection(d.geometry.coordinates)}) scale(${1/transform.k})`)
 			.attr("style", `filter: drop-shadow(0px 2px 1px rgba(0,0,0,.4))`);
+		g.select(".federal-line")
+			.attr("stroke-width", STROKE_WIDTH / transform.k);
+		g.select(".federal-icon")
+			.attr("transform", d => `translate(${[
+				projection(d.geometry.coordinates[0][0][4])[0] + DC_OFFSET[0],
+				projection(d.geometry.coordinates[0][0][4])[1] + DC_OFFSET[1]
+			]}) scale(${1/transform.k})`)
 		svg.classed("moving", true);
 		setMapTransform(transform);
 	};
@@ -107,6 +116,58 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 			.projection(projection);
 		svg.call(zoom);
 		setMapIsReady(true);
+	};
+
+	const addFed = () => {
+		// const authTypes = [...new Set(pointsGeo.features.reduce((a, b) => [...a, b.properties["Authority Type"]], []))];
+		// console.log(statesGeo.features);
+		const dcGeo = statesGeo.features.filter(d => d.properties.state === "US"),
+					dcCoords = dcGeo[0].geometry.coordinates[0][0][4];
+
+		d3.select(svgRef.current)
+			.select("g")
+				.append("g")
+					.attr("class", "federal");
+
+		const dcLine = d3.select(svgRef.current)
+			.select("g.federal")
+			.append("line")
+				.attr("class", "federal-line")
+				.attr("stroke-width", STROKE_WIDTH)
+				.attr("stroke", "black")
+				.attr("x1", projection(dcCoords)[0])
+				.attr("y1", projection(dcCoords)[1])
+				.attr("x2", projection(dcCoords)[0] + DC_OFFSET[0])
+				.attr("y2", projection(dcCoords)[1] + DC_OFFSET[1]);
+	
+		const dcMarker = d3.select(svgRef.current)
+			.select("g.federal")
+			.selectAll("path")
+				.data(dcGeo)
+			.enter().append("g")
+				.attr("class", "federal-icon")
+				.attr("transform", d => `translate(${[
+					projection(dcCoords)[0] + DC_OFFSET[0],
+					projection(dcCoords)[1] + DC_OFFSET[1]
+				]})`);
+
+		dcMarker
+			.append("rect")
+			.attr("fill", "#E6F0F3")
+			.attr("rx", 6)
+			.attr("ry", 6)
+			.attr("transform", d => `translate(${-DC_SIZE * 1.3 / 2}, ${-DC_SIZE * 1.3 / 2})`)
+			.attr("width", DC_SIZE * 1.3)
+			.attr("height", DC_SIZE * 1.3)
+
+		dcMarker
+			.append("image")
+			.attr("xlink:href", d => "IconFederal.svg")
+			.attr("width", `${DC_SIZE}px`)
+			.attr("height", `${DC_SIZE}px`)
+			.attr("transform", d => `translate(${-DC_SIZE/2}, ${-DC_SIZE/2})`)
+			.attr("cursor", "pointer")
+			.on("dblclick", (e) => e.stopPropagation());
 	};
 
 	const addStates = () => {
@@ -135,7 +196,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	};
 
 
-	const addMarkers = () => {
+	const addLocal = () => {
 		const authTypes = [...new Set(pointsGeo.features.reduce((a, b) => [...a, b.properties["Authority Type"]], []))];
 		const points = d3.select(svgRef.current)
 			.select("g")
@@ -243,22 +304,22 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 				<body className="overflow-hidden" />
 			</Helmet>
 			<div ref={mapRef}
-				className={`w-full h-full relative ${hasFilters ? "mt-16" : ""}`}
-				style={{ height: (hasFilters ? `calc(100% - ${16/4}em)` : "100%") }}
+				className={`w-full h-full relative`}
+				// style={{ height: (hasFilters ? `calc(100% - ${16/4}em)` : "100%") }}
 				// style={{ height: `${mapSizes.height}px` }}
 				>
 
 				<div className="w-full h-full relative">
 					<svg ref={svgRef}
 						width={mapSizes.width}
-						height={mapSizes.height}
-						className={hasFilters ? "relative -top-16" : ""} />
+						height={mapSizes.height} />
 				</div>
 
 				<ZoomBttns
 					onZoomClick={onZoomClick} />
 
 				<AppliedFilters
+					filterOpen={filterOpen}
 					activeFilters={activeFilters}
 					onFilterChange={onFilterChange} />			
 
@@ -272,7 +333,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 							onFilterChange={onFilterChange} />
 					</Panel>
 				: <button
-						className="absolute top-4 left-4 px-2 py-1 border rounded"
+						className="absolute top-4 left-4 z-20 px-2 py-1 border rounded"
 						onClick={() => setFilterOpen(true)}>
 						Show filters
 					</button>}
