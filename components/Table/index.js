@@ -3,6 +3,10 @@ import { useEffect, useState, useRef } from "react";
 import getText from "./../../helpers/getText";
 import getDate from "./../../helpers/getDate";
 
+import HeaderCell from "./_HeaderCell";
+import BodyRow from "./_BodyRow";
+import ButtonExt from "./../Global/_ButtonExt";
+
 export default function Table({ tableData = [] }) {
 
 	const [activities, setActivities] = useState([]);
@@ -13,31 +17,53 @@ export default function Table({ tableData = [] }) {
 		setActivities(tableData.filter((row, index) => index < limit));
 	}, [tableData]);
 
-	const fieldTitles = {
-		"Title/Summary": {
-			size: "w-4/12",
+	const colSchemas = [
+		{
+			key: "Title/Summary",
+			className: "py-4 w-4/12",
+			colSpan: 4,
 			sortable: false,
 		},
-		"Date Intro": {
-			size: "w-1/12",
+		{
+			key: "Date Intro",
+			className: "py-4 w-1/12",
+			colSpan: 1,
 			sortable: true,
 		},
-		"State/US": {
-			size: "w-1/12",
+		{
+			key: "State/US",
+			className: "py-4 w-1/12",
+			colSpan: 1,
 			sortable: true,
 		},
-		"Level": {
-			size: "w-1/12",
+		{
+			key: "Level",
+			className: "py-4 w-1/12",
+			colSpan: 1,
 			sortable: true,
 		},
-		"Authority Type": {
-			size: "w-2/12",
+		{
+			key: "Authority Type",
+			className: "py-4 w-1/12",
+			colSpan: 1,
 			sortable: true,
 		},
-	};
+		{
+			key: "Status (link)",
+			className: "py-4 w-2/12",
+			colSpan: 2,
+			button: true,
+		},
+		{
+			key: "Full text (link)",
+			className: "py-4 w-2/12",
+			colSpan: 2,
+			button: true,
+		}
+	];
 
 	const onHeaderClick = (colKey) => {
-		if(!fieldTitles[colKey].sortable) return;
+		// if(!colSchemas[colKey].sortable) return;
 		const newDir = currSort.dir === "asc" ? "desc" : "asc";
 		const sortedActivities = [ ...activities ].sort((a, b) => {
 			let aVal = a[colKey];
@@ -50,6 +76,7 @@ export default function Table({ tableData = [] }) {
 
 			if(aVal < bVal) return newDir === "asc" ? 1 : -1;
 			if(aVal > bVal) return newDir === "asc" ? -1 : 1;
+
 			return 0;
 		});
 
@@ -59,74 +86,6 @@ export default function Table({ tableData = [] }) {
 			key: colKey,
 			dir: newDir
 		});
-	}
-
-	const ColHeaderElem = ({ colKey, index }) => {
-		return (
-			<th
-				scole="col"
-				role="colheader"
-				colSpan="1"
-				className={`${fieldTitles[colKey].size} ${fieldTitles[colKey].sortable ? "cursor-pointer" : ""} flex py-5 text-left text-xs`}
-				tabIndex={0}
-				onClick={() => onHeaderClick(colKey)}>
-				
-				<div className="">
-					{getText(colKey)}
-				</div>
-
-				{fieldTitles[colKey].sortable ?
-					<div className="w-2 flex flex-col mb-auto ml-2">
-						<div
-							className="w-2 h-2"
-							style={{ opacity: currSort.key === colKey && currSort.dir === "desc" ? 1 : 0.5 }}>
-							<img
-								src="/IconArrowSort.svg"
-								alt=""
-								width={8}
-								height={8} />
-						</div>
-						<div
-							className="w-2 h-2"
-							style={{ opacity: currSort.key === colKey && currSort.dir === "asc" ? 1 : 0.5 }}>
-							<img
-								src="/IconArrowSort.svg"
-								alt=""
-								width={8}
-								height={8}
-								className="rotate-180" />
-						</div>
-					</div>
-				: null}
-
-			</th>
-		);
-	};
-
-	const RowElem = ({ rowData, index }) => {
-		const bgColor = index % 2 ? "bg-slate-50" : "bg-white";
-		return(
-			<tr
-				role="row"
-				className={`flex ${bgColor} px-4 space-x-4 border-b`}>
-				{Object.keys(fieldTitles).map((t,i) => <ColElem key={i} colKey={t} colVal={rowData[t]} index={index} />)}
-			</tr>
-		)
-	};
-
-	const ColElem = ({ colKey, colVal, index }) => {
-		return(
-			<td
-				role="cell"
-				className={`${fieldTitles[colKey].size} py-4`}>
-				{getText(colKey) ?
-					colKey ==="Date Intro" ? getDate(colVal) : getText(colVal) 
-					: <a href="#" target="_blank" className="w-full block border rounded-md px-1 py-1 text-center">
-						{getText(colKey)}
-					</a>
-				}
-			</td>
-		)
 	};
 
 	// const filterTable = (row) => {
@@ -137,15 +96,21 @@ export default function Table({ tableData = [] }) {
 
 	return (
 		<table
-			className="w-full h-full block table-fixed overflow-scroll">
-			<thead className="sticky top-0 bg-white">
+			className="w-full h-full min-w-[70rem] flex flex-col table-fixed relative">
+			<thead className="bg-white sticky">
 				<tr
 					className="flex space-x-4 px-4 border-b">
-					{Object.keys(fieldTitles).map((colKey, index) => <ColHeaderElem key={index} colKey={colKey} index={index} />)}
+					{colSchemas.map((colSchema, index) => (
+						<HeaderCell key={index} index={index} colSchema={colSchema} currSort={currSort} />
+					))}
 				</tr>
 			</thead>
-			<tbody>
-				{activities.map((rowData, index) => <RowElem key={index} rowData={rowData} index={index} />)}
+			<tbody className="overflow-scroll">
+				{activities.map((rowData, index) => (
+					rowData["State/US"] ?
+						<BodyRow key={index} index={index} rowData={rowData} colSchemas={colSchemas} />
+					: null
+				))}
 			</tbody>
 		</table>
 	)

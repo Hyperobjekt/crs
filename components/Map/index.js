@@ -32,7 +32,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	const MAX_ZOOM = 4;
 	const STROKE_WIDTH = 1;
 	const CIRCLE_RADIUS = 5;
-	const MARKER_SIZE = 9;
+	const MARKER_SIZE = 6;
 	const DC_SIZE = 30;
 	const DC_OFFSET_X = 90;
 	const DC_OFFSET_Y = -20;

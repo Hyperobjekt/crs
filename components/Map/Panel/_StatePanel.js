@@ -4,7 +4,6 @@ import getText from "./../../../helpers/getText";
 
 import Accordion from "./_Accordion";
 import CloseBttn from "../../Icon/_CloseBttn";
-import FieldRow from "./_FieldRow";
 
 export default function StatePanel({ state, onClickActivityRow, closeBttn }) {
 	const [panelData, setPanelData] = useState({});

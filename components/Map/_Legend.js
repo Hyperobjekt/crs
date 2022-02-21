@@ -25,7 +25,7 @@ export default function Legend({ localColors, stateColors, levelSchema = {},  })
 	};
 
 	return (
-		<div className="w-52 absolute bottom-4 right-4 text-xs">
+		<div className="w-60 p-4 absolute bottom-4 right-4 text-xs bg-white rounded">
 
 			<table cellPadding="5">
 				<thead>
