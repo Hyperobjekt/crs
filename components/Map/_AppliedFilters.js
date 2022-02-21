@@ -25,7 +25,7 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, onFilte
 
 	return (
 		Object.keys(activeFilters).length ?
-			<div className="w-full h-16 absolute left-0 top-0 z-10 bg-white border-b whitespace-nowrap">
+			<div className="w-full h-16 absolute left-0 top-0 z-20 bg-white border-b whitespace-nowrap">
 				<div className={scrollClass}>
 					{Object.keys(activeFilters).map(key => (
 						<span key={key}>

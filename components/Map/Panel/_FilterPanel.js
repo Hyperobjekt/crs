@@ -5,7 +5,7 @@ import getText from "./../../../helpers/getText";
 import Accordion from "./_Accordion";
 import Filter from "./_Filter";
 
-export default function FilterPanel({ activeCount, activeFilters = {}, filtersSchema = {}, closeBttn, onFilterChange }) {
+export default function FilterPanel({ activeCount, activeFilters = {}, filtersSchema = {}, onFilterChange, closeBttn }) {
 	const [openedFilter, setOpenedFilter] = useState(null);
 
 	useEffect(() => {

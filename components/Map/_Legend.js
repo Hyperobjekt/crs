@@ -2,13 +2,13 @@ import * as d3 from "d3";
 
 import getText from "./../../helpers/getText";
 
-export default function Legend({ levelSchema = {},  }) {
+export default function Legend({ localColors, stateColors, levelSchema = {},  }) {
 
 	const svgSymbols = {
 		LocalOth: <path d="M12 1L24 22H0L12 1Z" />,
 		LocalSch: <ellipse cx="12" cy="12" rx="12" ry="12" />,
 		State: <rect width="24" height="24" />,
-	}
+	};
 
 	const Svg = ( { className, children, ...attrs }) => {
 		return(
@@ -22,7 +22,7 @@ export default function Legend({ levelSchema = {},  }) {
 				{children}
 			</svg>
 		)
-	}
+	};
 
 	return (
 		<div className="w-52 absolute bottom-4 right-4 text-xs">
@@ -43,13 +43,13 @@ export default function Legend({ levelSchema = {},  }) {
 								<td>{getText(o)}</td>
 								<td>
 
-									<Svg className="w-4 h-4 m-auto" fill="#ccc">
+									<Svg className="w-4 h-4 m-auto" fill={localColors[o]}>
 										{svgSymbols[o]}
 									</Svg>
 
 								</td>
 								<td>
-									<Svg className="w-4 h-4 m-auto" fill="#999">
+									<Svg className="w-4 h-4 m-auto" fill={localColors[o]}>
 										{svgSymbols[o]}
 									</Svg>
 								</td>
@@ -59,12 +59,12 @@ export default function Legend({ levelSchema = {},  }) {
 					<tr>
 						<td>State-level activity</td>
 						<td>
-							<Svg className="w-4 h-4 m-auto border border-style-solid border-black" fill="#ccc">
+							<Svg className="w-4 h-4 m-auto" fill={stateColors[1]}>
 								{svgSymbols["State"]}
 							</Svg>
 						</td>
 						<td>
-							<Svg className="w-4 h-4 m-auto" fill="#999">
+							<Svg className="w-4 h-4 m-auto" fill={stateColors[2]}>
 								{svgSymbols["State"]}
 							</Svg>
 						</td>

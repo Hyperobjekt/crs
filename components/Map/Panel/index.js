@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 
 import CloseBttn from "../../Icon/_CloseBttn";
 
-export default function Panel({ children, onClosePanel }) {
+export default function Panel({ children, zIndex, onClosePanel }) {
 
 	const [active, setActive] = useState(true);
 
@@ -22,7 +22,8 @@ export default function Panel({ children, onClosePanel }) {
 	return (
 		active ?
 			<div
-				className="w-96 h-full absolute left-0 top-0 z-10 bg-white border-r">
+				style={{ zIndex }}
+				className="w-96 h-full absolute left-0 top-0 bg-white border-r">
 				<div className="w-full h-full overflow-y-scroll pb-16">
 					{PanelContent}
 				</div>

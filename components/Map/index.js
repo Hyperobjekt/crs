@@ -32,9 +32,24 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	const MAX_ZOOM = 4;
 	const STROKE_WIDTH = 1;
 	const CIRCLE_RADIUS = 5;
-	const MARKER_SIZE = 15;
+	const MARKER_SIZE = 9;
 	const DC_SIZE = 30;
-	const DC_OFFSET = [90, -20];
+	const DC_OFFSET_X = 90;
+	const DC_OFFSET_Y = -20;
+
+
+	const dcOffset = [90, -20];
+	const stateRange = ["#FCFCFF", "#E9EFF1", "#D4DFE3"];
+	const localColors = {
+		// LocalOth: ["#369BD3", "#D0E7F3"],
+		// LocalSch: ["#E15605", "#F3D9CA"],
+		LocalOth: "#369BD3",
+		LocalSch: "#E15605",
+	};
+	const localShapes = {
+		LocalOth: `M${MARKER_SIZE} 1L${MARKER_SIZE*2} 15H0L${MARKER_SIZE} 1Z`,
+		LocalSch: `M 0, ${MARKER_SIZE} a ${MARKER_SIZE},${MARKER_SIZE} 0 1,0 ${MARKER_SIZE * 2},0 a ${MARKER_SIZE},${MARKER_SIZE} 0 1,0 -${MARKER_SIZE * 2},0`
+	};
 
 	let projection = d3.geoAlbersUsa();
 	let geoPath;
@@ -89,13 +104,13 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 		g.attr("stroke-width", STROKE_WIDTH / transform.k);
 		g.selectAll(".markers path")
 			.attr("transform", d => `translate(${projection(d.geometry.coordinates)}) scale(${1/transform.k})`)
-			.attr("style", `filter: drop-shadow(0px 2px 1px rgba(0,0,0,.4))`);
+			// .attr("style", `filter: drop-shadow(0px 2px 1px rgba(0,0,0,.4))`);
 		g.select(".federal-line")
 			.attr("stroke-width", STROKE_WIDTH / transform.k);
 		g.select(".federal-icon")
 			.attr("transform", d => `translate(${[
-				projection(d.geometry.coordinates[0][0][4])[0] + DC_OFFSET[0],
-				projection(d.geometry.coordinates[0][0][4])[1] + DC_OFFSET[1]
+				projection(d.geometry.coordinates[0][0][4])[0] + dcOffset[0],
+				projection(d.geometry.coordinates[0][0][4])[1] + dcOffset[1]
 			]}) scale(${1/transform.k})`)
 		svg.classed("moving", true);
 		setMapTransform(transform);
@@ -119,8 +134,6 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	};
 
 	const addFed = () => {
-		// const authTypes = [...new Set(pointsGeo.features.reduce((a, b) => [...a, b.properties["Authority Type"]], []))];
-		// console.log(statesGeo.features);
 		const dcGeo = statesGeo.features.filter(d => d.properties.state === "US"),
 					dcCoords = dcGeo[0].geometry.coordinates[0][0][4];
 
@@ -137,8 +150,8 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 				.attr("stroke", "black")
 				.attr("x1", projection(dcCoords)[0])
 				.attr("y1", projection(dcCoords)[1])
-				.attr("x2", projection(dcCoords)[0] + DC_OFFSET[0])
-				.attr("y2", projection(dcCoords)[1] + DC_OFFSET[1]);
+				.attr("x2", projection(dcCoords)[0] + dcOffset[0])
+				.attr("y2", projection(dcCoords)[1] + dcOffset[1]);
 	
 		const dcMarker = d3.select(svgRef.current)
 			.select("g.federal")
@@ -147,8 +160,8 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 			.enter().append("g")
 				.attr("class", "federal-icon")
 				.attr("transform", d => `translate(${[
-					projection(dcCoords)[0] + DC_OFFSET[0],
-					projection(dcCoords)[1] + DC_OFFSET[1]
+					projection(dcCoords)[0] + dcOffset[0],
+					projection(dcCoords)[1] + dcOffset[1]
 				]})`);
 
 		dcMarker
@@ -156,7 +169,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 			.attr("fill", "#E6F0F3")
 			.attr("rx", 6)
 			.attr("ry", 6)
-			.attr("transform", d => `translate(${-DC_SIZE * 1.3 / 2}, ${-DC_SIZE * 1.3 / 2})`)
+			.attr("transform", d => `translate(${-DC_SIZE/2 * 1.3}, ${-DC_SIZE/2 * 1.3})`)
 			.attr("width", DC_SIZE * 1.3)
 			.attr("height", DC_SIZE * 1.3)
 
@@ -166,17 +179,23 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 			.attr("width", `${DC_SIZE}px`)
 			.attr("height", `${DC_SIZE}px`)
 			.attr("transform", d => `translate(${-DC_SIZE/2}, ${-DC_SIZE/2})`)
-			.attr("cursor", "pointer")
+			.attr("cursor", "pointer");
+
+		dcMarker
+			.select("image")
+			.on("mouseover", onHoverFeature)
+			.on("mouseout", onUnhoverFeature)
+			.on("click", onClickStateFeature)
 			.on("dblclick", (e) => e.stopPropagation());
 	};
 
 	const addStates = () => {
-		const scaleMax = statesGeo.features.reduce((a, b) => b.properties.activities.length > a ? b.properties.activities.length : a, 0);
-		const colorRange = ["#B4B4B4", "#F9F9F9"];
-		const stateColor = d3.scaleLinear()
-			.domain([0, scaleMax])
-			.interpolate(d3.interpolateHcl)
-			.range([d3.hcl(colorRange[1]), d3.hcl(colorRange[0])]);
+		// const scaleMax = statesGeo.features.reduce((a, b) => b.properties.activities.length > a ? b.properties.activities.length : a, 0);
+		// const colorRange = ["#B4B4B4", "#F9F9F9"];
+		// const stateColor = d3.scaleLinear()
+			// .domain([0, 2])
+			// .interpolate(d3.interpolateHcl)
+			// .range([d3.hcl(colorRange[0]), d3.hcl(colorRange[1]), d3.hcl(colorRange[2])]);
 
 		const states = d3.select(svgRef.current)
 			.select("g")
@@ -187,14 +206,20 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 				.attr("stroke-width", `${STROKE_WIDTH}px`)
 			.enter().append("path")
 				.attr("stroke", "black")
-				.attr("fill", d => stateColor(d.properties.activities.length))
+				// .attr("fill", d => stateColor(d.properties.activities.length))
+				.attr("fill", d => {
+					if(!d.properties.activities.length) return stateRange[0];
+					if(d.properties.activities.filter(d => d["Summary Status"] === "Enacted").length) return stateRange[2];
+					return stateRange[1];
+				})
 				// .attr("fill", d => d3.interpolateGreys(d.properties.activities.length))
 				.attr("d", geoPath)
 				.attr("cursor", "pointer")
-				.on("click", clickState)
+				.on("mouseover", onHoverFeature)
+				.on("mouseout", onUnhoverFeature)
+				.on("click", onClickStateFeature)
 				.on("dblclick", (e) => e.stopPropagation());;
 	};
-
 
 	const addLocal = () => {
 		const authTypes = [...new Set(pointsGeo.features.reduce((a, b) => [...a, b.properties["Authority Type"]], []))];
@@ -205,52 +230,57 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 			.selectAll("path")
 				.data(pointsGeo.features)
 			.enter().append("path")
-				// .attr("xlink:href", d => `${pointIcon(d.properties["Level"])}.svg`)
-				// .attr("xlink:href", d => `${d.properties["Level"]}.svg`)
-				// .attr("d", "M6 1L12 11H0L6 1Z")
-				.attr("d", d => {
-					const SIZE = 8;
-					if(d.properties["Level"] === "LocalOth") return `M${SIZE} 1L${SIZE*2} 15H0L${SIZE} 1Z`;
-					if(d.properties["Level"] === "LocalSch") return `M 0, ${SIZE} a ${SIZE},${SIZE} 0 1,0 ${SIZE * 2},0 a ${SIZE},${SIZE} 0 1,0 -${SIZE * 2},0`;
-				// 	return d3.symbol().type(d3.symbolTriangle).size(MARKER_SIZE);
-				})
+				.attr("d", d => localShapes[d.properties["Level"]])
+				.attr("fill", d => localColors[d.properties["Level"]])
+				.attr("opacity", d => d.properties["Summary Status"] === "Enacted" ? 1 : .5)
+				// .attr("fill", d => localColors[d.properties["Level"]][d.properties["Summary Status"] === "Enacted" ? 1 : 0])
 				.attr("transform", d => `translate(${projection(d.geometry.coordinates)})`)
-				// .attr("width", `${MARKER_SIZE}px`)
-				// .attr("height", `${MARKER_SIZE}px`)
 				.attr("cursor", "pointer")
-				// .attr("filter", "url(#drop-shadow)")
-				.attr("fill", d => d.properties["Summary Status"] === "Enacted" ? "#999" : "#ccc")
-				.attr("style", "filter: drop-shadow(0px 2px 1px rgba(0,0,0,.4))")
-				.on("mouseover", hoverPoint)
-				.on("mouseout", unhoverPoint)
-				.on("click", clickMarker)
+				// .attr("style", "filter: drop-shadow(0px 2px 1px rgba(0,0,0,.4))")
+				.on("mouseover", onHoverFeature)
+				.on("mouseout", onUnhoverFeature)
+				.on("click", onClickLocalFeature)
 				.on("dblclick", (e) => e.stopPropagation());
 	};
 
-	const clickState = (e, d) => {
+	const onClickStateFeature = (e, d) => {
 		setActiveActivity(null);
 		setActiveState(d.properties);
 	}
 
-	const clickMarker = (e, d) => {
+	const onClickLocalFeature = (e, d) => {
 		setActiveState(null);
 		setActiveActivity(d.properties);
 	}
 
-	const hoverPoint = (e, d) => {
+	const onHoverFeature = (e, d) => {
 		const g = d3.select(svgRef.current).select("g");
-		const coords = projection(d.geometry.coordinates);
-		// const { k, x, y } = mapTransform;
-		// if(transform) {
-		// 	pos[0] *= k;
-		// 	pos[1] *= k;
-		// 	pos[0] += x;
-		// 	pos[1] += y;
-		// } 
-		setHoveredFeature({ ...d.properties, coords: coords });
+		let coords, offsetX;
+		if(d.properties.hasOwnProperty("Level")) {
+			coords = projection(d.geometry.coordinates);
+			offsetX = MARKER_SIZE;
+		}
+		if(d.properties.state && d.properties.state !== "US") {
+			coords = projection(d3.geoCentroid(d.geometry));
+			offsetX = MARKER_SIZE;
+		}
+		if(d.properties.state && d.properties.state === "US") {
+			const dcCoords = d.geometry.coordinates[0][0][4];
+			coords = [
+				projection(dcCoords)[0] + dcOffset[0],
+				projection(dcCoords)[1] + dcOffset[1]
+			];
+			offsetX = 0;
+		}
+		if(coords) setHoveredFeature({ ...d.properties, coords, offsetX });
 	}
 
-	const unhoverPoint = (e, d) => {
+	const moveOverFeature = (e, d) => {
+		// const coords = d3.pointer(e);
+		// if(coords) setHoveredFeature({ ...hoveredFeature, coords: coords });
+	}
+
+	const onUnhoverFeature = (e, d) => {
 		if(!d3.select(svgRef.current).classed("moving")) setHoveredFeature(null);
 	}
 
@@ -279,6 +309,10 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 			.call(zoom.scaleBy, zoomLevel);
 	};
 
+	const onClickActivityRow = (activity) => {
+		setActiveActivity(activity);
+	};
+
 	const toggleMarker = (d, i) => {
 		const activeGroups = Object.keys(activeFilters).filter((groupKey) => activeFilters[groupKey].length)
 		const activeOptions = activeGroups.filter((groupKey) => {
@@ -292,7 +326,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 			}
 		});
 		return activeGroups.length > activeOptions.length ? "hidden" : "visibile";
-	}
+	};
 
 	const filterMap = () => {
 		d3.select(svgRef.current).selectAll(".markers path").attr("visibility", toggleMarker);
@@ -325,6 +359,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 
 				{filterOpen ?
 					<Panel
+						zIndex={20}
 						onClosePanel={onFilterPanelClose}>
 						<FilterPanel
 							activeCount={activeCount}
@@ -337,22 +372,24 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 						onClick={() => setFilterOpen(true)}>
 						Show filters
 					</button>}
-				
+
+				{activeState ?
+					<Panel
+						zIndex={30}
+						onClosePanel={onStatePanelClose}>
+						<StatePanel
+							state={activeState}
+							onClickActivityRow={onClickActivityRow} />
+					</Panel>
+				: null}
+
 				{activeActivity ?
 					<Panel
+						zIndex={40}
 						onClosePanel={onActivityPanelClose}>
 						<ActivityPanel
 							activitySchema={activitySchema}
 							activity={activeActivity} />
-					</Panel>
-				: null}
-
-				{activeState ?
-					<Panel
-						onClosePanel={onStatePanelClose}>
-						<StatePanel
-							activitySchema={activitySchema}
-							state={activeState} />
 					</Panel>
 				: null}
 
@@ -363,6 +400,8 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 				: null}
 
 				<Legend
+					localColors={localColors}
+					stateColors={stateRange}
 					levelSchema={filtersSchema["Level"]} />
 
 			</div>

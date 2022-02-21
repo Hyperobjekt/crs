@@ -1,5 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 
+import getText from "./../../helpers/getText";
+import getDate from "./../../helpers/getDate";
+
 export default function Tooltip({ data = {}, transform }) {
 	const tooltipRef = useRef(null);
 	const [style, setStyle] = useState({ left: -999999, top: -999999 });
@@ -12,8 +15,8 @@ export default function Tooltip({ data = {}, transform }) {
 		const { coords } = data;
 		let [x, y] = coords;
 
-		x = x * transform.k + transform.x - rect.width/2 + 15/2;
-		y = y * transform.k + transform.y + 20;
+		x = x * transform.k + transform.x - rect.width/2 + data.offsetX;
+		y = y * transform.k + transform.y + 40;
 
 		const offRight = x + rect.width - window.innerWidth + MARGIN;
 		const offLeft = MARGIN - x;
@@ -26,17 +29,54 @@ export default function Tooltip({ data = {}, transform }) {
 	
 	return (
 		<div ref={tooltipRef}
-			className="w-64 absolute top-4 right-4 bg-slate-700 text-white"
+			className="w-64 absolute top-4 right-4 z-10 bg-slate-900 rounded-lg text-white pointer-events-none"
 			style={style}>
-			<div className="p-2 pb-0">
-				{data["Bill #"]}
+
+			<div
+				className="w-0 h-0 absolute left-1/2 -top-3 -ml-3 text-slate-900"
+				style={{
+					borderLeft: ".75rem solid transparent",
+					borderRight: ".75rem solid transparent",
+					borderBottom: ".75rem solid"
+				}}>
 			</div>
-			<div className="p-2 text-sm">
-				{data["Title/Summary"]}
+
+			{data.hasOwnProperty("activities") ?
+				<div>
+					<div className="p-4">
+						<div className="pb-2 text-lg font-bold">
+							{getText(data["state"])}
+						</div>
+					</div>
+				</div>
+			: <div>
+				{data["Level"].includes("Local") ?
+					<div className="p-4">
+						{data["Title/Summary"] ?
+							<div className="pb-2 text-lg font-bold">
+								{data["Title/Summary"]}
+							</div>
+						: null}
+						<div className="">
+							{getText(data["Body Name"])}
+						</div>
+						<div className="">
+							{getDate(data["Date Intro"])}
+						</div>
+					</div>
+				: null}
+
+				{data["Level"] === "State" ?
+					<div className="p-4">
+						
+					</div>
+				: null}
+			</div>}
+
+			<div className="p-4 border-t border-white text-xs">
+				Click to learn more about this {data.hasOwnProperty("activities") ? "this state's activity" : "activity"}
 			</div>
-			<div className="p-2 border-t border-white text-xs">
-				Click to learn more about this activity
-			</div>
+
 		</div>
 	);
 }

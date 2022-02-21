@@ -6,8 +6,8 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 	const [panelData, setPanelData] = useState({});
 
 	useEffect(() => {
-		const newPanelData = panelData ? panelData.index === activity.index ? {} : activity : activity;
-		setPanelData(newPanelData);
+		// const newPanelData = panelData ? panelData.index === activity.index ? {} : activity : activity;
+		setPanelData(activity);
 	}, [activity]);
 
 	return (
