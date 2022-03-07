@@ -1,6 +1,11 @@
 {
-	"Date Intro": {
-		"options": []
+	"Level": {
+		"options": [
+			"LocalSch",
+			"LocalOth",
+			"State",
+			"Federal"
+		]
 	},
 	"Authority Type": {
 		"options": [
@@ -11,11 +16,8 @@
 			"Other"
 		]
 	},
-	"Level": {
-		"options": [
-			"LocalSch",
-			"LocalOth"
-		]
+	"Date Intro": {
+		"options": []
 	},
 	"Summary Status": {
 		"options": [
@@ -25,5 +27,26 @@
 			"Expired or Withdrawn",
 			"N/A"
 		]
+	},
+	"Target Institution": {
+		"multi": true,
+		"options": [
+			"K-12",
+			"Higher Ed",
+			"Other Govt",
+			"Other Contractors",
+			"N/A"
+		]
+	},
+	"Conduct Regulated": {
+		"multi": true,
+		"options": [
+			"Classroom teaching",
+			"Curricular content",
+			"Disclosure of teaching/curriculum",
+			"Staff Trainings",
+			"N/A"
+		]
 	}
 }
+

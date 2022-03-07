@@ -1,18 +1,22 @@
-import { useEffect, useState, useRef } from "react";
+import Button from "./../Global/_Button";
 
 export default function Header({ activeView, onViewClick, onFilterToggle }) {
 	return (
-		<header className="relative z-20 p-4 border-b grid grid-cols-2">
-			<div>
-				<strong>CRS</strong>
+		<header className="relative z-50 p-4 bg-white border-b flex gap-8">
+			<div className="flex">
+				<strong className="my-auto text-xl">
+					CRS
+				</strong>
 			</div>
-			<div className="flex justify-end">
-				<button
-					onClick={() => onViewClick(activeView === "map" ? "table" : "map")}
-					className="flex border border-black rounded px-2 py-1 ml-4">
-					<img src={`Icon${activeView === "map" ? "Table" : "Map"}.svg`} className="inline mr-2" />
-					<span>{activeView === "map" ? "Table" : "Map"}</span>
-				</button>
+			<div className="w-96">
+				This map displays 325 places in the USA where people are trying to implement laws against teaching Critical Race Theory
+			</div>
+			<div className="flex justify-end ml-auto">
+				<Button
+					imgSrc={`Icon${activeView === "map" ? "Table" : "Map"}.svg`}
+					onClick={() => onViewClick(activeView === "map" ? "table" : "map")}>
+					{activeView === "map" ? "Table" : "Map"}
+				</Button>
 			</div>
 		</header>
 	)

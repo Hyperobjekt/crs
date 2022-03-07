@@ -28,16 +28,32 @@ let d3, fetchJson, stateCodes, activities;
 	});
 	activities = await neatCsv(activitiesCsv);
 }).then(async () => {
-	activities = activities.map(row => {
-		
-		Object.keys(row).forEach((key) => {
+	activities = activities.map((row, index) => {
+		Object.keys(row).forEach(key => {
 			const val = row[key];
 			let newVal = val.trim();
 			if(key === "Date Intro") {
 				newVal = new Date(val).toJSON();	
 			}
-			row[key] = newVal;
+			const booleanGroups = {
+				"Target Institution": ["K-12",	"Higher Ed", "Other Govt", "Other Contractors"],
+				"Conduct Regulated": ["Classroom teaching",	"Curricular content",	"Disclosure of teaching/curriculum", "Staff Trainings"]
+			};
+			let isBooleanGroup = false;
+			Object.keys(booleanGroups).forEach(groupKey => {
+				if(booleanGroups[groupKey].includes(key)) {
+					if(!row[groupKey]) row[groupKey] = [];
+					if(row[key] === "TRUE") row[groupKey].push(key);
+					isBooleanGroup = true;
+				}
+			});
+			if(isBooleanGroup) {
+				delete row[key];
+			} else {
+				row[key] = newVal;
+			}
 		});
+		row.index = index;
 		return row;
 	});
 }).then(async () => {
@@ -78,7 +94,6 @@ let d3, fetchJson, stateCodes, activities;
 		name: "states",
 		features: topojson.feature(countryTopo, countryTopo.objects.states).features.map((d, i) => {
 			const { [d.id]: state } = stateCodes;
-			console.log(state, activities.filter((row) => ["State","Federal"].includes(row["Level"])  && row["State/US"] === state).length);
 			return({
 				type: "Feature",
 				properties: {
@@ -134,7 +149,7 @@ let d3, fetchJson, stateCodes, activities;
 	// 	obj[level].push(row);
 	// 	return obj;
 	// }, {});
-	const table = activities.map((a, i) => ({ ...a, id: i }));
+	const table = activities.map((a, i) => ({ ...a }));
 
 	if(isDry) return;
 	// fs.writeFileSync("./data/conus.json", JSON.stringify(conus));

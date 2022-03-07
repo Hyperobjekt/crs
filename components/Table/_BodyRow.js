@@ -3,9 +3,9 @@ import BodyCell from "./_BodyCell";
 export default function BodyRow({ rowData, colSchemas, index }) {
 	let className;
 	if(index % 2) {
-		className = "flex px-4 space-x-2 border-b bg-slate-50";
+		className = "flex items-center px-4 py-6 space-x-2 border-b bg-gray-100";
 	} else {
-		className = "flex px-4 space-x-2 border-b bg-white";
+		className = "flex items-center px-4 py-6 space-x-2 border-b bg-white";
 	}
 	return(
 		<tr

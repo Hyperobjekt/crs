@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import getText from "./../../../helpers/getText";
+import getText from "./../../helpers/getText";
 
 export default function Accordion({ label, open, children }) {
 	const [pseudoOpen, setPseudoOpen] = useState(open);
@@ -12,9 +12,9 @@ export default function Accordion({ label, open, children }) {
 			<summary
 				className="w-full flex p-4 cursor-pointer font-bold list-none"
 				onClick={() => setPseudoOpen(!pseudoOpen)}>
-				<div className="w-full pr-4 text-sm">
+				<h3 className="w-full pr-4 heading-3">
 					{label}
-				</div>
+				</h3>
 				<div
 					className="w-4 ml-auto mb-auto"
 					style={{ transform: pseudoOpen ? "rotate(180deg)" : "" }}>

@@ -1,20 +1,21 @@
 import getText from "./../../helpers/getText";
 
-export default function HeaderCell({ colSchema, currSort }) {
+export default function HeaderCell({ colSchema, currSort, onHeaderClick }) {
 	return (
 		<th
 			scole="col"
 			role="colheader"
 			colSpan={colSchema.colSpan}
 			className={colSchema.className}
+			style={{
+				cursor: colSchema.sortable ? "pointer" : "default"
+			}}
 			tabIndex={0}
-			onClick={() => onHeaderClick(colSchema.key)}>
-			<div className="flex py-5 text-left text-xs">
-			
+			onClick={() => colSchema.sortable ? onHeaderClick(colSchema.key) : false}>
+			<div className="flex py-5 text-left text-xs text-gray-500 font-normal">
 				<div className="">
 					{!colSchema.button ? getText(colSchema.key) : null}
 				</div>
-
 				{colSchema.sortable ?
 					<div className="w-2 flex flex-col mb-auto ml-2">
 						<div

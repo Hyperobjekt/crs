@@ -1,8 +1,9 @@
 import * as d3 from "d3";
 
 import getText from "./../../helpers/getText";
+// import activitySchema from "./../data/activity";
 
-export default function Legend({ localColors, stateColors, levelSchema = {},  }) {
+export default function Legend({ localColors, stateColors  }) {
 
 	const svgSymbols = {
 		LocalOth: <path d="M12 1L24 22H0L12 1Z" />,
@@ -25,7 +26,7 @@ export default function Legend({ localColors, stateColors, levelSchema = {},  })
 	};
 
 	return (
-		<div className="w-60 p-4 absolute bottom-4 right-4 text-xs bg-white rounded">
+		<div className="w-60 p-4 absolute bottom-4 right-4 text-xs bg-white shadow rounded-xl">
 
 			<table cellPadding="5">
 				<thead>
@@ -37,8 +38,7 @@ export default function Legend({ localColors, stateColors, levelSchema = {},  })
 				</thead>
 				<tbody>
 
-					{levelSchema.hasOwnProperty("options")
-						? levelSchema.options.map((o, i) => (
+					{["LocalSch", "LocalOth"].map((o, i) => (
 							<tr key={i}>
 								<td>{getText(o)}</td>
 								<td>
@@ -54,10 +54,10 @@ export default function Legend({ localColors, stateColors, levelSchema = {},  })
 									</Svg>
 								</td>
 							</tr>
-					)) : null}
+					))}
 
 					<tr>
-						<td>State-level activity</td>
+						<td>State & Federal</td>
 						<td>
 							<Svg className="w-4 h-4 m-auto" fill={stateColors[1]}>
 								{svgSymbols["State"]}

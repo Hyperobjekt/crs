@@ -31,7 +31,7 @@ const siteCopy = {
 	"Enacted": "Approved",
 	"Rejected": "Rejected",
 	"Expired or Withdrawn": "Expired or withdrawn",
-	"N/A": "Issued",
+	// "N/A": "Issued",
 	"TARGET INSTITUTION": "Target Institution",
 	"K-12": "K-12",
 	"Higher Ed": "Higher education",
@@ -116,8 +116,5 @@ const siteCopy = {
 };
 
 export default function getText(str) {
-  if(!isNaN(Date.parse(str))) {
-    return getDate(str);
-  }
 	return siteCopy[str] || str;
 }

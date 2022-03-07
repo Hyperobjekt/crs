@@ -6,12 +6,48 @@
 	box-sizing: border-box;
 }
 
+html {
+  @apply bg-gray-blue-100;
+}
+
 body {
 	margin: 0;
+  @apply text-md;
+  @apply text-gray-600;
 }
 
 button {
 	text-align: left;
+}
+
+input[type="checkbox"]:focus + label > div {
+	outline: 5px auto Highlight;
+  outline: 5px auto -webkit-focus-ring-color;
+}
+
+/*UTILS*/
+
+@layer base {
+  .heading-1 {
+    @apply text-xl;
+    @apply font-bold;
+  }
+  .heading-2 {
+    @apply text-lg;
+    @apply font-bold;
+  }
+  .heading-3 {
+    @apply text-md;
+    @apply font-bold;
+    text-transform: uppercase;
+  }
+  .button {
+    @apply px-5;
+    @apply py-3;
+    @apply border;
+    @apply rounded;
+    line-height: 1em;
+  }
 }
 
 /*MUI OVERRIDES*/

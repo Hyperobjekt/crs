@@ -4,27 +4,18 @@ import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
 import Tooltip from "./_Tooltip";
-import Panel from "./Panel";
-import ActivityPanel from "./Panel/_ActivityPanel";
-import StatePanel from "./Panel/_StatePanel";
-import FilterPanel from "./Panel/_FilterPanel";
-import AppliedFilters from "./_AppliedFilters";
 import ZoomBttns from "./_ZoomBttns";
 import Legend from "./_Legend";
 
-export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}, activitySchema = {} }) {
+export default function Map({ statesGeo = {}, pointsGeo = {}, filteredData = [], setActiveActivity, setActiveState }) {
 	const [mapSizes, setMapSizes] = useState({});
 	const [mapTransform, setMapTransform] = useState({ k:1, x:0, y:0 });
 	const [mapIsReady, setMapIsReady] = useState(false);
 	const [pointData, setPointData] = useState(null);
 	const [stateData, setStateData] = useState(null);
-	const [activeCount, setActiveCount] = useState(pointsGeo.features.length);
+	const [filteredIndices, setFilteredIndices] = useState([]);
 	const [hoveredFeature, setHoveredFeature] = useState(null);
-	const [activeActivity, setActiveActivity] = useState(null);
-	const [activeState, setActiveState] = useState(null);
-	const [activeFilters, setActiveFilters] = useState({});
-	const [hasFilters, setHasFilters] = useState(false);
-	const [filterOpen, setFilterOpen] = useState(true);
+
 	const mapRef = useRef({});
 	const svgRef = useRef({});
 
@@ -37,18 +28,15 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	const DC_OFFSET_X = 90;
 	const DC_OFFSET_Y = -20;
 
-
 	const dcOffset = [90, -20];
 	const stateRange = ["#FCFCFF", "#E9EFF1", "#D4DFE3"];
 	const localColors = {
-		// LocalOth: ["#369BD3", "#D0E7F3"],
-		// LocalSch: ["#E15605", "#F3D9CA"],
-		LocalOth: "#369BD3",
-		LocalSch: "#E15605",
+		LocalSch: "#C66E3B",
+		LocalOth: "#5B5D84"
 	};
 	const localShapes = {
-		LocalOth: `M${MARKER_SIZE} 1L${MARKER_SIZE*2} 15H0L${MARKER_SIZE} 1Z`,
-		LocalSch: `M 0, ${MARKER_SIZE} a ${MARKER_SIZE},${MARKER_SIZE} 0 1,0 ${MARKER_SIZE * 2},0 a ${MARKER_SIZE},${MARKER_SIZE} 0 1,0 -${MARKER_SIZE * 2},0`
+		LocalSch: `M 0, ${MARKER_SIZE} a ${MARKER_SIZE},${MARKER_SIZE} 0 1,0 ${MARKER_SIZE * 2},0 a ${MARKER_SIZE},${MARKER_SIZE} 0 1,0 -${MARKER_SIZE * 2},0`,
+		LocalOth: `M${MARKER_SIZE} 1L${MARKER_SIZE*2} ${MARKER_SIZE*2}H0L${MARKER_SIZE} 1Z`
 	};
 
 	let projection = d3.geoAlbersUsa();
@@ -73,22 +61,17 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	}, [mapSizes]);
 
 	useEffect(() => {
-		filterMap();
-		setHasFilters(Object.keys(activeFilters).length);
-	}, [activeFilters]);
+		setFilteredIndices(filteredData.map(d => d.index));
+	}, [filteredData]);
 
 	useEffect(() => {
-		onResize();
-	}, [hasFilters]);
+		filterMap();
+	}, [filteredIndices]);
 
 	const onResize = () => {
 		const mapStyle = getComputedStyle(mapRef.current);
 		let width = parseFloat(mapStyle.width);
 		let height = parseFloat(mapStyle.height);
-
-		if(hasFilters) {
-			height += parseFloat(mapStyle.marginTop);
-		}
 
 		setMapSizes({
 			width: width,
@@ -102,9 +85,8 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 		const { transform } = e;
 		g.attr("transform", transform);
 		g.attr("stroke-width", STROKE_WIDTH / transform.k);
-		g.selectAll(".markers path")
+		g.selectAll(".local path")
 			.attr("transform", d => `translate(${projection(d.geometry.coordinates)}) scale(${1/transform.k})`)
-			// .attr("style", `filter: drop-shadow(0px 2px 1px rgba(0,0,0,.4))`);
 		g.select(".federal-line")
 			.attr("stroke-width", STROKE_WIDTH / transform.k);
 		g.select(".federal-icon")
@@ -167,18 +149,20 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 		dcMarker
 			.append("rect")
 			.attr("fill", "#E6F0F3")
+			.attr("stroke", "#99ABB0")
+			.attr("stroke-width", "1px")
 			.attr("rx", 6)
 			.attr("ry", 6)
-			.attr("transform", d => `translate(${-DC_SIZE/2 * 1.3}, ${-DC_SIZE/2 * 1.3})`)
-			.attr("width", DC_SIZE * 1.3)
-			.attr("height", DC_SIZE * 1.3)
+			.attr("transform", d => `translate(${-DC_SIZE/2}, ${-DC_SIZE/2})`)
+			.attr("width", DC_SIZE)
+			.attr("height", DC_SIZE)
 
 		dcMarker
 			.append("image")
 			.attr("xlink:href", d => "IconFederal.svg")
-			.attr("width", `${DC_SIZE}px`)
-			.attr("height", `${DC_SIZE}px`)
-			.attr("transform", d => `translate(${-DC_SIZE/2}, ${-DC_SIZE/2})`)
+			.attr("width", `${DC_SIZE * .75}px`)
+			.attr("height", `${DC_SIZE * .75}px`)
+			.attr("transform", d => `translate(${-DC_SIZE/2 * .75}, ${-DC_SIZE/2 * .75})`)
 			.attr("cursor", "pointer");
 
 		dcMarker
@@ -190,13 +174,6 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 	};
 
 	const addStates = () => {
-		// const scaleMax = statesGeo.features.reduce((a, b) => b.properties.activities.length > a ? b.properties.activities.length : a, 0);
-		// const colorRange = ["#B4B4B4", "#F9F9F9"];
-		// const stateColor = d3.scaleLinear()
-			// .domain([0, 2])
-			// .interpolate(d3.interpolateHcl)
-			// .range([d3.hcl(colorRange[0]), d3.hcl(colorRange[1]), d3.hcl(colorRange[2])]);
-
 		const states = d3.select(svgRef.current)
 			.select("g")
 				.append("g")
@@ -206,27 +183,26 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 				.attr("stroke-width", `${STROKE_WIDTH}px`)
 			.enter().append("path")
 				.attr("stroke", "black")
-				// .attr("fill", d => stateColor(d.properties.activities.length))
 				.attr("fill", d => {
 					if(!d.properties.activities.length) return stateRange[0];
 					if(d.properties.activities.filter(d => d["Summary Status"] === "Enacted").length) return stateRange[2];
 					return stateRange[1];
 				})
-				// .attr("fill", d => d3.interpolateGreys(d.properties.activities.length))
 				.attr("d", geoPath)
 				.attr("cursor", "pointer")
 				.on("mouseover", onHoverFeature)
 				.on("mouseout", onUnhoverFeature)
 				.on("click", onClickStateFeature)
-				.on("dblclick", (e) => e.stopPropagation());;
+				.on("dblclick", (e) => e.stopPropagation());
 	};
 
 	const addLocal = () => {
-		const authTypes = [...new Set(pointsGeo.features.reduce((a, b) => [...a, b.properties["Authority Type"]], []))];
+		console.log(pointsGeo);
 		const points = d3.select(svgRef.current)
 			.select("g")
 				.append("g")
-					.attr("class", "markers")
+					.attr("transform", d => `translate(-${MARKER_SIZE/2}, -${MARKER_SIZE/2})`)
+					.attr("class", "local")
 			.selectAll("path")
 				.data(pointsGeo.features)
 			.enter().append("path")
@@ -275,31 +251,9 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 		if(coords) setHoveredFeature({ ...d.properties, coords, offsetX });
 	}
 
-	const moveOverFeature = (e, d) => {
-		// const coords = d3.pointer(e);
-		// if(coords) setHoveredFeature({ ...hoveredFeature, coords: coords });
-	}
-
 	const onUnhoverFeature = (e, d) => {
 		if(!d3.select(svgRef.current).classed("moving")) setHoveredFeature(null);
 	}
-
-	const onFilterPanelClose = () => {
-		setFilterOpen(false);
-	};
-
-	const onActivityPanelClose = () => {
-		setActiveActivity(null);
-	};
-
-	const onStatePanelClose = () => {
-		setActiveState(null);
-	};
-
-	const onFilterChange = (activeFilters) => {
-		setActiveFilters(activeFilters);
-		// d3.select(svgRef.current).classed("mt-16", hasFilters);
-	};
 
 	const onZoomClick = (e) => {
 		const zoomLevel = e.target.innerText === "+" ? 1.3 : 0.7;
@@ -309,27 +263,10 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 			.call(zoom.scaleBy, zoomLevel);
 	};
 
-	const onClickActivityRow = (activity) => {
-		setActiveActivity(activity);
-	};
-
-	const toggleMarker = (d, i) => {
-		const activeGroups = Object.keys(activeFilters).filter((groupKey) => activeFilters[groupKey].length)
-		const activeOptions = activeGroups.filter((groupKey) => {
-			if(groupKey === "Date Intro") {
-				const [start, end] = activeFilters[groupKey];
-				if(start && end) return d.properties[groupKey] >= start && d.properties[groupKey] <= end;
-				if(start) return d.properties[groupKey] >= start;
-				if(end) return d.properties[groupKey] <= end;
-			} else {
-				return activeFilters[groupKey].includes(d.properties[groupKey])
-			}
-		});
-		return activeGroups.length > activeOptions.length ? "hidden" : "visibile";
-	};
-
 	const filterMap = () => {
-		d3.select(svgRef.current).selectAll(".markers path").attr("visibility", toggleMarker);
+		d3.select(svgRef.current)
+			.selectAll(".local path")
+			.attr("visibility", d => filteredIndices.includes(d.properties.index) ? "visisble" : "hidden");
 	};
 
 	return (
@@ -338,10 +275,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 				<body className="overflow-hidden" />
 			</Helmet>
 			<div ref={mapRef}
-				className={`w-full h-full relative`}
-				// style={{ height: (hasFilters ? `calc(100% - ${16/4}em)` : "100%") }}
-				// style={{ height: `${mapSizes.height}px` }}
-				>
+				className={`w-full h-full relative`}>
 
 				<div className="w-full h-full relative">
 					<svg ref={svgRef}
@@ -352,47 +286,6 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 				<ZoomBttns
 					onZoomClick={onZoomClick} />
 
-				<AppliedFilters
-					filterOpen={filterOpen}
-					activeFilters={activeFilters}
-					onFilterChange={onFilterChange} />			
-
-				{filterOpen ?
-					<Panel
-						zIndex={20}
-						onClosePanel={onFilterPanelClose}>
-						<FilterPanel
-							activeCount={activeCount}
-							filtersSchema={filtersSchema}
-							activeFilters={activeFilters}
-							onFilterChange={onFilterChange} />
-					</Panel>
-				: <button
-						className="absolute top-4 left-4 z-20 px-2 py-1 border rounded"
-						onClick={() => setFilterOpen(true)}>
-						Show filters
-					</button>}
-
-				{activeState ?
-					<Panel
-						zIndex={30}
-						onClosePanel={onStatePanelClose}>
-						<StatePanel
-							state={activeState}
-							onClickActivityRow={onClickActivityRow} />
-					</Panel>
-				: null}
-
-				{activeActivity ?
-					<Panel
-						zIndex={40}
-						onClosePanel={onActivityPanelClose}>
-						<ActivityPanel
-							activitySchema={activitySchema}
-							activity={activeActivity} />
-					</Panel>
-				: null}
-
 				{hoveredFeature ?
 					<Tooltip
 						data={hoveredFeature}
@@ -401,8 +294,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filtersSchema = {}
 
 				<Legend
 					localColors={localColors}
-					stateColors={stateRange}
-					levelSchema={filtersSchema["Level"]} />
+					stateColors={stateRange} />
 
 			</div>
 		</>

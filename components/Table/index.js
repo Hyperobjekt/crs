@@ -7,56 +7,56 @@ import HeaderCell from "./_HeaderCell";
 import BodyRow from "./_BodyRow";
 import ButtonExt from "./../Global/_ButtonExt";
 
-export default function Table({ tableData = [] }) {
+export default function Table({ filteredData = [] }) {
 
 	const [activities, setActivities] = useState([]);
 	const [currSort, setCurrSort] = useState({});
 	const [limit, setLimit] = useState(500);
 
 	useEffect(() => {
-		setActivities(tableData.filter((row, index) => index < limit));
-	}, [tableData]);
+		setActivities(filteredData.filter((row, index) => index < limit));
+	}, [filteredData]);
 
 	const colSchemas = [
 		{
-			key: "Title/Summary",
-			className: "py-4 w-4/12",
-			colSpan: 4,
-			sortable: false,
-		},
-		{
 			key: "Date Intro",
-			className: "py-4 w-1/12",
-			colSpan: 1,
+			className: "w-2/12",
+			colSpan: 2,
 			sortable: true,
 		},
 		{
 			key: "State/US",
-			className: "py-4 w-1/12",
+			className: "w-1/12",
+			colSpan: 1,
+			sortable: true,
+		},
+		{
+			key: "Summary Status",
+			className: "w-1/12",
 			colSpan: 1,
 			sortable: true,
 		},
 		{
 			key: "Level",
-			className: "py-4 w-1/12",
-			colSpan: 1,
+			className: "w-2/12",
+			colSpan: 2,
 			sortable: true,
 		},
 		{
 			key: "Authority Type",
-			className: "py-4 w-1/12",
-			colSpan: 1,
+			className: "w-2/12",
+			colSpan: 2,
 			sortable: true,
 		},
 		{
 			key: "Status (link)",
-			className: "py-4 w-2/12",
+			className: "w-2/12",
 			colSpan: 2,
 			button: true,
 		},
 		{
 			key: "Full text (link)",
-			className: "py-4 w-2/12",
+			className: "w-2/12",
 			colSpan: 2,
 			button: true,
 		}
@@ -99,9 +99,9 @@ export default function Table({ tableData = [] }) {
 			className="w-full h-full min-w-[70rem] flex flex-col table-fixed relative">
 			<thead className="bg-white sticky">
 				<tr
-					className="flex space-x-4 px-4 border-b">
+					className="flex space-x-2 px-4 border-b">
 					{colSchemas.map((colSchema, index) => (
-						<HeaderCell key={index} index={index} colSchema={colSchema} currSort={currSort} />
+						<HeaderCell key={index} index={index} colSchema={colSchema} currSort={currSort} onHeaderClick={onHeaderClick} />
 					))}
 				</tr>
 			</thead>

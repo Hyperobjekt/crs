@@ -52,16 +52,11 @@ export default function Tooltip({ data = {}, transform }) {
 			: <div>
 				{data["Level"].includes("Local") ?
 					<div className="p-4">
-						{data["Title/Summary"] ?
-							<div className="pb-2 text-lg font-bold">
-								{data["Title/Summary"]}
-							</div>
-						: null}
-						<div className="">
-							{getText(data["Body Name"])}
+						<div className="pb-2 text-lg font-bold">
+							{getText(data["Authority Type"])} ({getDate(data["Date Intro"])})
 						</div>
 						<div className="">
-							{getDate(data["Date Intro"])}
+							{getText(data["Body Name"])}
 						</div>
 					</div>
 				: null}
