@@ -40,48 +40,49 @@ export default function FilterPanel({ activeCount, activeFilters = {}, filtersSc
 
 	return (
 		<>
-			<header className="p-4">
+			<header className="p-4 border-b">
 				<div className="flex">
-					<h2 className="text-xl font-bold">
+					<h2 className="heading-1 font-bold">
 						Data Filters
 					</h2>
 					{closeBttn}
 				</div>
-				<div className="flex gap-2 mt-6">
-					<button
-						className="button"
-						onClick={onClickClearAll}>
-						Clear All
-					</button>
-					<button
-						className="button"
-						onClick={onClickEnableAll}>
-						Enable All
-					</button>
-				</div>
 			</header>
-
-			<div className="w-full h-8 absolute left-0 top-0 bg-gradient-to-b from-white pointer-events-none"></div>
 			
-			<div className="overflow-y-scroll pb-16">
-				<div className="px-4 py-4">
-					{/*This map displays {activeCount} places in the USA where people are trying to implement laws against teaching Critical Race Theory. Filter results by:*/}
-					Filter results by:
+			<div className="overflow-hidden relative">
+				<div className="h-full overflow-y-scroll pb-16">
+					<div className="flex gap-2 p-4">
+						<button
+							className="button"
+							onClick={onClickClearAll}>
+							Clear All
+						</button>
+						<button
+							className="button"
+							onClick={onClickEnableAll}>
+							Enable All
+						</button>
+					</div>
+					<div className="p-4">
+						{/*This map displays {activeCount} places in the USA where people are trying to implement laws against teaching Critical Race Theory. Filter results by:*/}
+						Filter results by:
+					</div>
+					<div>
+						{Object.keys(filtersSchema).map(key => (
+							<Accordion
+								key={key}
+								open={true}
+								label={getText(key)}>
+								<Filter
+									group={key}
+									schema={filtersSchema[key]}
+									activeFilters={activeFilters}
+									onChange={onChangeFilters}	/>
+							</Accordion>
+						))}
+					</div>
 				</div>
-				<div>
-					{Object.keys(filtersSchema).map(key => (
-						<Accordion
-							key={key}
-							open={true}
-							label={getText(key)}>
-							<Filter
-								group={key}
-								schema={filtersSchema[key]}
-								activeFilters={activeFilters}
-								onChange={onChangeFilters}	/>
-						</Accordion>
-					))}
-				</div>
+				<div className="w-full h-8 absolute left-0 top-0 bg-gradient-to-b from-white pointer-events-none" />
 			</div>
 		</>
 	)

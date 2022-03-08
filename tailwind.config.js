@@ -23,10 +23,10 @@ module.exports = {
 				"accent-orange": "#C66E3B",
 			},
 			fontSize: {
-				"sm": [10, "12px"],
-				"md": [12, "16px"],
-				"lg": [14, "20px"],
-				"xl": [17, "23px"],
+				"sm": [12, "14px"],
+				"md": [14, "17px"],
+				"lg": [15, "20px"],
+				"xl": [18, "23px"],
 			},
 			boxShadow: {
 				"DEFAULT": "0 0 10px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)"

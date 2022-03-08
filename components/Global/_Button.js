@@ -18,7 +18,7 @@ export default function Button({ style, imgSrc, url, onClick, children }) {
 			className={className}
 			onClick={onClick}>
 			<div className="w-full h-full relative">
-				<div className="w-6 h-full flex absolute left-0 top-0">
+				<div className="w-4 h-full flex absolute left-0 top-0">
 					<img src={imgSrc} className="w-auto h-full m-auto" />
 				</div>
 				<span className="auto ml-6">

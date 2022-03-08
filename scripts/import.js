@@ -66,6 +66,7 @@ let d3, fetchJson, stateCodes, activities;
 		if(!row["Address"]) return row;
 		const search_text = encodeURIComponent(row["Address"]);
 		const url = `https://api.mapbox.com/geocoding/v5/${endpoint}/${search_text}.json?limit=1&access_token=${accessToken}`;
+		return console.log(url);
 		const res = await fetch(url)
 			.then(response => response.json())
 		  .then(resJson => {

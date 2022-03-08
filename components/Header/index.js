@@ -8,15 +8,17 @@ export default function Header({ activeView, onViewClick, onFilterToggle }) {
 					CRS
 				</strong>
 			</div>
-			<div className="w-96">
+			<div className="w-[30em]">
 				This map displays 325 places in the USA where people are trying to implement laws against teaching Critical Race Theory
 			</div>
-			<div className="flex justify-end ml-auto">
-				<Button
-					imgSrc={`Icon${activeView === "map" ? "Table" : "Map"}.svg`}
-					onClick={() => onViewClick(activeView === "map" ? "table" : "map")}>
-					{activeView === "map" ? "Table" : "Map"}
-				</Button>
+			<div className="flex justify-end content-center ml-auto">
+				<div className="my-auto">
+					<Button
+						imgSrc={`Icon${activeView === "map" ? "Table" : "Map"}.svg`}
+						onClick={() => onViewClick(activeView === "map" ? "table" : "map")}>
+						{activeView === "map" ? "Table" : "Map"}
+					</Button>
+				</div>
 			</div>
 		</header>
 	)
