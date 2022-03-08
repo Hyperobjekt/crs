@@ -27,7 +27,7 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, onFilte
 				</Button>
 			</div>
 			<div className="relative overflow-x-hidden">
-				<div className="flex gap-2 p-4 px-8 overflow-x-scroll">
+				<div className="flex gap-2 p-4 px-6 overflow-x-scroll">
 					{Object.keys(activeFilters).map(key => (
 						activeFilters[key].length ?
 							<div key={key} className="flex gap-2">
@@ -57,9 +57,9 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, onFilte
 						</button>
 					: null}
 				</div>
-				<div className="w-8 h-full absolute left-0 top-0 bg-gradient-to-r from-white pointer-events-none"></div>
+				<div className="w-6 h-full absolute left-0 top-0 bg-gradient-to-r from-white pointer-events-none"></div>
 			</div>
-			<div className="w-8 h-full absolute right-0 top-0 bg-gradient-to-l from-white pointer-events-none"></div>
+			<div className="w-6 h-full absolute right-0 top-0 bg-gradient-to-l from-white pointer-events-none"></div>
 		</div>
 	)
 }

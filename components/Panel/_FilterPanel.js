@@ -50,8 +50,8 @@ export default function FilterPanel({ activeCount, activeFilters = {}, filtersSc
 			</header>
 			
 			<div className="overflow-hidden relative">
-				<div className="h-full overflow-y-scroll pb-16">
-					<div className="flex gap-2 p-4">
+				<div className="h-full overflow-y-scroll pt-6 pb-16">
+					<div className="flex gap-2 px-4">
 						<button
 							className="button"
 							onClick={onClickClearAll}>
@@ -82,7 +82,7 @@ export default function FilterPanel({ activeCount, activeFilters = {}, filtersSc
 						))}
 					</div>
 				</div>
-				<div className="w-full h-8 absolute left-0 top-0 bg-gradient-to-b from-white pointer-events-none" />
+				{/*<div className="w-full h-6 absolute left-0 top-0 bg-gradient-to-b from-white pointer-events-none" />*/}
 			</div>
 		</>
 	)

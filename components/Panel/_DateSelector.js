@@ -75,6 +75,9 @@ export default function DateSelector({ start, end, onChange }) {
 		<>
 			<div className="flex space-x-2">
 				<DateSelector type="start" />
+				<div className="flex">
+					<div className="my-auto">to</div>
+				</div>
 				<DateSelector type="end" />
 			</div>
 		</>
