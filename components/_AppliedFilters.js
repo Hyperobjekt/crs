@@ -26,7 +26,7 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, onFilte
 					Filters
 				</Button>
 			</div>
-			<div className="relative">
+			<div className="relative overflow-x-hidden">
 				<div className="flex gap-2 p-4 px-8 overflow-x-scroll">
 					{Object.keys(activeFilters).map(key => (
 						activeFilters[key].length ?
