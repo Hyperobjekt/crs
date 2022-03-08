@@ -169,10 +169,10 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredData = [],
 			.select("image")
 			.on("mouseover", onHoverFeature)
 			.on("mouseout", onUnhoverFeature)
-			.on("click", onClickStateFeature)
+			.on("click", onClickFederalFeature)
 			.on("dblclick", (e) => e.stopPropagation());
 	};
-
+	
 	const addStates = () => {
 		const states = d3.select(svgRef.current)
 			.select("g")
@@ -184,6 +184,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredData = [],
 			.enter().append("path")
 				.attr("stroke", "black")
 				.attr("fill", d => {
+					console.log(d.properties.state, !d.properties.activities.length);
 					if(!d.properties.activities.length) return stateRange[0];
 					if(d.properties.activities.filter(d => d["Summary Status"] === "Enacted").length) return stateRange[2];
 					return stateRange[1];
@@ -196,12 +197,19 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredData = [],
 				.on("dblclick", (e) => e.stopPropagation());
 	};
 
+	const getLocalCoors = (d) => {
+		const coords = d.geometry.coordinates;
+		// .map(l => l);
+		const newCoords = projection(coords);
+		return newCoords;
+		// return []coords
+	};
+
 	const addLocal = () => {
-		console.log(pointsGeo);
+		// console.log(pointsGeo);
 		const points = d3.select(svgRef.current)
 			.select("g")
 				.append("g")
-					.attr("transform", d => `translate(-${MARKER_SIZE/2}, -${MARKER_SIZE/2})`)
 					.attr("class", "local")
 			.selectAll("path")
 				.data(pointsGeo.features)
@@ -210,6 +218,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredData = [],
 				.attr("fill", d => localColors[d.properties["Level"]])
 				.attr("opacity", d => d.properties["Summary Status"] === "Enacted" ? 1 : .5)
 				// .attr("fill", d => localColors[d.properties["Level"]][d.properties["Summary Status"] === "Enacted" ? 1 : 0])
+				// .attr("transform", d => `translate(${getLocalCoors(d)})`)
 				.attr("transform", d => `translate(${projection(d.geometry.coordinates)})`)
 				.attr("cursor", "pointer")
 				// .attr("style", "filter: drop-shadow(0px 2px 1px rgba(0,0,0,.4))")
@@ -219,6 +228,11 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredData = [],
 				.on("dblclick", (e) => e.stopPropagation());
 	};
 
+	const onClickFederalFeature = (e, d) => {
+		setActiveActivity(null);
+		setActiveState(d.properties);
+	}
+
 	const onClickStateFeature = (e, d) => {
 		setActiveActivity(null);
 		setActiveState(d.properties);
@@ -226,7 +240,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredData = [],
 
 	const onClickLocalFeature = (e, d) => {
 		setActiveState(null);
-		setActiveActivity(d.properties);
+		setActiveActivity(filteredData.find(a => a.index === d.properties.index));
 	}
 
 	const onHoverFeature = (e, d) => {

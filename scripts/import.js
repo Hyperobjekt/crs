@@ -37,7 +37,8 @@ let d3, fetchJson, stateCodes, activities;
 			}
 			const booleanGroups = {
 				"Target Institution": ["K-12",	"Higher Ed", "Other Govt", "Other Contractors"],
-				"Conduct Regulated": ["Classroom teaching",	"Curricular content",	"Disclosure of teaching/curriculum", "Staff Trainings"]
+				"Conduct Regulated": ["Classroom teaching",	"Curricular content",	"Disclosure of teaching/curriculum", "Staff Trainings"],
+				"Content Trigger": ["Critical Race Theory","US  institns  \= \"inherently\" or \"fundamentally\" \"racist\"","Indiv. Respons. for systemic racism","Indiv. “discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race”","Meritocracy/hard work =  racist","\"divisive concepts\"/\"controversial issues\""]
 			};
 			let isBooleanGroup = false;
 			Object.keys(booleanGroups).forEach(groupKey => {

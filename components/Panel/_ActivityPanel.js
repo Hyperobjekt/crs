@@ -10,9 +10,24 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 	const [panelData, setPanelData] = useState({});
 
 	useEffect(() => {
-		// const newPanelData = panelData ? panelData.index === activity.index ? {} : activity : activity;
 		setPanelData(activity);
 	}, [activity]);
+
+	const Field = ({ fieldKey, fieldVal }) => {
+		let fieldContent;
+		if(fieldKey === "Date Intro") {
+			fieldContent = getDate(fieldVal);
+		} else if(Array.isArray(fieldVal) && fieldVal.length) {
+			fieldContent = (
+				<ul>
+					{fieldVal.map((v,i) => <li key={i}>{getText(v)}</li>)}
+				</ul>
+			);
+		} else if(typeof fieldVal === "string") {
+			fieldContent = getText(fieldVal);
+		}
+		return fieldContent ? fieldContent : "N/A";
+	};
 
 	return (
 		<>
@@ -37,7 +52,7 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 									{fieldTitle}
 								</div>
 								<div className="text-sm">
-									{key === "Date Intro" ? getDate(fieldVal) : getText(fieldVal)}
+									<Field fieldKey={key} fieldVal={fieldVal} />
 								</div>
 							</li>
 						);

@@ -61,13 +61,13 @@ export default function FilterPanel({ activeCount, activeFilters = {}, filtersSc
 				</div>
 			</header>
 
+			<div className="w-full h-8 absolute left-0 top-0 bg-gradient-to-b from-white pointer-events-none"></div>
+			
 			<div className="overflow-y-scroll pb-16">
-
 				<div className="px-4 py-4">
 					{/*This map displays {activeCount} places in the USA where people are trying to implement laws against teaching Critical Race Theory. Filter results by:*/}
 					Filter results by:
 				</div>
-
 				<div>
 					{Object.keys(filtersSchema).map(key => (
 						<Accordion
@@ -82,7 +82,6 @@ export default function FilterPanel({ activeCount, activeFilters = {}, filtersSc
 						</Accordion>
 					))}
 				</div>
-
 			</div>
 		</>
 	)

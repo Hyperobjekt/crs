@@ -7,7 +7,7 @@ export default function Tooltip({ data = {}, transform }) {
 	const tooltipRef = useRef(null);
 	const [style, setStyle] = useState({ left: -999999, top: -999999 });
 
-	const MARGIN = 10;
+	const MARGIN = 6;
 
 	useEffect(() => {
 		if(!data) return;

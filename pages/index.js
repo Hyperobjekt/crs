@@ -49,11 +49,7 @@ export default function Index({ statesGeo, pointsGeo, tableData, filtersSchema, 
 						if(start) return d[groupKey] >= start;
 						if(end) return d[groupKey] <= end;
 					} else if(Array.isArray(d[groupKey])) {
-						console.log(d[groupKey])
 						return activeFilters[groupKey].some(o => (o === "N/A" && !d[groupKey].length) || d[groupKey].includes(o));
-
-
-						// return activeFilters[groupKey].some(o => d[groupKey].includes(o));
 					} else {
 						return activeFilters[groupKey].includes(d[groupKey]);
 					}
@@ -61,8 +57,6 @@ export default function Index({ statesGeo, pointsGeo, tableData, filtersSchema, 
 			: true;
 		});
 		setFilteredData(newFilteredData);
-		// console.log(newFilteredData);
-		// return activeGroups.length > activeOptions.length ? "hidden" : "visibile";
 	}, [activeFilters]);
 
 	useEffect(() => {
