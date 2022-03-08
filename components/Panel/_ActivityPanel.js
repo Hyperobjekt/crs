@@ -41,7 +41,7 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 			</header>
 
 			<div className="overflow-y-scroll pb-16">
-				<ul className="p-4 border-b">
+				<ul className="p-4 pt-6 border-b">
 					{activitySchema ? activitySchema.fields.map(key => {
 						const fieldVal = panelData[key];
 						const fieldTitle = getText(key);

@@ -172,7 +172,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredData = [],
 			.on("click", onClickFederalFeature)
 			.on("dblclick", (e) => e.stopPropagation());
 	};
-	
+
 	const addStates = () => {
 		const states = d3.select(svgRef.current)
 			.select("g")
@@ -184,9 +184,9 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredData = [],
 			.enter().append("path")
 				.attr("stroke", "black")
 				.attr("fill", d => {
-					console.log(d.properties.state, !d.properties.activities.length);
-					if(!d.properties.activities.length) return stateRange[0];
-					if(d.properties.activities.filter(d => d["Summary Status"] === "Enacted").length) return stateRange[2];
+					const activities = filteredData.filter(a => a["State/US"] === d.properties.state);
+					if(!activities.length) return stateRange[0];
+					if(activities.filter(d => d["Summary Status"] === "Enacted").length) return stateRange[2];
 					return stateRange[1];
 				})
 				.attr("d", geoPath)
@@ -230,11 +230,13 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredData = [],
 
 	const onClickFederalFeature = (e, d) => {
 		setActiveActivity(null);
+		setActiveState(null);
 		setActiveState(d.properties);
 	}
 
 	const onClickStateFeature = (e, d) => {
 		setActiveActivity(null);
+		setActiveState(null);
 		setActiveState(d.properties);
 	}
 

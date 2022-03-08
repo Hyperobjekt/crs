@@ -6,7 +6,7 @@ import getDate from "./../../helpers/getDate";
 import Accordion from "./_Accordion";
 import CloseBttn from "./../Icon/_CloseBttn";
 
-export default function StatePanel({ state, activities, filtersSchema, filterOpen, onClickActivityRow, closeBttn }) {
+export default function StatePanel({ state, activities, filtersSchema, hasFilters, onClickActivityRow, closeBttn }) {
 	const [panelData, setPanelData] = useState({});
 
 	const passedActivities = activities.filter(d => d["Summary Status"] === "Enacted");
@@ -25,7 +25,7 @@ export default function StatePanel({ state, activities, filtersSchema, filterOpe
 					<h3 className="heading-2 inline">
 						{title}
 					</h3>
-					{filterOpen ?
+					{hasFilters ?
 						<span className="ml-1 relative -top-0.5 text-sm">
 							({progressGroupLength}/{state.activities.length})
 						</span>
@@ -104,8 +104,9 @@ export default function StatePanel({ state, activities, filtersSchema, filterOpe
 					{closeBttn}
 				</div>
 				<div>
-					{filterOpen ?
-						"Displaying {activities.length} out of {state.activities.length}. Clear filters to see all."
+					{hasFilters ?
+						`Displaying ${activities.length} out of ${state.activities.length}.
+						${state.activities.length ? "Clear filters to see all." : ""}`
 					: ""}
 				</div>
 			</header>
@@ -123,6 +124,7 @@ export default function StatePanel({ state, activities, filtersSchema, filterOpe
 						title="Introduced"
 						progressGroupActivities={introducedActivities} />
 				: null}
+
 				{/*{state && state.activities.map((activity, index) => (
 					<div key={index}
 						className="w-full flex p-4 cursor-pointer font-bold list-none border-b"

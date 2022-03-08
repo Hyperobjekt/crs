@@ -94,6 +94,7 @@ export default function Index({ statesGeo, pointsGeo, tableData, filtersSchema, 
 
 	const onFilterChange = (activeFilters) => {
 		setActiveFilters(activeFilters);
+		setHasFilters(Object.keys(activeFilters).length);
 	};
 
 	const onClickActivityRow = (activity) => {
@@ -158,9 +159,9 @@ export default function Index({ statesGeo, pointsGeo, tableData, filtersSchema, 
 						onClosePanel={onStatePanelClose}>
 						<StatePanel
 							state={activeState}
-							activities={filteredData.filter(d => activeState.state === d["State/US"])}
+							activities={filteredData.filter(d => ["State", "Federal"].includes(d["Level"]) && d["State/US"] === activeState.state )}
 							filtersSchema={filtersSchema}
-							filterOpen={filterOpen}
+							hasFilters={hasFilters}
 							onClickActivityRow={onClickActivityRow} />
 					</Panel>
 				: null}
