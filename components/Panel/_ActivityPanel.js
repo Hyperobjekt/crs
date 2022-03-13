@@ -34,7 +34,9 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 			<header className="p-4 border-b">
 				<div className="flex">
 					<h2 className="text-xl font-bold">
-						{getText(panelData["Authority Type"])} ({getDate(panelData["Date Intro"])})
+						{panelData["Level"] && panelData["Level"].includes("Local") ?
+							`${getText(panelData["Body Name"])} ${getText(panelData["Authority Type"])}`
+						: panelData["Bill #"]}
 					</h2>
 					{closeBttn}
 				</div>

@@ -29,7 +29,7 @@ export default function Tooltip({ data = {}, transform }) {
 	
 	return (
 		<div ref={tooltipRef}
-			className="w-64 absolute top-4 right-4 z-10 bg-slate-900 rounded-lg text-white pointer-events-none"
+			className="w-52 absolute top-4 right-4 z-10 bg-slate-900 rounded-lg text-white pointer-events-none"
 			style={style}>
 
 			<div
@@ -43,24 +43,24 @@ export default function Tooltip({ data = {}, transform }) {
 
 			{data.hasOwnProperty("state") ?
 				<div className="p-4">
-					<div className="pb-2 text-lg font-bold">
+					<div className="pb-2 text-lg font-bold text-gray-blue-200">
 						{getText(data["state"])}
 					</div>
-					<div className="">
+					<div className="text-gray-blue-400">
 						{data.passed} passed, {data.introduced} introduced
 					</div>
 				</div>
 			: <div className="p-4">
-					<div className="pb-2 text-lg font-bold">
+					<div className="pb-2 text-lg font-bold text-gray-blue-200">
 						{getText(data["Body Name"])} {getText(data["Authority Type"])}
 					</div>
-					<div className="">
+					<div className="text-gray-blue-400">
 						{getDate(data["Date Intro"])}
 					</div>
 				</div>
 			}
 
-			<div className="p-4 border-t border-white text-xs">
+			<div className="p-4 border-t border-gray-blue-400 text-xs text-gray-blue-400">
 				{data.hasOwnProperty("state") ?
 					"Click to see all activity"
 				: "Click to learn more about this activity"}

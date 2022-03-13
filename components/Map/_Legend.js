@@ -42,11 +42,9 @@ export default function Legend({ localColors, stateColors  }) {
 							<tr key={i}>
 								<td>{getText(o)}</td>
 								<td>
-
-									<Svg className="w-4 h-4 m-auto" fill={localColors[o]}>
+									<Svg className="w-4 h-4 m-auto" fill={localColors[o]} opacity="0.5">
 										{svgSymbols[o]}
 									</Svg>
-
 								</td>
 								<td>
 									<Svg className="w-4 h-4 m-auto" fill={localColors[o]}>

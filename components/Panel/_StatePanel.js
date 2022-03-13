@@ -6,63 +6,75 @@ import getDate from "./../../helpers/getDate";
 import Accordion from "./_Accordion";
 import CloseBttn from "./../Icon/_CloseBttn";
 
-export default function StatePanel({ state, activities, filtersSchema, hasFilters, onClickActivityRow, closeBttn }) {
+export default function StatePanel({ state, stateActivities, filtersSchema, hasFilters, onClickActivityRow, closeBttn }) {
 	const [panelData, setPanelData] = useState({});
+	const [activeTab, setActiveTab] = useState("state");
 
-	const passedActivities = activities.filter(d => d["Summary Status"] === "Enacted");
-	const introducedActivities = activities.filter(d => d["Summary Status"] !== "Enacted");
+	stateActivities = stateActivities.filter(a =>
+		activeTab === "state" ?
+			["State","Federal"].includes(a["Level"])
+		: !["State","Federal"].includes(a["Level"])
+	)
+
+	const passedActivities = stateActivities.filter(a => a["Summary Status"] === "Enacted");
+	const introducedActivities = stateActivities.filter(a => a["Summary Status"] !== "Enacted");
 
 	useEffect(() => {
 		const newPanelData = panelData ? panelData.index === state.index ? {} : state : state;
 		setPanelData(newPanelData);
 	}, [state]);
 
-	const ProgessGroup = ({ title, progressGroupActivities }) => {
-		const progressGroupLength = progressGroupActivities.length;
+	const ProgessList = ({ title, progressListActivities }) => {
+		const progressListLength = progressListActivities.length;
 		return(
 			<div className="py-6 px-4 border-b">
-				<header className="">
+				<header className="mb-6">
 					<h3 className="heading-2 inline">
 						{title}
 					</h3>
-					{hasFilters ?
+					{/*{hasFilters ?
 						<span className="ml-1 relative -top-0.5 text-sm">
-							({progressGroupLength}/{state.activities.length})
+							({progressListLength}/{state.activities.length})
 						</span>
-					: null}
+					: null}*/}
 				</header>
 
-				<div className="ml-4">
-					{filtersSchema["Authority Type"].options.map((type, index) => {
-						const typeGroupActivities = progressGroupActivities.filter(a => a["Authority Type"] === type);
-						return (
-							typeGroupActivities.length ?
-								<TypeGroup
-									key={index}
-									type={type}
-									typeGroupActivities={typeGroupActivities}
-									progressGroupLength={progressGroupLength} />
-							: null
-						)
-					})}
+				<div>
+					{progressListLength ?
+						filtersSchema["Authority Type"].options.map((type, index) => {
+							const typeListActivities = progressListActivities.filter(a => a["Authority Type"] === type);
+							return (
+								typeListActivities.length ?
+									<TypeList
+										key={index}
+										type={type}
+										typeListActivities={typeListActivities}
+										progressListLength={progressListLength} />
+								: null
+							)
+						})
+					: <div className="text-sm text-gray-400">
+							No {title.toLowerCase()} activities
+						</div>
+					}
 				</div>
 			</div>
 		)
 	};
 
-	const TypeGroup = ({ type, typeGroupActivities, progressGroupLength }) => {
+	const TypeList = ({ type, typeListActivities, progressListLength }) => {
 		return(
-			<div className="mt-6">
+			<div className="mb-6">
 				<header className="mb-3">
 					<h4 className="heading-3 inline">
 						{getText(type)}
 					</h4>
 					<span className="ml-1 relative -top-0.5 text-sm">
-						({typeGroupActivities.length}/{progressGroupLength})
+						({typeListActivities.length}/{progressListLength})
 					</span>
 				</header>
 
-				{typeGroupActivities.map((activity, index) => (
+				{typeListActivities.map((activity, index) => (
 					<ActivityRow key={index} activity={activity} />
 				))}
 			</div>
@@ -72,13 +84,13 @@ export default function StatePanel({ state, activities, filtersSchema, hasFilter
 	const ActivityRow = ({ activity, index }) => {
 		return(
 			<div
-				className="w-full flex mb-2 cursor-pointer list-none"
+				className="w-full flex mb-4 cursor-pointer list-none"
 				onClick={() => onClickActivityRow(activity)}>
 				<div className="w-full pr-4">
 					<div className="text-md">
 						{activity["Bill #"] || activity["Title/Summary"]}
 					</div>
-					<div className="text-sm">
+					<div className="mt-1 text-sm text-gray-400">
 						{getDate(activity["Date Intro"])}
 					</div>
 				</div>
@@ -94,54 +106,59 @@ export default function StatePanel({ state, activities, filtersSchema, hasFilter
 		)
 	};
 
+	const tabs = ["State", "Local"];
+
+	const onTabClick = (tab) => setActiveTab(tab)
+
 	return (
 		<>
-			<header className="p-4 border-b">
+			<header className="p-4 pb-0 border-b">
 				<div className="flex">
 					<h2 className="heading-1 mb-2">
-						State-level activities in {getText(panelData.state)}
+						{panelData.state !== "US" ?
+							getText(panelData.state)
+						: "Federal-level activities"}
 					</h2>
 					{closeBttn}
 				</div>
-				<div>
+				{/*<div>
 					{hasFilters ?
 						`Displaying ${activities.length} out of ${state.activities.length}.
 						${state.activities.length ? "Clear filters to see all." : ""}`
 					: ""}
-				</div>
+				</div>*/}
+				{panelData.state !== "US" ?
+					<div className="flex gap-4">
+						{tabs.map(tab => {
+							const styles = {
+								default: "w-20 py-4 cursor-pointer",
+								active: "w-20 py-4 cursor-pointer border-b-2 border-accent-blue font-bold"
+							};
+							const style = tab.toLowerCase() === activeTab ? styles.active : styles.default
+							return(
+								<div
+									key={tab}
+									tabIndex={0}
+									className={style}
+									onClick={() => onTabClick(tab.toLowerCase())}>
+									{tab} Level
+								</div>
+							)
+						})}
+					</div>
+				: null}
 			</header>
 
 			<div className="overflow-y-scroll pb-16">
 
-				{passedActivities.length ?
-					<ProgessGroup
-						title="Passed"
-						progressGroupActivities={passedActivities} />
-				: null}
+				<ProgessList
+					title="Passed"
+					progressListActivities={passedActivities} />
 
-				{introducedActivities.length ?
-					<ProgessGroup
-						title="Introduced"
-						progressGroupActivities={introducedActivities} />
-				: null}
+				<ProgessList
+					title="Introduced"
+					progressListActivities={introducedActivities} />
 
-				{/*{state && state.activities.map((activity, index) => (
-					<div key={index}
-						className="w-full flex p-4 cursor-pointer font-bold list-none border-b"
-						onClick={() => onClickActivityRow(activity)}>
-						<div className="w-full pr-4 text-sm">
-							{activity["Bill #"] || activity["Title/Summary"]}
-						</div>
-						<div
-							className="w-4 ml-auto mb-auto -rotate-90">
-							<img
-								src="/IconChevron.svg"
-								alt=""
-								width={16}
-								height={16} />
-						</div>
-					</div>
-				))}*/}
 			</div>
 		</>
 	);

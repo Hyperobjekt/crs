@@ -159,7 +159,7 @@ export default function Index({ statesGeo, pointsGeo, activities, filtersSchema,
 						onClosePanel={onStatePanelClose}>
 						<StatePanel
 							state={activeState}
-							activities={filteredActivities.filter(d => ["State", "Federal"].includes(d["Level"]) && d["State/US"] === activeState.state )}
+							stateActivities={filteredActivities.filter(d => d["State/US"] === activeState.state )}
 							filtersSchema={filtersSchema}
 							hasFilters={hasFilters}
 							onClickActivityRow={onClickActivityRow} />
