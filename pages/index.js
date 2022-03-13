@@ -11,7 +11,7 @@ import Table from "./../components/Table";
 
 import statesGeo from "./../data/states";
 import pointsGeo from "./../data/points";
-import tableData from "../data/table";
+import { activities } from "../data/activities";
 import filtersSchema from "./../data/filters";
 import activitySchema from "./../data/activity";
 
@@ -20,27 +20,27 @@ export const getStaticProps = async () => {
 		props: {
 			statesGeo: statesGeo,
 			pointsGeo: pointsGeo,
-			tableData: tableData.data,
+			activities: activities,
 			filtersSchema: filtersSchema,
 			activitySchema: activitySchema,
 		}
 	}
 }
 
-export default function Index({ statesGeo, pointsGeo, tableData, filtersSchema, activitySchema }) {
+export default function Index({ statesGeo, pointsGeo, activities, filtersSchema, activitySchema }) {
 	const [activeView, setActiveView] = useState("map");
 	const [activeActivity, setActiveActivity] = useState(null);
 	const [activeState, setActiveState] = useState(null);
 	const [activeFilters, setActiveFilters] = useState({});
 	const [activeCount, setActiveCount] = useState(pointsGeo.features.length);
-	const [filteredData, setFilteredData] = useState(tableData);
+	const [filteredActivities, setFilteredData] = useState(activities);
 	const [hasFilters, setHasFilters] = useState(false);
 	const [filterOpen, setFilterOpen] = useState(true);
 
 	useEffect(() => {
 
 		const activeGroups = Object.keys(activeFilters).filter(groupKey => activeFilters[groupKey].length)
-		const newFilteredData = tableData.filter(d => {
+		const newFilteredData = activities.filter(d => {
 			return activeGroups.length ?
 				activeGroups.filter(groupKey => {
 					if(groupKey === "Date Intro") {
@@ -127,7 +127,7 @@ export default function Index({ statesGeo, pointsGeo, tableData, filtersSchema, 
 					<Map
 						statesGeo={statesGeo}
 						pointsGeo={pointsGeo}
-						filteredData={filteredData}
+						filteredActivities={filteredActivities}
 						activeFilters={activeFilters}
 						setActiveActivity={setActiveActivity}
 						setActiveState={setActiveState} />
@@ -137,7 +137,7 @@ export default function Index({ statesGeo, pointsGeo, tableData, filtersSchema, 
 					className="w-full h-full"
 					style={{ display: activeView === "table" ? "block" : "none" }}>
 					<Table
-						filteredData={filteredData}
+						filteredActivities={filteredActivities}
 						setActiveActivity={setActiveActivity} />
 				</div>
 
@@ -159,7 +159,7 @@ export default function Index({ statesGeo, pointsGeo, tableData, filtersSchema, 
 						onClosePanel={onStatePanelClose}>
 						<StatePanel
 							state={activeState}
-							activities={filteredData.filter(d => ["State", "Federal"].includes(d["Level"]) && d["State/US"] === activeState.state )}
+							activities={filteredActivities.filter(d => ["State", "Federal"].includes(d["Level"]) && d["State/US"] === activeState.state )}
 							filtersSchema={filtersSchema}
 							hasFilters={hasFilters}
 							onClickActivityRow={onClickActivityRow} />

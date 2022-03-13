@@ -41,35 +41,29 @@ export default function Tooltip({ data = {}, transform }) {
 				}}>
 			</div>
 
-			{data.hasOwnProperty("activities") ?
-				<div>
-					<div className="p-4">
-						<div className="pb-2 text-lg font-bold">
-							{getText(data["state"])}
-						</div>
+			{data.hasOwnProperty("state") ?
+				<div className="p-4">
+					<div className="pb-2 text-lg font-bold">
+						{getText(data["state"])}
+					</div>
+					<div className="">
+						{data.passed} passed, {data.introduced} introduced
 					</div>
 				</div>
-			: <div>
-				{data["Level"].includes("Local") ?
-					<div className="p-4">
-						<div className="pb-2 text-lg font-bold">
-							{getText(data["Authority Type"])} ({getDate(data["Date Intro"])})
-						</div>
-						<div className="">
-							{getText(data["Body Name"])}
-						</div>
+			: <div className="p-4">
+					<div className="pb-2 text-lg font-bold">
+						{getText(data["Body Name"])} {getText(data["Authority Type"])}
 					</div>
-				: null}
-
-				{data["Level"] === "State" ?
-					<div className="p-4">
-						
+					<div className="">
+						{getDate(data["Date Intro"])}
 					</div>
-				: null}
-			</div>}
+				</div>
+			}
 
 			<div className="p-4 border-t border-white text-xs">
-				Click to learn more about this {data.hasOwnProperty("activities") ? "this state's activity" : "activity"}
+				{data.hasOwnProperty("state") ?
+					"Click to see all activity"
+				: "Click to learn more about this activity"}
 			</div>
 
 		</div>

@@ -7,15 +7,15 @@ import HeaderCell from "./_HeaderCell";
 import BodyRow from "./_BodyRow";
 import ButtonExt from "./../Global/_ButtonExt";
 
-export default function Table({ filteredData = [] }) {
+export default function Table({ filteredActivities = [] }) {
 
 	const [activities, setActivities] = useState([]);
 	const [currSort, setCurrSort] = useState({});
 	const [limit, setLimit] = useState(500);
 
 	useEffect(() => {
-		setActivities(filteredData.filter((row, index) => index < limit));
-	}, [filteredData]);
+		setActivities(filteredActivities.filter((row, index) => index < limit));
+	}, [filteredActivities]);
 
 	const colSchemas = [
 		{

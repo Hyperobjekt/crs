@@ -7,7 +7,7 @@ import Tooltip from "./_Tooltip";
 import ZoomBttns from "./_ZoomBttns";
 import Legend from "./_Legend";
 
-export default function Map({ statesGeo = {}, pointsGeo = {}, filteredData = [], setActiveActivity, setActiveState }) {
+export default function Map({ statesGeo = {}, pointsGeo = {}, filteredActivities = [], setActiveActivity, setActiveState }) {
 	const [mapSizes, setMapSizes] = useState({});
 	const [mapTransform, setMapTransform] = useState({ k:1, x:0, y:0 });
 	const [mapIsReady, setMapIsReady] = useState(false);
@@ -61,8 +61,8 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredData = [],
 	}, [mapSizes]);
 
 	useEffect(() => {
-		setFilteredIndices(filteredData.map(d => d.index));
-	}, [filteredData]);
+		setFilteredIndices(filteredActivities.map(d => d.index));
+	}, [filteredActivities]);
 
 	useEffect(() => {
 		filterMap();
@@ -184,9 +184,9 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredData = [],
 			.enter().append("path")
 				.attr("stroke", "black")
 				.attr("fill", d => {
-					const activities = filteredData.filter(a => a["State/US"] === d.properties.state);
-					if(!activities.length) return stateRange[0];
-					if(activities.filter(d => d["Summary Status"] === "Enacted").length) return stateRange[2];
+					const stateActivities = filteredActivities.filter(a => a["State/US"] === d.properties.state);
+					if(!stateActivities.length) return stateRange[0];
+					if(stateActivities.filter(d => d["Summary Status"] === "Enacted").length) return stateRange[2];
 					return stateRange[1];
 				})
 				.attr("d", geoPath)
@@ -214,9 +214,9 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredData = [],
 			.selectAll("path")
 				.data(pointsGeo.features)
 			.enter().append("path")
-				.attr("d", d => localShapes[d.properties["Level"]])
-				.attr("fill", d => localColors[d.properties["Level"]])
-				.attr("opacity", d => d.properties["Summary Status"] === "Enacted" ? 1 : .5)
+				.attr("d", d => localShapes[d.properties.level])
+				.attr("fill", d => localColors[d.properties.level])
+				.attr("opacity", d => d.properties.progress === "Enacted" ? 1 : .5)
 				// .attr("fill", d => localColors[d.properties["Level"]][d.properties["Summary Status"] === "Enacted" ? 1 : 0])
 				// .attr("transform", d => `translate(${getLocalCoors(d)})`)
 				.attr("transform", d => `translate(${projection(d.geometry.coordinates)})`)
@@ -242,29 +242,35 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredData = [],
 
 	const onClickLocalFeature = (e, d) => {
 		setActiveState(null);
-		setActiveActivity(filteredData.find(a => a.index === d.properties.index));
+		setActiveActivity(filteredActivities.find(a => a.index === d.properties.index));
 	}
 
 	const onHoverFeature = (e, d) => {
 		const g = d3.select(svgRef.current).select("g");
-		let coords, offsetX;
-		if(d.properties.hasOwnProperty("Level")) {
-			coords = projection(d.geometry.coordinates);
-			offsetX = MARKER_SIZE;
-		}
+		let coords, data, offsetX;
 		if(d.properties.state && d.properties.state !== "US") {
-			coords = projection(d3.geoCentroid(d.geometry));
+			data = d.properties;
+			const stateActivities = filteredActivities.filter(a => a["State/US"] === data.state && ["State","Federal"].includes(a["Level"]))
+			data.introduced = stateActivities.filter(a => a["Summary Status"] !== "Enacted").length;
+			data.passed = stateActivities.filter(a => a["Summary Status"] === "Enacted").length;
+			if(d.properties.state === "US") {
+				const dcCoords = d.geometry.coordinates[0][0][4];
+				coords = [
+					projection(dcCoords)[0] + dcOffset[0],
+					projection(dcCoords)[1] + dcOffset[1]
+				];
+				offsetX = 0;
+			} else {
+				coords = projection(d3.geoCentroid(d.geometry));
+				offsetX = MARKER_SIZE;
+			}
+		}
+		else if(d.properties.hasOwnProperty("level")) {
+			coords = projection(d.geometry.coordinates);
+			data = filteredActivities.find(a => a.index === d.properties.index)
 			offsetX = MARKER_SIZE;
 		}
-		if(d.properties.state && d.properties.state === "US") {
-			const dcCoords = d.geometry.coordinates[0][0][4];
-			coords = [
-				projection(dcCoords)[0] + dcOffset[0],
-				projection(dcCoords)[1] + dcOffset[1]
-			];
-			offsetX = 0;
-		}
-		if(coords) setHoveredFeature({ ...d.properties, coords, offsetX });
+		if(coords) setHoveredFeature({ ...data, coords, offsetX });
 	}
 
 	const onUnhoverFeature = (e, d) => {

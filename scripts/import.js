@@ -95,17 +95,21 @@ let d3, fetchJson, stateCodes, activities;
 		name: "states",
 		features: topojson.feature(countryTopo, countryTopo.objects.states).features.map((d, i) => {
 			const { [d.id]: state } = stateCodes;
+			// console.log(state)
 			return({
 				type: "Feature",
 				properties: {
 					state: state,
-					activities: activities.filter((row) => ["State","Federal"].includes(row["Level"])  && row["State/US"] === state),
+					// activities: activities
+					// 	.filter(row => ["State","Federal"].includes(row["Level"]) && row["State/US"] === state)
+					// 	.map(row => row.index),
 					index: i
 				},
 				geometry: d.geometry
 			});
 		})
 	};
+	// console.log(states.features.map(s => console.log(s)))
 	//HANDLE FEDERAL ACTIVITIES
 	// 38.8938672,-77.0846159
 	// const states = {
@@ -136,7 +140,12 @@ let d3, fetchJson, stateCodes, activities;
 				delete row.geometry;
 				return({
 					type: "Feature",
-					properties: { ...row, index: i },
+					// properties: { ...row, index: i },
+					properties: {
+						level: row["Level"],
+						progress: row["Summary Status"],
+						index: row.index
+					},
 					geometry: geometry
 				});
 			})
@@ -150,11 +159,11 @@ let d3, fetchJson, stateCodes, activities;
 	// 	obj[level].push(row);
 	// 	return obj;
 	// }, {});
-	const table = activities.map((a, i) => ({ ...a }));
+	// const table = activities.map((a, i) => ({ ...a }));
 
 	if(isDry) return;
 	// fs.writeFileSync("./data/conus.json", JSON.stringify(conus));
 	fs.writeFileSync("./data/states.json", JSON.stringify(states));
 	fs.writeFileSync("./data/points.json", JSON.stringify(points));
-	fs.writeFileSync("./data/table.json", JSON.stringify({data:table}));
+	fs.writeFileSync("./data/activities.json", JSON.stringify({activities: activities}));
 });
