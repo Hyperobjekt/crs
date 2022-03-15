@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-import getText from "./../../helpers/getText";
-import getDate from "./../../helpers/getDate";
+import { getText, getDate, getTitle } from "./../../helpers";
 
 import FieldRow from "./_FieldRow";
 import Button from "./../Global/_Button";
@@ -34,9 +33,7 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 			<header className="p-4 border-b">
 				<div className="flex">
 					<h2 className="text-xl font-bold">
-						{panelData["Level"] && panelData["Level"].includes("Local") ?
-							`${getText(panelData["Body Name"])} ${getText(panelData["Authority Type"])}`
-						: panelData["Bill #"]}
+						{getTitle(panelData) || "Activity"}
 					</h2>
 					{closeBttn}
 				</div>
@@ -50,7 +47,7 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 						return(
 							<li key={key}
 								className="mb-2">
-								<div className="text-xs">
+								<div className="text-sm text-gray-500">
 									{fieldTitle}
 								</div>
 								<div className="text-sm">
@@ -66,6 +63,7 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 						<div key={key} className="w-full flex p-4 border-b">
 							<Button
 								url={panelData[key]}
+								style="blue"
 								imgSrc="IconExternal.svg">
 								{getText(key)}
 							</Button>

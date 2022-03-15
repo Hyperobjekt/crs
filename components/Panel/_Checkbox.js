@@ -30,7 +30,7 @@ export default function Checkbox({ val, label, id, group, active, onChange }) {
 						</div>
 					: <div className="w-full h-full rounded border border-gray-400" />}
 				</div>
-				<span>
+				<span className="type-label">
 					{label}
 				</span>
 			</label>

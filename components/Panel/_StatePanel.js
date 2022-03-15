@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-import getText from "./../../helpers/getText";
-import getDate from "./../../helpers/getDate";
+import { getText, getDate } from "./../../helpers";
 
 import Accordion from "./_Accordion";
 import CloseBttn from "./../Icon/_CloseBttn";
@@ -29,7 +28,7 @@ export default function StatePanel({ state, stateActivities, filtersSchema, hasF
 		return(
 			<div className="py-6 px-4 border-b">
 				<header className="mb-6">
-					<h3 className="heading-2 inline">
+					<h3 className="type-heading-2 inline">
 						{title}
 					</h3>
 					{/*{hasFilters ?
@@ -66,7 +65,7 @@ export default function StatePanel({ state, stateActivities, filtersSchema, hasF
 		return(
 			<div className="mb-6">
 				<header className="mb-3">
-					<h4 className="heading-3 inline">
+					<h4 className="type-heading-3 inline">
 						{getText(type)}
 					</h4>
 					<span className="ml-1 relative -top-0.5 text-sm">
@@ -114,9 +113,9 @@ export default function StatePanel({ state, stateActivities, filtersSchema, hasF
 		<>
 			<header className="p-4 pb-0 border-b">
 				<div className="flex">
-					<h2 className="heading-1 mb-2">
+					<h2 className="type-heading-1 mb-2">
 						{panelData.state !== "US" ?
-							getText(panelData.state)
+							`Activity in ${getText(panelData.state)}`
 						: "Federal-level activities"}
 					</h2>
 					{closeBttn}
@@ -131,8 +130,8 @@ export default function StatePanel({ state, stateActivities, filtersSchema, hasF
 					<div className="flex gap-4">
 						{tabs.map(tab => {
 							const styles = {
-								default: "w-20 py-4 cursor-pointer",
-								active: "w-20 py-4 cursor-pointer border-b-2 border-accent-blue font-bold"
+								default: "py-4 cursor-pointer",
+								active: "py-4 cursor-pointer border-b-2 border-accent-blue font-bold"
 							};
 							const style = tab.toLowerCase() === activeTab ? styles.active : styles.default
 							return(
@@ -141,7 +140,7 @@ export default function StatePanel({ state, stateActivities, filtersSchema, hasF
 									tabIndex={0}
 									className={style}
 									onClick={() => onTabClick(tab.toLowerCase())}>
-									{tab} Level
+									{tab}-level
 								</div>
 							)
 						})}

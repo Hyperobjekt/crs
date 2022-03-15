@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import getText from "./../../helpers/getText";
+import { getText } from "./../../helpers";
 
 export default function Accordion({ label, open, children }) {
 	const [pseudoOpen, setPseudoOpen] = useState(open);
@@ -12,7 +12,7 @@ export default function Accordion({ label, open, children }) {
 			<summary
 				className="w-full flex p-4 cursor-pointer font-bold list-none"
 				onClick={() => setPseudoOpen(!pseudoOpen)}>
-				<h3 className="w-full pr-4 heading-3">
+				<h3 className="w-full pr-4 type-heading-3">
 					{label}
 				</h3>
 				<div

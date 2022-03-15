@@ -1,4 +1,4 @@
-import getText from "./../../helpers/getText";
+import { getText } from "./../../helpers";
 
 export default function HeaderCell({ colSchema, currSort, onHeaderClick }) {
 	return (

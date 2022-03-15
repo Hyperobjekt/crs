@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-import getText from "./../../helpers/getText";
-import getDate from "./../../helpers/getDate";
+import { getText, getDate, getTitle } from "./../../helpers";
 
 export default function Tooltip({ data = {}, transform }) {
 	const tooltipRef = useRef(null);
@@ -52,7 +51,7 @@ export default function Tooltip({ data = {}, transform }) {
 				</div>
 			: <div className="p-4">
 					<div className="pb-2 text-lg font-bold text-gray-blue-200">
-						{getText(data["Body Name"])} {getText(data["Authority Type"])}
+						{getTitle(data)}
 					</div>
 					<div className="text-gray-blue-400">
 						{getDate(data["Date Intro"])}

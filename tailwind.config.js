@@ -6,6 +6,22 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
+
+				"primary": "#99ABB0",
+				"secondary": "#D4DFE3",
+
+				"accent-blue": "#3EA2ED",
+				"accent-purple": "#5B5D84",
+				"accent-orange": "#C66E3B",
+
+				// "text-primary": "#393B3D",
+				// "text-secondary": "#72746D",
+				// "text-light": "#A5ACB2",
+
+				// "bg-default": "#F7FAFB",
+				// "bg-paper": "#FFFFFF",
+				// "bg-dark": "#1A212A",
+
 				"gray-100": "#F9F9F9",
 				"gray-200": "#EAEAEA",
 				"gray-300": "#C7C7C7",
@@ -18,15 +34,13 @@ module.exports = {
 				"gray-blue-300": "#D4DFE3",
 				"gray-blue-400": "#7E8D92",
 				"dark-blue": "#326A96",
-				"accent-blue": "#3EA2ED",
-				"accent-purple": "#5B5D84",
-				"accent-orange": "#C66E3B",
 			},
 			fontSize: {
 				"sm": [12, "14px"],
 				"md": [14, "17px"],
 				"lg": [15, "20px"],
-				"xl": [18, "23px"],
+				"xl": [17, "23px"],
+				"xxl": [20, "23px"],
 			},
 			boxShadow: {
 				"DEFAULT": "0 0 10px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)"

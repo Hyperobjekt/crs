@@ -1,13 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 
-import getText from "./../../helpers/getText";
-import getDate from "./../../helpers/getDate";
+import { getText, getDate } from "./../../helpers";
 
 import HeaderCell from "./_HeaderCell";
 import BodyRow from "./_BodyRow";
+import BodyCell from "./_BodyCell";
 import ButtonExt from "./../Global/_ButtonExt";
 
-export default function Table({ filteredActivities = [] }) {
+export default function Table({ filteredActivities = [], setActiveActivity }) {
 
 	const [activities, setActivities] = useState([]);
 	const [currSort, setCurrSort] = useState({});
@@ -18,6 +18,12 @@ export default function Table({ filteredActivities = [] }) {
 	}, [filteredActivities]);
 
 	const colSchemas = [
+		{
+			key: "Title",
+			className: "w-3/12",
+			colSpan: 3,
+			custom: true,
+		},
 		{
 			key: "Date Intro",
 			className: "w-2/12",
@@ -49,17 +55,11 @@ export default function Table({ filteredActivities = [] }) {
 			sortable: true,
 		},
 		{
-			key: "Status (link)",
+			key: "",
 			className: "w-2/12",
 			colSpan: 2,
-			button: true,
+			custom: true,
 		},
-		{
-			key: "Full text (link)",
-			className: "w-2/12",
-			colSpan: 2,
-			button: true,
-		}
 	];
 
 	const onHeaderClick = (colKey) => {
@@ -99,7 +99,7 @@ export default function Table({ filteredActivities = [] }) {
 			className="w-full h-full min-w-[70rem] flex flex-col table-fixed relative">
 			<thead className="bg-white sticky">
 				<tr
-					className="flex space-x-2 px-4 border-b">
+					className="flex px-4 space-x-2 border-b">
 					{colSchemas.map((colSchema, index) => (
 						<HeaderCell key={index} index={index} colSchema={colSchema} currSort={currSort} onHeaderClick={onHeaderClick} />
 					))}
@@ -108,7 +108,7 @@ export default function Table({ filteredActivities = [] }) {
 			<tbody className="overflow-scroll">
 				{activities.map((rowData, index) => (
 					rowData["State/US"] ?
-						<BodyRow key={index} index={index} rowData={rowData} colSchemas={colSchemas} />
+						<BodyRow key={index} index={index} rowData={rowData} colSchemas={colSchemas} setActiveActivity={setActiveActivity} />
 					: null
 				))}
 			</tbody>

@@ -1,4 +1,4 @@
-import getText from "./../helpers/getText";
+import { getText } from "./../helpers";
 import Button from "./Global/_Button";
 
 export default function AppliedFilters({ filterOpen, activeFilters = {}, onFilterChange, onFilterPanelToggle }) {
@@ -16,11 +16,11 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, onFilte
 	};
 
 	return (
-		<div className="w-full flex relative z-20 bg-white border-b whitespace-nowrap shadow">
+		<div className="w-full h-20 flex relative z-50 bg-white border-b whitespace-nowrap shadow">
 
 			<div className="p-4 pr-0">
 				<Button
-					style={filterOpen ? "blue" : ""}
+					style={filterOpen ? "active" : ""}
 					imgSrc={`IconFilter${filterOpen ? "Blue" : ""}.svg`}
 					onClick={onFilterPanelToggle}>
 					Filters

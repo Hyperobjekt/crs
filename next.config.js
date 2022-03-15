@@ -1,5 +1,4 @@
+const dotenv = require('dotenv');
 module.exports = {
-  env: {
-    MAPBOX_ACCESS_TOKEN: process.env.MAPBOX_ACCESS_TOKEN,
-  },
+  env: dotenv.config().parsed
 };

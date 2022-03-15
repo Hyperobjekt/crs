@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 
 import Header from "./../components/Header";
+import Menu from "./../components/Menu";
 import Panel from "./../components/Panel";
 import ActivityPanel from "./../components/Panel/_ActivityPanel";
 import StatePanel from "./../components/Panel/_StatePanel";
@@ -36,6 +37,7 @@ export default function Index({ statesGeo, pointsGeo, activities, filtersSchema,
 	const [filteredActivities, setFilteredData] = useState(activities);
 	const [hasFilters, setHasFilters] = useState(false);
 	const [filterOpen, setFilterOpen] = useState(true);
+	const [showMenu, setShowMenu] = useState(false);
 
 	useEffect(() => {
 
@@ -101,12 +103,18 @@ export default function Index({ statesGeo, pointsGeo, activities, filtersSchema,
 		setActiveActivity(activity);
 	};
 
+	const onMenuClick = () => {
+		setShowMenu(!showMenu)
+	}
+
 	return(
 		<div
 			id="page"
 			className="w-screen h-screen flex flex-col">
 
-			<Header activeView={activeView} onViewClick={onViewClick} />
+			<Header activeView={activeView} onViewClick={onViewClick} onMenuClick={onMenuClick} />
+
+			<Menu showMenu={showMenu} />
 
 			<AppliedFilters
 				filterOpen={filterOpen}

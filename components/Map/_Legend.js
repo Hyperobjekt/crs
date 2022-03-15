@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-import getText from "./../../helpers/getText";
+import { getText } from "./../../helpers";
 // import activitySchema from "./../data/activity";
 
 export default function Legend({ localColors, stateColors  }) {

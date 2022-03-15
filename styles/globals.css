@@ -7,13 +7,14 @@
 }
 
 html {
-  @apply bg-gray-blue-100;
+	@apply bg-gray-blue-100;
+	font-family: trade-gothic-next, sans-serif;
 }
 
 body {
 	margin: 0;
-  @apply text-md;
-  @apply text-gray-600;
+	@apply text-md;
+	@apply text-gray-700;
 }
 
 button {
@@ -22,36 +23,94 @@ button {
 
 input[type="checkbox"]:focus + label > div {
 	outline: 5px auto Highlight;
-  outline: 5px auto -webkit-focus-ring-color;
+	outline: 5px auto -webkit-focus-ring-color;
+}
+
+.text-primary {
+	color: #393B3D;
+}
+.text-secondary {
+	color: #72746D;
+}
+.text-light {
+	color: #A5ACB2;
+}
+
+.bg-default {
+	color: #F7FAFB;
+}
+.bg-paper {
+	color: #FFFFFF;
+}
+.bg-dark {
+	color: #1A212A;
 }
 
 /*UTILS*/
 
 @layer base {
-  .heading-1 {
-    @apply text-xl;
-    @apply font-bold;
-  }
-  .heading-2 {
-    @apply text-lg;
-    @apply font-bold;
-  }
-  .heading-3 {
-    @apply text-md;
-    @apply font-bold;
-    text-transform: uppercase;
-  }
-  .button {
-    @apply px-5;
-    @apply py-3;
-    @apply border;
-    @apply rounded;
-    line-height: 1em;
-  }
+	.type-heading-1 {
+		/*@apply text-xl;*/
+		font-size: 17px;
+		line-height: 23px;
+		@apply font-bold;
+		color: #363A3E;
+	}
+	.type-heading-2 {
+		/*@apply text-md;*/
+		font-size: 14px;
+		line-height: 20px;
+		@apply font-bold;
+		color: #47494A;
+	}
+	.type-heading-3 {
+		/*@apply text-sm;*/
+		font-size: 12px;
+		line-height: 16px;
+		@apply font-bold;
+		text-transform: uppercase;
+		color: #47494A;
+	}
+
+	.type-body {
+		font-size: 12px;
+		line-height: 18px;
+		color: #393B3D;
+	}
+	.type-label {
+		font-size: 12px;
+		line-height: 16px;
+		color: #72746D;
+	}
+	.type-sm-label {
+		font-size: 10px;
+		line-height: 12px;
+		color: #72746D;
+	}
+	.type-button-label {
+		font-size: 12px;
+		line-height: 16px;
+		color: #444743;
+	}
+
+	.button {
+		@apply px-5;
+		@apply py-3;
+		@apply border;
+		@apply rounded;
+		@apply type-button-label;
+		color: #444743;
+		line-height: 1em;
+	}
 }
 
 /*MUI OVERRIDES*/
 
 .MuiTouchRipple-root {
 	display: none;
+}
+
+.MuiInputBase-input {
+	font-size: 12px;
+	line-height: 16px;
 }

@@ -29,7 +29,11 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredActivities
 	const DC_OFFSET_Y = -20;
 
 	const dcOffset = [90, -20];
-	const stateRange = ["#FCFCFF", "#E9EFF1", "#D4DFE3"];
+	const stateRange = [
+		"#FCFCFF",
+		"#DEE2E4",
+		"#D4DFE3"
+	];
 	const localColors = {
 		LocalSch: "#C66E3B",
 		LocalOth: "#5B5D84"

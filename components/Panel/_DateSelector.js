@@ -73,7 +73,7 @@ export default function DateSelector({ start, end, onChange }) {
 
 	return(
 		<>
-			<div className="flex space-x-2">
+			<div className="flex space-x-2 type-label">
 				<DateSelector type="start" />
 				<div className="flex">
 					<div className="my-auto">to</div>
