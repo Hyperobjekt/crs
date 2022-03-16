@@ -19,7 +19,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredActivities
 	const mapRef = useRef({});
 	const svgRef = useRef({});
 
-	const MIN_ZOOM = .8;
+	const MIN_ZOOM = .7;
 	const MAX_ZOOM = 4;
 	const STROKE_WIDTH = 1;
 	const CIRCLE_RADIUS = 5;

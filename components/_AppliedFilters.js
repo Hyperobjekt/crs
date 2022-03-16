@@ -1,4 +1,4 @@
-import { getText } from "./../helpers";
+import { getText, getDate } from "./../helpers";
 import Button from "./Global/_Button";
 
 export default function AppliedFilters({ filterOpen, activeFilters = {}, onFilterChange, onFilterPanelToggle }) {
@@ -20,7 +20,7 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, onFilte
 
 			<div className="p-4 pr-0">
 				<Button
-					style={filterOpen ? "active" : ""}
+					className={filterOpen ? "button-active" : ""}
 					imgSrc={`IconFilter${filterOpen ? "Blue" : ""}.svg`}
 					onClick={onFilterPanelToggle}>
 					Filters
@@ -42,7 +42,7 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, onFilte
 											data-value={val}
 											className="button rounded-full bg-gray-blue-200 text-dark-blue"
 											onClick={onClickApplied}>
-											{getText(val)} &times;
+											{key === "Date Intro" ? getDate(val) : getText(val)} &times;
 										</button>
 									: null
 								))}

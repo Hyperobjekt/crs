@@ -1,12 +1,11 @@
-export default function Button({ style, imgSrc, url, onClick, children }) {
-
-	let className = "button w-full flex border-gray-300 hover:bg-gray-200";
+export default function Button({ style, imgSrc, url, className, onClick, children, ...props }) {
+	let classes = "button w-full flex";
 
 	if(style === "blue") {
-		className = "button w-full flex bg-gray-blue-200 border-0";
+		classes = "button w-full flex bg-gray-blue-200 border-0";
 	}
 	if(style === "active") {
-		className = "button w-full flex bg-gray-blue-200 border-accent-blue text-dark-blue";
+		classes = "button w-full flex bg-gray-blue-200 border-accent-blue text-dark-blue";
 	}
 
 	let TagName = url ? "a" : "button";
@@ -16,9 +15,10 @@ export default function Button({ style, imgSrc, url, onClick, children }) {
 			href={url ? url : null}
 			rel={url ? "noreferrer" : null}
 			target={url ? "_blank" : null}
-			className={className}
-			onClick={onClick}>
-			<div className="h-full flex m-auto">
+			className={`${classes} ${className}`}
+			onClick={onClick}
+			{ ...props }>
+			<div className="h-full flex m-auto pointer-events-none">
 				{/*<div className="w-4 h-full flex absolute left-0 top-0">*/}
 				{imgSrc ?
 					<div className="w-3.5 h-full flex mr-4">

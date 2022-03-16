@@ -97,10 +97,32 @@ input[type="checkbox"]:focus + label > div {
 		@apply px-5;
 		@apply py-3;
 		@apply border;
-		@apply rounded;
+		@apply rounded-md;
 		@apply type-button-label;
 		color: #444743;
 		line-height: 1em;
+	}
+	.button-active {
+		@apply bg-gray-blue-200;
+		@apply border-accent-blue;
+		@apply text-dark-blue;
+		position: relative;
+		z-index: 2;
+	}
+	.button-left {
+		border-top-right-radius: 0; 
+		border-bottom-right-radius: 0;
+	}
+	.button-center {
+		border-radius: 0;
+		margin-left: -1px;
+		margin-right: -1px;
+		/*border-left-width: 0;*/
+		/*border-right-width: 0;*/
+	}
+	.button-right {
+		border-top-left-radius: 0; 
+		border-bottom-left-radius: 0;
 	}
 }
 
@@ -113,4 +135,17 @@ input[type="checkbox"]:focus + label > div {
 .MuiInputBase-input {
 	font-size: 12px;
 	line-height: 16px;
+	padding: 0;
+}
+
+.MuiOutlinedInput-root {
+	@apply px-5;
+	@apply py-3;
+	color: #444743;
+	@apply type-button-label;
+}
+
+.MuiOutlinedInput-notchedOutline {
+	@apply border;
+	@apply rounded-md;
 }

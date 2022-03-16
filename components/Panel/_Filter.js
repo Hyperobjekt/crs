@@ -11,16 +11,22 @@ export default function Filter({ group, schema, activeFilters = {}, onChange }) 
 		const valueIndex = groupData.indexOf(value);
 		const newFilters = valueIndex > -1 ? groupData.filter(f => f !== value) : [...groupData, value];
 		if(newFilters.length) {
-			onChange({...activeFilters, [group]: newFilters });
+			onChange({ ...activeFilters, [group]: newFilters });
 		} else {
 			delete activeFilters[group];
-			onChange({...activeFilters});
+			onChange({ ...activeFilters });
 		}
 	};
 
 	const onDateChange = (newDates) => {
-		const newFilters = newDates && (newDates[0] || newDates[1]) ? { "Date Intro": newDates } : {};
-		onChange({...activeFilters, ...newFilters });
+		const newFilters = newDates && (newDates[0] || newDates[1]) ? { "Date Intro": newDates } : null;
+		if(newFilters) {
+			onChange({ ...activeFilters, ...newFilters });	
+		} else {
+			delete activeFilters["Date Intro"];
+			onChange({ ...activeFilters });
+		}
+		
 	};
 
 	return(
