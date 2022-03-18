@@ -129,11 +129,13 @@ let d3, fetchJson, stateCodes, activities;
 	// 	})
 	// };
 	// //HANDLE LOCAL ACTIVITIES
-	const points = {
+	// activities.filter((row) => console.log(row["Level"], row["Level"].includes("Local")));
+	// console.log(activities.filter((row) => row));
+	const locals = {
 		type: "FeatureCollection",
 		name: "local",
 		features: activities
-			.filter((row) => row["Level"] && row["Level"].indexOf("Local") > -1)
+			.filter((row) => row["Level"] && row["Level"].includes("Local"))
 			.filter((row) => row["geometry"])
 			.map((row, i) => {
 				const { geometry } = row;
@@ -143,7 +145,7 @@ let d3, fetchJson, stateCodes, activities;
 					// properties: { ...row, index: i },
 					properties: {
 						level: row["Level"],
-						progress: row["Summary Status"],
+						progress: row["Progress"],
 						index: row.index
 					},
 					geometry: geometry
@@ -164,6 +166,6 @@ let d3, fetchJson, stateCodes, activities;
 	if(isDry) return;
 	// fs.writeFileSync("./data/conus.json", JSON.stringify(conus));
 	fs.writeFileSync("./data/states.json", JSON.stringify(states));
-	fs.writeFileSync("./data/points.json", JSON.stringify(points));
+	fs.writeFileSync("./data/locals.json", JSON.stringify(locals));
 	fs.writeFileSync("./data/activities.json", JSON.stringify({activities: activities}));
 });
