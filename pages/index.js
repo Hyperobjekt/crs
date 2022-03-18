@@ -11,7 +11,7 @@ import Map from "./../components/Map";
 import Table from "./../components/Table";
 
 import statesGeo from "./../data/states";
-import pointsGeo from "./../data/points";
+import localsGeo from "./../data/locals";
 import { activities } from "../data/activities";
 import filtersSchema from "./../data/filters";
 import activitySchema from "./../data/activity";
@@ -20,7 +20,7 @@ export const getStaticProps = async () => {
 	return {
 		props: {
 			statesGeo: statesGeo,
-			pointsGeo: pointsGeo,
+			localsGeo: localsGeo,
 			activities: activities,
 			filtersSchema: filtersSchema,
 			activitySchema: activitySchema,
@@ -28,12 +28,12 @@ export const getStaticProps = async () => {
 	}
 }
 
-export default function Index({ statesGeo, pointsGeo, activities, filtersSchema, activitySchema }) {
+export default function Index({ statesGeo, localsGeo, activities, filtersSchema, activitySchema }) {
 	const [activeView, setActiveView] = useState("map");
 	const [activeActivity, setActiveActivity] = useState(null);
 	const [activeState, setActiveState] = useState(null);
 	const [activeFilters, setActiveFilters] = useState({});
-	const [activeCount, setActiveCount] = useState(pointsGeo.features.length);
+	const [activeCount, setActiveCount] = useState(localsGeo.features.length);
 	const [filteredActivities, setFilteredData] = useState(activities);
 	const [hasFilters, setHasFilters] = useState(false);
 	const [filterOpen, setFilterOpen] = useState(true);
@@ -135,7 +135,7 @@ export default function Index({ statesGeo, pointsGeo, activities, filtersSchema,
 					style={{ display: activeView === "map" ? "block" : "none" }}>
 					<Map
 						statesGeo={statesGeo}
-						pointsGeo={pointsGeo}
+						localsGeo={localsGeo}
 						filteredActivities={filteredActivities}
 						activeFilters={activeFilters}
 						setActiveActivity={setActiveActivity}

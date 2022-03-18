@@ -7,7 +7,7 @@ import Tooltip from "./_Tooltip";
 import ZoomBttns from "./_ZoomBttns";
 import Legend from "./_Legend";
 
-export default function Map({ statesGeo = {}, pointsGeo = {}, filteredActivities = [], setActiveActivity, setActiveState }) {
+export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities = [], setActiveActivity, setActiveState }) {
 	const [mapSizes, setMapSizes] = useState({});
 	const [mapTransform, setMapTransform] = useState({ k:1, x:0, y:0 });
 	const [mapIsReady, setMapIsReady] = useState(false);
@@ -210,13 +210,12 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredActivities
 	};
 
 	const addLocal = () => {
-		// console.log(pointsGeo);
-		const points = d3.select(svgRef.current)
+		const locals = d3.select(svgRef.current)
 			.select("g")
 				.append("g")
 					.attr("class", "local")
 			.selectAll("path")
-				.data(pointsGeo.features)
+				.data(localsGeo.features)
 			.enter().append("path")
 				.attr("d", d => localShapes[d.properties.level])
 				.attr("fill", d => localColors[d.properties.level])
