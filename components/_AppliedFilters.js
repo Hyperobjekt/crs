@@ -1,7 +1,7 @@
 import { getText, getDate } from "./../helpers";
 import Button from "./Global/_Button";
 
-export default function AppliedFilters({ filterOpen, activeFilters = {}, onFilterChange, onFilterPanelToggle }) {
+export default function AppliedFilters({ activeView, filterOpen, activeFilters = {}, onFilterChange, onFilterPanelToggle, onViewClick }) {
 
 	const onClickApplied = (e) => {
 		const { key, value } = e.target.dataset;
@@ -27,7 +27,7 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, onFilte
 					Filters
 				</Button>
 			</div>
-			<div className="relative overflow-x-hidden">
+			<div className="flex-1 relative overflow-x-hidden">
 				<div className="h-full flex gap-2 p-4 px-6 overflow-x-scroll">
 					{Object.keys(activeFilters).map(key => (
 						activeFilters[key].length ?
@@ -70,8 +70,17 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, onFilte
 					: null}
 				</div>
 				<div className="w-6 h-full absolute left-0 top-0 bg-gradient-to-r from-white pointer-events-none"></div>
+				<div className="w-6 h-full absolute right-0 top-0 bg-gradient-to-l from-white pointer-events-none"></div>
 			</div>
-			<div className="w-6 h-full absolute right-0 top-0 bg-gradient-to-l from-white pointer-events-none"></div>
+
+			<div className="p-4 pl-0 flex items-center">
+				<Button
+					// className="mr-3"
+					imgSrc={`Icon${activeView === "map" ? "Table" : "Map"}.svg`}
+					onClick={() => onViewClick(activeView === "map" ? "table" : "map")}>
+					{activeView === "map" ? "Table" : "Map"}
+				</Button>
+			</div>
 		</div>
 	)
 }

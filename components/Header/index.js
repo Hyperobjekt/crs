@@ -1,6 +1,6 @@
 import Button from "./../Global/_Button";
 
-export default function Header({ activeView, onViewClick, onMenuClick }) {
+export default function Header({ activeView, activityCount, onViewClick, onMenuClick }) {
 	return (
 		<header className="h-20 relative z-[60] p-4 bg-white border-b flex gap-8">
 			<div className="flex">
@@ -9,7 +9,7 @@ export default function Header({ activeView, onViewClick, onMenuClick }) {
 				</strong>
 			</div>
 			<div className="w-[30em] my-auto table">
-				This map displays 325 places in the USA where people are trying to implement laws against teaching Critical Race Theory
+				This map displays {activityCount} places in the USA where people are trying to implement laws against teaching Critical Race Theory
 			</div>
 			<div className="flex justify-end content-center ml-auto">
 				<div className="my-auto flex gap-4">

@@ -112,15 +112,17 @@ export default function Index({ statesGeo, pointsGeo, activities, filtersSchema,
 			id="page"
 			className="w-screen h-screen flex flex-col">
 
-			<Header activeView={activeView} onViewClick={onViewClick} onMenuClick={onMenuClick} />
+			{/*<Header activeView={activeView} activityCount={activities.length} onViewClick={onViewClick} onMenuClick={onMenuClick} />*/}
 
-			<Menu showMenu={showMenu} />
+			{/*<Menu showMenu={showMenu} />*/}
 
 			<AppliedFilters
+				activeView={activeView}
 				filterOpen={filterOpen}
 				activeFilters={activeFilters}
 				onFilterPanelToggle={onFilterPanelToggle}
-				onFilterChange={onFilterChange} />	
+				onFilterChange={onFilterChange}
+				onViewClick={onViewClick} />
 
 			<main
 				className="flex flex-1 relative"

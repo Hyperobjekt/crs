@@ -3,7 +3,6 @@ import Button from "./../Global/_Button";
 const menu_items = [
 	{
 		title: "Explore Data",
-		url: ""
 	},
 	{
 		title: "Blog",
@@ -43,7 +42,7 @@ export default function Header({ showMenu }) {
 					<li key={index}
 						className="px-4 py-2 text-xxl">
 						<a role="menuitem"
-							 href={`${process.env.WP_URL}${menu_item.url}`}>
+							 href={menu_item.url ? `${process.env.WP_URL}${menu_item.url}` : "/"}>
 							{menu_item.title}
 						</a>
 					</li>
