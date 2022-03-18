@@ -50,7 +50,7 @@ export default function Tooltip({ data = {}, transform }) {
 					</div>
 				</div>
 			: <div className="p-4">
-					<div className="pb-2 text-lg font-bold text-gray-blue-200">
+					<div className="pb-2 text-lg font-bold capitalize text-gray-blue-200">
 						{getTitle(data)}
 					</div>
 					<div className="text-gray-blue-400">

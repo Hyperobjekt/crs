@@ -19,7 +19,7 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 		} else if(Array.isArray(fieldVal) && fieldVal.length) {
 			fieldContent = (
 				<ul>
-					{fieldVal.map((v,i) => <li key={i}>{getText(v)}</li>)}
+					{fieldVal.map((v,i) => <li key={i} className="mt-1">{getText(v)}</li>)}
 				</ul>
 			);
 		} else if(typeof fieldVal === "string") {
@@ -32,7 +32,7 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 		<>
 			<header className="p-4 border-b">
 				<div className="flex">
-					<h2 className="text-xl font-bold">
+					<h2 className="text-xl font-bold capitalize">
 						{getTitle(panelData) || "Activity"}
 					</h2>
 					{closeBttn}
@@ -46,8 +46,8 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 						const fieldTitle = getText(key);
 						return(
 							<li key={key}
-								className="mb-2">
-								<div className="text-sm text-gray-500">
+								className="mb-3">
+								<div className="mb-0.5 text-sm text-gray-500">
 									{fieldTitle}
 								</div>
 								<div className="text-sm">

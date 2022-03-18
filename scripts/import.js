@@ -22,7 +22,7 @@ let d3, fetchJson, stateCodes, activities;
 	stateCodes = (await neatCsv(stateCodesCsv)).reduce((obj, row) => ({ ...obj, [row.id]: row.code}), {});
 }).then(async () => {
 	//GET ACTIVITIES
-	const activitiesCsv = fs.readFileSync("./data/raw/CRS_Test_Data.csv", {
+	const activitiesCsv = fs.readFileSync("./data/raw/CRT_Data.csv", {
 		encoding: "utf8",
 		flag: "r",
 	});

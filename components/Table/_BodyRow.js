@@ -6,9 +6,9 @@ export default function BodyRow({ rowData, colSchemas, index, setActiveActivity 
 
 	let className;
 	if(index % 2) {
-		className = "flex items-center px-4 py-6 space-x-2 border-b bg-gray-100";
+		className = "flex px-4 py-6 space-x-2 border-b bg-gray-100";
 	} else {
-		className = "flex items-center px-4 py-6 space-x-2 border-b bg-white";
+		className = "flex px-4 py-6 space-x-2 border-b bg-white";
 	}
 
 	const onClick = () => {

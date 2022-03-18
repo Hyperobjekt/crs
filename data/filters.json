@@ -7,7 +7,7 @@
 			"Federal"
 		]
 	},
-	"Authority Type": {
+	"Activity Type": {
 		"options": [
 			"Exec directive",
 			"Legislation",
@@ -23,7 +23,7 @@
 	"Date Intro": {
 		"options": []
 	},
-	"Summary Status": {
+	"Progress": {
 		"options": [
 			"Pending",
 			"Enacted",
@@ -60,7 +60,8 @@
 			"\"Indiv. “discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race”\"",
 			"Meritocracy/hard work = racist",
 			"1619 Project",
-			"\"Critical Race Theory\""
+			"\"Critical Race Theory\"",
+			"N/A"
 		]
 	},
 	"Enforcement Mechanism": {
@@ -68,14 +69,16 @@
 		"options": [
 			"Funding",
 			"Creates a private cause of action",
-			"Parent Rights"
+			"Parent Rights",
+			"N/A"
 		]
 	},
 	"Race/sex/other?": {
 		"options": [
 			"Race only",
 			"Race & sex",
-			"Race, sex & more"
+			"Race, sex & more",
+			"N/A"
 		]
 	}
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-import { getText, getDate } from "./../../helpers";
+import { getText, getDate, getTitle } from "./../../helpers";
 
 import Accordion from "./_Accordion";
 import CloseBttn from "./../Icon/_CloseBttn";
@@ -15,8 +15,8 @@ export default function StatePanel({ state, stateActivities, filtersSchema, hasF
 		: !["State","Federal"].includes(a["Level"])
 	)
 
-	const passedActivities = stateActivities.filter(a => a["Summary Status"] === "Enacted");
-	const introducedActivities = stateActivities.filter(a => a["Summary Status"] !== "Enacted");
+	const passedActivities = stateActivities.filter(a => a["Progress"] === "Enacted");
+	const introducedActivities = stateActivities.filter(a => a["Progress"] !== "Enacted");
 
 	useEffect(() => {
 		const newPanelData = panelData ? panelData.index === state.index ? {} : state : state;
@@ -40,8 +40,8 @@ export default function StatePanel({ state, stateActivities, filtersSchema, hasF
 
 				<div>
 					{progressListLength ?
-						filtersSchema["Authority Type"].options.map((type, index) => {
-							const typeListActivities = progressListActivities.filter(a => a["Authority Type"] === type);
+						filtersSchema["Activity Type"].options.map((type, index) => {
+							const typeListActivities = progressListActivities.filter(a => a["Activity Type"] === type);
 							return (
 								typeListActivities.length ?
 									<TypeList
@@ -68,7 +68,7 @@ export default function StatePanel({ state, stateActivities, filtersSchema, hasF
 					<h4 className="type-heading-3 inline">
 						{getText(type)}
 					</h4>
-					<span className="ml-1 relative -top-0.5 text-sm">
+					<span className="ml-1 text-sm">
 						({typeListActivities.length}/{progressListLength})
 					</span>
 				</header>
@@ -86,8 +86,8 @@ export default function StatePanel({ state, stateActivities, filtersSchema, hasF
 				className="w-full flex mb-4 cursor-pointer list-none"
 				onClick={() => onClickActivityRow(activity)}>
 				<div className="w-full pr-4">
-					<div className="text-md">
-						{activity["Bill #"] || activity["Title/Summary"]}
+					<div className="text-md capitalize">
+						{getTitle(activity)}
 					</div>
 					<div className="mt-1 text-sm text-gray-400">
 						{getDate(activity["Date Intro"])}

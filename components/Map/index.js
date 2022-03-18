@@ -190,7 +190,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredActivities
 				.attr("fill", d => {
 					const stateActivities = filteredActivities.filter(a => a["State/US"] === d.properties.state);
 					if(!stateActivities.length) return stateRange[0];
-					if(stateActivities.filter(d => d["Summary Status"] === "Enacted").length) return stateRange[2];
+					if(stateActivities.filter(d => d["Progress"] === "Enacted").length) return stateRange[2];
 					return stateRange[1];
 				})
 				.attr("d", geoPath)
@@ -221,7 +221,7 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredActivities
 				.attr("d", d => localShapes[d.properties.level])
 				.attr("fill", d => localColors[d.properties.level])
 				.attr("opacity", d => d.properties.progress === "Enacted" ? 1 : .5)
-				// .attr("fill", d => localColors[d.properties["Level"]][d.properties["Summary Status"] === "Enacted" ? 1 : 0])
+				// .attr("fill", d => localColors[d.properties["Level"]][d.properties["Progress"] === "Enacted" ? 1 : 0])
 				// .attr("transform", d => `translate(${getLocalCoors(d)})`)
 				.attr("transform", d => `translate(${projection(d.geometry.coordinates)})`)
 				.attr("cursor", "pointer")
@@ -255,8 +255,8 @@ export default function Map({ statesGeo = {}, pointsGeo = {}, filteredActivities
 		if(d.properties.state && d.properties.state !== "US") {
 			data = d.properties;
 			const stateActivities = filteredActivities.filter(a => a["State/US"] === data.state && ["State","Federal"].includes(a["Level"]))
-			data.introduced = stateActivities.filter(a => a["Summary Status"] !== "Enacted").length;
-			data.passed = stateActivities.filter(a => a["Summary Status"] === "Enacted").length;
+			data.introduced = stateActivities.filter(a => a["Progress"] !== "Enacted").length;
+			data.passed = stateActivities.filter(a => a["Progress"] === "Enacted").length;
 			if(d.properties.state === "US") {
 				const dcCoords = d.geometry.coordinates[0][0][4];
 				coords = [

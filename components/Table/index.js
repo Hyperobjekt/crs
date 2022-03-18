@@ -20,7 +20,7 @@ export default function Table({ filteredActivities = [], setActiveActivity }) {
 	const colSchemas = [
 		{
 			key: "Title",
-			className: "w-3/12",
+			className: "w-3/12 capitalize font-bold",
 			colSpan: 3,
 			custom: true,
 		},
@@ -37,7 +37,7 @@ export default function Table({ filteredActivities = [], setActiveActivity }) {
 			sortable: true,
 		},
 		{
-			key: "Summary Status",
+			key: "Progress",
 			className: "w-1/12",
 			colSpan: 1,
 			sortable: true,
@@ -49,7 +49,7 @@ export default function Table({ filteredActivities = [], setActiveActivity }) {
 			sortable: true,
 		},
 		{
-			key: "Authority Type",
+			key: "Activity Type",
 			className: "w-2/12",
 			colSpan: 2,
 			sortable: true,
