@@ -109,21 +109,6 @@ input[type="checkbox"]:focus + label > div {
 		position: relative;
 		z-index: 2;
 	}
-	.button-left {
-		border-top-right-radius: 0; 
-		border-bottom-right-radius: 0;
-	}
-	.button-center {
-		border-radius: 0;
-		margin-left: -1px;
-		margin-right: -1px;
-		/*border-left-width: 0;*/
-		/*border-right-width: 0;*/
-	}
-	.button-right {
-		border-top-left-radius: 0; 
-		border-bottom-left-radius: 0;
-	}
 }
 
 /*MUI OVERRIDES*/

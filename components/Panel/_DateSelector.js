@@ -10,9 +10,23 @@ import DateTextField from "./_DateTextField";
 import Button from "../Global/_Button";
 
 const DATE_FORMAT = "YYYY-MM-DD";
-const TODAY = new Date();
-const JAN_2020 = new Date("2020-01-01");
-const PAST_30 = new Date(new Date().setDate(TODAY.getDate() - 30));
+const UTC_TZ = "T00:00:00.000-07:00";
+
+// const TODAY = new Date();
+// const JAN_2020 = new Date("2020-01-01");
+// const PAST_30 = new Date(new Date().setDate(TODAY.getDate() - 30));
+
+const PRESET_1_START = new Date("2020-09-01"+UTC_TZ);
+const PRESET_1_END = new Date("2020-12-31"+UTC_TZ);
+
+const PRESET_2_START = new Date("2021-01-01"+UTC_TZ);
+const PRESET_2_END = new Date("2021-03-31"+UTC_TZ);
+
+const PRESET_3_START = new Date("2021-04-01"+UTC_TZ);
+const PRESET_3_END = new Date("2021-07-31"+UTC_TZ);
+
+const PRESET_4_START = new Date("2021-08-01"+UTC_TZ);
+const PRESET_4_END = new Date("2021-10-31"+UTC_TZ);
 
 const getDateStr = (date) => {
 	const dd = date.getDate();
@@ -97,30 +111,57 @@ export default function DateSelector({ start, end, onChange }) {
 		)
 	}
 
+	// const buttons = [
+	// 	{
+	// 		className: "button-left",
+	// 		label: "All Time",
+	// 		name: "all-time",
+	// 		value: [null, getDateStr(TODAY)]
+	// 	},
+	// 	{
+	// 		className: "button-center",
+	// 		label: "Since 2020",
+	// 		name: "2020",
+	// 		value: [getDateStr(JAN_2020),getDateStr(TODAY)]
+	// 	},
+	// 	{
+	// 		className: "button-right",
+	// 		label: "Last 30 Days",
+	// 		name: "30",
+	// 		value: [getDateStr(PAST_30),getDateStr(TODAY)]
+	// 	}
+	// ];
+
 	const buttons = [
 		{
-			className: "button-left",
-			label: "All Time",
-			name: "all-time",
-			value: [null, getDateStr(TODAY)]
+			className: "w-1/2 rounded-none rounded-tl-md -mb-[1px]",
+			label: "Sept 2020 - Jan 2021",
+			name: "1",
+			value: [getDateStr(PRESET_1_START), getDateStr(PRESET_1_END)]
 		},
 		{
-			className: "button-center",
-			label: "Since 2020",
-			name: "2020",
-			value: [getDateStr(JAN_2020),getDateStr(TODAY)]
+			className: "w-1/2 rounded-none rounded-tr-md -mb-[1px] -ml-[1px]",
+			label: "Jan 2021 - Apr 2021",
+			name: "2",
+			value: [getDateStr(PRESET_2_START),getDateStr(PRESET_2_END)]
 		},
 		{
-			className: "button-right",
-			label: "Last 30 Days",
-			name: "30",
-			value: [getDateStr(PAST_30),getDateStr(TODAY)]
+			className: "w-1/2 rounded-none rounded-bl-md",
+			label: "Apr 2021 - Aug 2021",
+			name: "3",
+			value: [getDateStr(PRESET_3_START),getDateStr(PRESET_3_END)]
+		},
+		{
+			className: "w-1/2 rounded-none rounded-br-md -ml-[1px]",
+			label: "Aug 2021 - Nov 2021",
+			name: "4",
+			value: [getDateStr(PRESET_4_START),getDateStr(PRESET_4_END)]
 		}
 	];
 
 	return(
 		<>
-			<div className="flex mb-4">
+			<div className="flex flex-wrap mb-4">
 				{buttons.map(b => (
 					<Button
 						key={b.name}

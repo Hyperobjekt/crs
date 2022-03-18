@@ -26,27 +26,27 @@ export default function Legend({ localColors, stateColors  }) {
 	};
 
 	return (
-		<div className="w-60 p-4 absolute bottom-4 right-4 text-xs bg-white shadow rounded-xl">
+		<div className="p-4 absolute bottom-4 right-4 text-xs bg-white shadow rounded-xl">
 
 			<table cellPadding="5">
 				<thead>
 					<tr>
-						<td></td>
-						<td>Introduced</td>
-						<td>Passed</td>
+						<td className="w-22"></td>
+						<td className="w-18 whitespace-nowrap">Not passed</td>
+						<td className="w-18">Passed</td>
 					</tr>
 				</thead>
 				<tbody>
 
 					{["LocalSch", "LocalOth"].map((o, i) => (
 							<tr key={i}>
-								<td>{getText(o)}</td>
-								<td>
+								<td className="w-22">{getText(o)}</td>
+								<td className="w-18">
 									<Svg className="w-4 h-4 m-auto" fill={localColors[o]} opacity="0.5">
 										{svgSymbols[o]}
 									</Svg>
 								</td>
-								<td>
+								<td className="w-18">
 									<Svg className="w-4 h-4 m-auto" fill={localColors[o]}>
 										{svgSymbols[o]}
 									</Svg>
@@ -55,13 +55,13 @@ export default function Legend({ localColors, stateColors  }) {
 					))}
 
 					<tr>
-						<td>State & Federal</td>
-						<td>
+						<td className="w-22">State and federal</td>
+						<td className="w-18">
 							<Svg className="w-4 h-4 m-auto" fill={stateColors[1]}>
 								{svgSymbols["State"]}
 							</Svg>
 						</td>
-						<td>
+						<td className="w-18">
 							<Svg className="w-4 h-4 m-auto" fill={stateColors[2]}>
 								{svgSymbols["State"]}
 							</Svg>

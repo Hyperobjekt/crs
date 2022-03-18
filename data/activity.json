@@ -1,10 +1,12 @@
 {
 	"fields": [
-		"Body Name",
-		"State/US",
 		"Level",
+		"State/US",
+		"Body Name",
+		"Bill #",
 		"Authority Type",
 		"Date Intro",
+		"Status Summary",
 		"Target Institution",
 		"Conduct Regulated",
 		"Content Trigger"
