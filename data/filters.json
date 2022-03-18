@@ -16,8 +16,7 @@
 			"Resolution",
 			"Statement",
 			"Attorney General Letter",
-			"Policy Change",
-			"Other"
+			"Policy Change"
 		]
 	},
 	"Date Intro": {
@@ -28,8 +27,7 @@
 			"Pending",
 			"Enacted",
 			"Expired or Withdrawn",
-			"Rejected",
-			"N/A"
+			"Rejected"
 		]
 	},
 	"Target Institution": {
@@ -60,8 +58,7 @@
 			"\"Indiv. “discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race”\"",
 			"Meritocracy/hard work = racist",
 			"1619 Project",
-			"\"Critical Race Theory\"",
-			"N/A"
+			"\"Critical Race Theory\""
 		]
 	},
 	"Enforcement Mechanism": {
@@ -69,16 +66,14 @@
 		"options": [
 			"Funding",
 			"Creates a private cause of action",
-			"Parent Rights",
-			"N/A"
+			"Parent Rights"
 		]
 	},
-	"Race/sex/other?": {
+	"Category": {
 		"options": [
-			"Race only",
-			"Race & sex",
-			"Race, sex & more",
-			"N/A"
+			"Race or ethnicity only",
+			"Race or ethnicity & sex",
+			"Race or ethnicity, sex & more"
 		]
 	}
 }
