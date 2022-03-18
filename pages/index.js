@@ -117,7 +117,6 @@ export default function Index({ statesGeo, pointsGeo, activities, filtersSchema,
 			{/*<Menu showMenu={showMenu} />*/}
 
 			<AppliedFilters
-				activeView={activeView}
 				filterOpen={filterOpen}
 				activeFilters={activeFilters}
 				onFilterPanelToggle={onFilterPanelToggle}
