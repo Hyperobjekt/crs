@@ -25,7 +25,7 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, onFilte
 	}
 
 	return (
-		<div className="w-full h-20 flex relative z-50 bg-white border-b whitespace-nowrap shadow">
+		<div className="w-full flex relative z-50 bg-white border-b whitespace-nowrap shadow">
 
 			<div className="p-4 pr-0 flex items-center">
 				<Button

@@ -186,7 +186,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 				.data(statesGeo.features)
 				.attr("stroke-width", `${STROKE_WIDTH}px`)
 			.enter().append("path")
-				.attr("stroke", "black")
+				.attr("stroke", "#99ABB0")
 				.attr("fill", d => {
 					const stateActivities = filteredActivities.filter(a => a["State/US"] === d.properties.state);
 					if(!stateActivities.length) return stateRange[0];

@@ -55,6 +55,7 @@ input[type="checkbox"]:focus + label > div {
 		line-height: 23px;
 		@apply font-bold;
 		color: #363A3E;
+		letter-spacing: 0.02em;
 	}
 	.type-heading-2 {
 		/*@apply text-md;*/
@@ -62,6 +63,7 @@ input[type="checkbox"]:focus + label > div {
 		line-height: 20px;
 		@apply font-bold;
 		color: #47494A;
+		letter-spacing: 0.02em;
 	}
 	.type-heading-3 {
 		/*@apply text-sm;*/
@@ -70,27 +72,32 @@ input[type="checkbox"]:focus + label > div {
 		@apply font-bold;
 		text-transform: uppercase;
 		color: #47494A;
+		letter-spacing: 0.02em;
 	}
 
 	.type-body {
 		font-size: 12px;
 		line-height: 18px;
 		color: #393B3D;
+		letter-spacing: 0.02em;
 	}
 	.type-label {
 		font-size: 12px;
 		line-height: 16px;
 		color: #72746D;
+		letter-spacing: 0.02em;
 	}
 	.type-sm-label {
 		font-size: 10px;
 		line-height: 12px;
 		color: #72746D;
+		letter-spacing: 0.02em;
 	}
 	.type-button-label {
 		font-size: 12px;
 		line-height: 16px;
 		color: #444743;
+		letter-spacing: 0.02em;
 	}
 
 	.button {
@@ -101,6 +108,15 @@ input[type="checkbox"]:focus + label > div {
 		@apply type-button-label;
 		color: #444743;
 		line-height: 1em;
+	}
+	table button {
+		background-color: #E6F0F3;
+	}
+	table td {
+		color: #72746D;
+	}
+	table td.font-bold {
+		color: #444743;
 	}
 	.button-active {
 		@apply bg-gray-blue-200;
