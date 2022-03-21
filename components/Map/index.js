@@ -79,6 +79,19 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		updateMapStyle();
 	}, [filteredIndices, hoveredFeature, activeActivity, activeState, mapTransform]);
 
+	useEffect(() => {
+		const svg = d3.select(svgRef.current);
+		const g = svg.select("g");
+		g.attr("transform", mapTransform);
+		g.selectAll(".local path")
+			.attr("transform", scaleNode)
+		g.select(".federal-icon")
+			.attr("transform", scaleNode)
+		g.select(".federal-line")
+			.attr("stroke-width", STROKE_WIDTH_DEFAULT / mapTransform.k)
+		svg.classed("moving", true);
+	}, [mapTransform]);
+
 	const onResize = () => {
 		const mapStyle = getComputedStyle(mapRef.current);
 		let width = parseFloat(mapStyle.width);
@@ -90,33 +103,6 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		});
 	}
 
-	const zoomed = (e) => {
-		const svg = d3.select(svgRef.current);
-		const g = svg.select("g");
-		const { transform } = e;
-		g.attr("transform", transform);
-		g.selectAll(".local path")
-			.attr("transform", d => `translate(${projection(d.geometry.coordinates)}) scale(${1/transform.k})`)
-		g.select(".federal-icon")
-			.attr("transform", d => `translate(${[
-				projection(d.geometry.coordinates[0][0][4])[0] + dcOffset[0],
-				projection(d.geometry.coordinates[0][0][4])[1] + dcOffset[1]
-			]}) scale(${1/transform.k})`)
-		svg.classed("moving", true);
-		setMapTransform(transform);
-	};
-
-	const zoom = d3.zoom()
-		.scaleExtent([MIN_ZOOM, MAX_ZOOM])
-		.on("zoom", zoomed)
-		.on("end", e => d3.select(svgRef.current).classed("moving", false));
-
-	const onZoomClick = (e) => {
-		const svg = d3.select(svgRef.current);
-		const zoomLevel = e.target.innerText === "+" ? 1.3 : 1 / 1.3;
-		zoom.scaleBy(svg.transition().duration(300), zoomLevel);
-	};
-
 	const setUpMap = () => {
 		const svg = d3.select(svgRef.current),
 					svgWidth = +svg.attr("width"),
@@ -127,6 +113,43 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 			.projection(projection);
 		svg.call(zoom);
 		setMapIsReady(true);
+	};
+
+	const addLocal = () => {
+		const locals = d3.select(svgRef.current)
+			.select("g")
+				.append("g")
+					.attr("class", "local")
+			.selectAll("path")
+				.data(localsGeo.features)
+			.enter().append("path")
+				.attr("d", d => localShapes[d.properties.level])
+				.attr("fill", d => localColors[d.properties.level])
+				.attr("opacity", d => d.properties.progress === "Enacted" ? 1 : .5)
+				.attr("transform", d => `translate(${translateLocal(d)}) scale(${mapTransform.k})`)
+				.attr("cursor", "pointer")
+				.on("mouseover", onHoverFeature)
+				.on("mouseout", onUnhoverFeature)
+				.on("click", onClickFeature)
+				.on("dblclick", (e) => e.stopPropagation());
+	};
+
+	const addStates = () => {
+		const states = d3.select(svgRef.current)
+			.select("g")
+				.append("g")
+					.attr("class", "states")
+			.selectAll("path")
+				.data(statesGeo.features)
+				.attr("stroke-width", STROKE_WIDTH_DEFAULT)
+			.enter().append("path")
+				.attr("stroke", STROKE_COLOR_DEFAULT)
+				.attr("d", geoPath)
+				.attr("cursor", "pointer")
+				.on("mouseover", onHoverFeature)
+				.on("mouseout", onUnhoverFeature)
+				.on("click", onClickFeature)
+				.on("dblclick", (e) => e.stopPropagation());
 	};
 
 	const addFed = () => {
@@ -193,53 +216,6 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		// 	.on("dblclick", (e) => e.stopPropagation());
 	};
 
-	const addStates = () => {
-		const states = d3.select(svgRef.current)
-			.select("g")
-				.append("g")
-					.attr("class", "states")
-			.selectAll("path")
-				.data(statesGeo.features)
-				.attr("stroke-width", STROKE_WIDTH_DEFAULT)
-			.enter().append("path")
-				.attr("stroke", STROKE_COLOR_DEFAULT)
-				.attr("d", geoPath)
-				.attr("cursor", "pointer")
-				.on("mouseover", onHoverFeature)
-				.on("mouseout", onUnhoverFeature)
-				.on("click", onClickFeature)
-				.on("dblclick", (e) => e.stopPropagation());
-	};
-
-	const getLocalCoors = (d) => {
-		const coords = d.geometry.coordinates;
-		// .map(l => l);
-		const newCoords = projection(coords);
-		return newCoords;
-		// return []coords
-	};
-
-	const addLocal = () => {
-		const locals = d3.select(svgRef.current)
-			.select("g")
-				.append("g")
-					.attr("class", "local")
-			.selectAll("path")
-				.data(localsGeo.features)
-			.enter().append("path")
-				.attr("d", d => localShapes[d.properties.level])
-				.attr("fill", d => localColors[d.properties.level])
-				.attr("opacity", d => d.properties.progress === "Enacted" ? 1 : .5)
-				// .attr("fill", d => localColors[d.properties["Level"]][d.properties["Progress"] === "Enacted" ? 1 : 0])
-				// .attr("transform", d => `translate(${getLocalCoors(d)})`)
-				.attr("transform", d => `translate(${projection(d.geometry.coordinates)})`)
-				.attr("cursor", "pointer")
-				// .attr("style", "filter: drop-shadow(0px 2px 1px rgba(0,0,0,.4))")
-				.on("mouseover", onHoverFeature)
-				.on("mouseout", onUnhoverFeature)
-				.on("click", onClickFeature)
-				.on("dblclick", (e) => e.stopPropagation());
-	};
 
 	const onClickFeature = (e, d) => {
 		setActiveFeature(d);
@@ -398,6 +374,35 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 					: ""
 			});
 	};
+
+	const onZoomClick = (e) => {
+		const svg = d3.select(svgRef.current);
+		const zoomLevel = e.target.innerText === "+" ? 1.3 : 1 / 1.3;
+		zoom.scaleBy(svg.transition().duration(300), zoomLevel);
+	};
+
+	const zoomed = (e) => {
+		const { transform } = e;
+		setMapTransform(transform);
+	};
+
+	const zoom = d3.zoom()
+		.scaleExtent([MIN_ZOOM, MAX_ZOOM])
+		.on("zoom", zoomed)
+		.on("end", e => d3.select(svgRef.current).classed("moving", false));
+
+	const scaleNode = (d, i, paths) => {
+		const path = d3.select(paths[i]);
+		const transform = path.attr("transform");
+		if(!transform) return;
+		const transformSplit = transform.split("scale(");
+		const transformBegin = transformSplit[0];
+		return [transformBegin,`scale(${1/mapTransform.k})`].join("");
+	}
+
+	const translateLocal = (d) => {
+		return projection(d.geometry.coordinates).map(l => l - MARKER_SIZE/2);
+	}
 
 	return (
 		<>
