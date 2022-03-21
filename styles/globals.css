@@ -8,13 +8,13 @@
 
 html {
 	@apply bg-gray-blue-100;
+	@apply text-md;
+	@apply text-gray-700;
 	font-family: trade-gothic-next, sans-serif;
 }
 
 body {
 	margin: 0;
-	@apply text-md;
-	@apply text-gray-700;
 }
 
 button {
@@ -131,19 +131,19 @@ input[type="checkbox"]:focus + label > div:first-child div:first-child {
 /*MUI OVERRIDES*/
 
 .MuiTouchRipple-root {
-	display: none;
+	display: none !important;
 }
 
 .MuiInputBase-input {
-	font-size: 12px;
-	line-height: 16px;
-	padding: 0;
+	font-size: 12px !important;
+	line-height: 16px !important;
+	padding: 0 !important;
 }
 
 .MuiOutlinedInput-root {
 	@apply px-5;
 	@apply py-3;
-	color: #444743;
+	color: #444743 !important;
 	@apply type-button-label;
 }
 
