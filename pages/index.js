@@ -130,6 +130,7 @@ export default function Index({ statesGeo, localsGeo, activities, filtersSchema,
 			<AppliedFilters
 				filterOpen={filterOpen}
 				activeFilters={activeFilters}
+				activityCount={activities.length}
 				onFilterPanelToggle={onFilterPanelToggle}
 				onFilterChange={onFilterChange}
 				onViewClick={onViewClick} />
