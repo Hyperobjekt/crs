@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { getText, getDate } from "./../helpers";
-import Button from "./Global/_Button";
+import { getText, getDate } from "../../helpers";
+import Button from "../Global/_Button";
 
 export default function AppliedFilters({ filterOpen, activeFilters = {}, activityCount, onFilterChange, onFilterPanelToggle, onViewClick }) {
 	const [activeView, setActiveView] = useState("map");
@@ -25,7 +25,7 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, activit
 	}
 
 	return (
-		<div className="h-20 w-full flex relative z-50 bg-white border-b whitespace-nowrap shadow">
+		<div className="w-full flex relative z-50 bg-white border-b whitespace-nowrap shadow">
 
 			<div className="p-4 pr-0 flex items-center">
 				<Button
@@ -75,8 +75,9 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, activit
 								Clear all
 							</button>
 						</div> :
-						<div className="w-96 my-auto whitespace-normal">
-							This map displays {activityCount} places in the USA where people are trying to implement laws against teaching Critical Race Theory
+						<div className="max-w-prose my-auto whitespace-normal">
+							This map displays {activityCount} local, state, and federal activities aimed at restricting the ability to speak truthfully about race, racism, and sexism through a campaign to reject Critical Race Theory (CRT), diversity, inclusion, equity, antiracism and antisexism.
+							{/*This map displays {activityCount} places in the USA where people are trying to implement laws against teaching Critical Race Theory*/}
 						</div>
 					}
 				</div>

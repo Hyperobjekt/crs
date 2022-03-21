@@ -6,7 +6,7 @@ import Panel from "./../components/Panel";
 import ActivityPanel from "./../components/Panel/_ActivityPanel";
 import StatePanel from "./../components/Panel/_StatePanel";
 import FilterPanel from "./../components/Panel/_FilterPanel";
-import AppliedFilters from "./../components/_AppliedFilters";
+import SubHeader from "./../components/Header/_SubHeader";
 import Map from "./../components/Map";
 import Table from "./../components/Table";
 
@@ -127,7 +127,7 @@ export default function Index({ statesGeo, localsGeo, activities, filtersSchema,
 
 			{/*<Menu showMenu={showMenu} />*/}
 
-			<AppliedFilters
+			<SubHeader
 				filterOpen={filterOpen}
 				activeFilters={activeFilters}
 				activityCount={activities.length}

@@ -317,10 +317,42 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		// }
 	}
 
+	const onZoomClick = (e) => {
+		const svg = d3.select(svgRef.current);
+		const zoomLevel = e.target.innerText === "+" ? 1.3 : 1 / 1.3;
+		zoom.scaleBy(svg.transition().duration(300), zoomLevel);
+	};
+
+	const zoomed = (e) => {
+		const { transform } = e;
+		setMapTransform(transform);
+	};
+
+	const zoom = d3.zoom()
+		.scaleExtent([MIN_ZOOM, MAX_ZOOM])
+		.on("zoom", zoomed)
+		.on("end", e => d3.select(svgRef.current).classed("moving", false));
+
+	const scaleNode = (d, i, paths) => {
+		const path = d3.select(paths[i]);
+		const transform = path.attr("transform");
+		if(!transform) return;
+		const transformSplit = transform.split("scale(");
+		const transformBegin = transformSplit[0];
+		return [transformBegin,`scale(${1/mapTransform.k})`].join("");
+	}
+
+	const translateLocal = (d) => {
+		return projection(d.geometry.coordinates).map(l => l - MARKER_SIZE/2);
+	}
+
 	const updateMapStyle = () => {
 		const svg = d3.select(svgRef.current);
 		svg.selectAll(".local path")
 			.attr("visibility", d => filteredIndices.includes(d.properties.index) ? "visisble" : "hidden");
+
+		// svg.selectAll(".locals path")
+		// 	.attr("fill")
 
 		svg.selectAll(".states path")
 			.attr("fill", d => {
@@ -375,34 +407,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 			});
 	};
 
-	const onZoomClick = (e) => {
-		const svg = d3.select(svgRef.current);
-		const zoomLevel = e.target.innerText === "+" ? 1.3 : 1 / 1.3;
-		zoom.scaleBy(svg.transition().duration(300), zoomLevel);
-	};
-
-	const zoomed = (e) => {
-		const { transform } = e;
-		setMapTransform(transform);
-	};
-
-	const zoom = d3.zoom()
-		.scaleExtent([MIN_ZOOM, MAX_ZOOM])
-		.on("zoom", zoomed)
-		.on("end", e => d3.select(svgRef.current).classed("moving", false));
-
-	const scaleNode = (d, i, paths) => {
-		const path = d3.select(paths[i]);
-		const transform = path.attr("transform");
-		if(!transform) return;
-		const transformSplit = transform.split("scale(");
-		const transformBegin = transformSplit[0];
-		return [transformBegin,`scale(${1/mapTransform.k})`].join("");
-	}
-
-	const translateLocal = (d) => {
-		return projection(d.geometry.coordinates).map(l => l - MARKER_SIZE/2);
-	}
+	
 
 	return (
 		<>
