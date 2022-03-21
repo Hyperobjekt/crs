@@ -14,8 +14,8 @@ export default function Tooltip({ data = {}, transform }) {
 		const { coords } = data;
 		let [x, y] = coords;
 
-		x = x * transform.k + transform.x - rect.width/2 + data.offsetX;
-		y = y * transform.k + transform.y + 40;
+		x = x * transform.k + transform.x - rect.width/2 + data.offset[0];
+		y = y * transform.k + transform.y + 40  + data.offset[1];
 
 		const offRight = x + rect.width - window.innerWidth + MARGIN;
 		const offLeft = MARGIN - x;

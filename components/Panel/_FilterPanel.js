@@ -67,7 +67,6 @@ export default function FilterPanel({ activeCount, activeFilters = {}, filtersSc
 						</div>
 					</div>
 					<div className="p-4">
-						{/*This map displays {activeCount} places in the USA where people are trying to implement laws against teaching Critical Race Theory. Filter results by:*/}
 						Filter results by:
 					</div>
 					<div>
@@ -85,7 +84,6 @@ export default function FilterPanel({ activeCount, activeFilters = {}, filtersSc
 						))}
 					</div>
 				</div>
-				{/*<div className="w-full h-6 absolute left-0 top-0 bg-gradient-to-b from-white pointer-events-none" />*/}
 			</div>
 		</>
 	)

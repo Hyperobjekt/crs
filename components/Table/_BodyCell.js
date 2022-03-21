@@ -13,7 +13,7 @@ export default function BodyCell({ colVal, colSchema, children }) {
 			className={colSchema.className}
 			// onClick={onClick}
 			>
-			{children ? children : colSchema.key === "Date Intro" ? getDate(colVal) : getText(colVal)}
+			{children ? children : colSchema.key === "Date Intro" ? getDate(colVal) : colVal ? getText(colVal) : "N/A"}
 		</td>
 	)
 };

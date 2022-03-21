@@ -9,7 +9,7 @@ export default function Header({ activeView, activityCount, onViewClick, onMenuC
 				</strong>
 			</div>
 			<div className="w-[30em] my-auto table">
-				This map displays {activityCount} places in the USA where people are trying to implement laws against teaching Critical Race Theory
+				{/*This map displays {activityCount} places in the USA where people are trying to implement laws against teaching Critical Race Theory*/}
 			</div>
 			<div className="flex justify-end content-center ml-auto">
 				<div className="my-auto flex gap-4">

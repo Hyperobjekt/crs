@@ -34,6 +34,15 @@ module.exports = {
 				"gray-blue-300": "#D4DFE3",
 				"gray-blue-400": "#7E8D92",
 				"dark-blue": "#326A96",
+
+				"local-1": "#5B5D84",
+				"local-2": "#C66E3B",
+
+				"state-1": "#FCFCFF",
+				"state-2": "#DEE2E4",
+				"state-3": "#D4DFE3",
+
+				"map-outline": "#99ABB0"
 			},
 			fontSize: {
 				"sm": [12, "14px"],

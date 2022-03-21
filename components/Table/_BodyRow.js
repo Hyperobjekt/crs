@@ -6,9 +6,9 @@ export default function BodyRow({ rowData, colSchemas, index, setActiveActivity 
 
 	let className;
 	if(index % 2) {
-		className = "flex px-4 py-6 space-x-2 border-b bg-gray-100";
+		className = "body-row flex px-4 py-6 space-x-2 bg-gray-100";
 	} else {
-		className = "flex px-4 py-6 space-x-2 border-b bg-white";
+		className = "body-row flex px-4 py-6 space-x-2 bg-white";
 	}
 
 	const onClick = () => {
@@ -19,9 +19,9 @@ export default function BodyRow({ rowData, colSchemas, index, setActiveActivity 
 		<tr
 			role="row"
 			className={className}>
-			<BodyCell colSchema={colSchemas[0]}>
+			{/*<BodyCell colSchema={colSchemas[0]}>
 				{getTitle(rowData)}
-			</BodyCell>
+			</BodyCell>*/}
 			{colSchemas.filter(c => !c.custom).map(colSchema => (
 				<BodyCell
 					key={colSchema.key}
