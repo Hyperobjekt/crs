@@ -18,18 +18,12 @@ export default function Table({ filteredActivities = [], setActiveActivity }) {
 	}, [filteredActivities]);
 
 	const colSchemas = [
-		{
-			key: "Title",
-			className: "w-3/12 capitalize font-bold",
-			colSpan: 3,
-			custom: true,
-		},
-		{
-			key: "Date Intro",
-			className: "w-2/12",
-			colSpan: 2,
-			sortable: true,
-		},
+		// {
+		// 	key: "Title",
+		// 	className: "w-3/12 capitalize font-bold",
+		// 	colSpan: 3,
+		// 	custom: true,
+		// },
 		{
 			key: "State/US",
 			className: "w-1/12",
@@ -37,9 +31,21 @@ export default function Table({ filteredActivities = [], setActiveActivity }) {
 			sortable: true,
 		},
 		{
-			key: "Progress",
+			key: "Body Name",
+			className: "w-2/12",
+			colSpan: 2,
+			sortable: true,
+		},
+		{
+			key: "Date Intro",
 			className: "w-1/12",
 			colSpan: 1,
+			sortable: true,
+		},
+		{
+			key: "Progress",
+			className: "w-2/12",
+			colSpan: 2,
 			sortable: true,
 		},
 		{
@@ -50,15 +56,15 @@ export default function Table({ filteredActivities = [], setActiveActivity }) {
 		},
 		{
 			key: "Activity Type",
-			className: "w-2/12",
-			colSpan: 2,
+			className: "w-1/12",
+			colSpan: 1,
 			sortable: true,
 		},
 		{
-			key: "",
-			className: "w-2/12",
-			colSpan: 2,
-			custom: true,
+			key: "Related Bill(s)",
+			className: "w-1/12",
+			colSpan: 1,
+			// custom: true,
 		},
 	];
 

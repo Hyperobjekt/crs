@@ -99,6 +99,7 @@ let d3, fetchJson, stateCodes, activities;
 			return({
 				type: "Feature",
 				properties: {
+					type: "state",
 					state: state,
 					// activities: activities
 					// 	.filter(row => ["State","Federal"].includes(row["Level"]) && row["State/US"] === state)
@@ -144,6 +145,7 @@ let d3, fetchJson, stateCodes, activities;
 					type: "Feature",
 					// properties: { ...row, index: i },
 					properties: {
+						type: "local",
 						level: row["Level"],
 						progress: row["Progress"],
 						index: row.index

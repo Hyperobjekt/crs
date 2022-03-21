@@ -40,9 +40,20 @@ export default function Index({ statesGeo, localsGeo, activities, filtersSchema,
 	const [showMenu, setShowMenu] = useState(false);
 
 	useEffect(() => {
-
-		const activeGroups = Object.keys(activeFilters).filter(groupKey => activeFilters[groupKey].length)
+		const activeGroups = Object.keys(activeFilters).filter(groupKey => activeFilters[groupKey].length);
 		const newFilteredData = activities.filter(d => {
+			// console.log(d, activeGroups.filter(groupKey => {
+			// 		if(groupKey === "Date Intro") {
+			// 			const [start, end] = activeFilters[groupKey];
+			// 			if(start && end) return d[groupKey] >= start && d[groupKey] <= end;
+			// 			if(start) return d[groupKey] >= start;
+			// 			if(end) return d[groupKey] <= end;
+			// 		} else if(Array.isArray(d[groupKey])) {
+			// 			return activeFilters[groupKey].some(o => (o === "N/A" && !d[groupKey].length) || d[groupKey].includes(o));
+			// 		} else {
+			// 			return activeFilters[groupKey].includes(d[groupKey]);
+			// 		}
+			// 	}).length);
 			return activeGroups.length ?
 				activeGroups.filter(groupKey => {
 					if(groupKey === "Date Intro") {
@@ -55,7 +66,7 @@ export default function Index({ statesGeo, localsGeo, activities, filtersSchema,
 					} else {
 						return activeFilters[groupKey].includes(d[groupKey]);
 					}
-				}).length
+				}).length === activeGroups.length
 			: true;
 		});
 		setFilteredData(newFilteredData);
@@ -72,7 +83,7 @@ export default function Index({ statesGeo, localsGeo, activities, filtersSchema,
 	// };
 
 	const onViewClick = (view) => {
-		setFilterOpen(false);
+		// setFilterOpen(false);
 		setActiveActivity(null);
 		setActiveState(null);
 		setActiveView(view);
@@ -138,6 +149,8 @@ export default function Index({ statesGeo, localsGeo, activities, filtersSchema,
 						localsGeo={localsGeo}
 						filteredActivities={filteredActivities}
 						activeFilters={activeFilters}
+						activeActivity={activeActivity}
+						activeState={activeState}
 						setActiveActivity={setActiveActivity}
 						setActiveState={setActiveState} />
 				</div>

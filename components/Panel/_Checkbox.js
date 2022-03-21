@@ -18,7 +18,7 @@ export default function Checkbox({ val, label, id, group, active, onChange }) {
 			<label
 				htmlFor={id}
 				className="flex cursor-pointer text-md">
-				<div className="pt-0.5">
+				<div>
 					<div className="w-4 h-4 flex overflow-hidden rounded">
 						{active ?
 							<div className="w-full h-full flex bg-accent-blue">

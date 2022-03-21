@@ -21,7 +21,7 @@ button {
 	text-align: left;
 }
 
-input[type="checkbox"]:focus + label > div {
+input[type="checkbox"]:focus + label > div:first-child {
 	outline: 5px auto Highlight;
 	outline: 5px auto -webkit-focus-ring-color;
 }
@@ -99,6 +99,7 @@ input[type="checkbox"]:focus + label > div {
 		@apply border;
 		@apply rounded-md;
 		@apply type-button-label;
+		/*white-space: nowrap;*/
 		color: #444743;
 		line-height: 1em;
 	}

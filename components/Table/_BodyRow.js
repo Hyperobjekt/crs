@@ -19,9 +19,9 @@ export default function BodyRow({ rowData, colSchemas, index, setActiveActivity 
 		<tr
 			role="row"
 			className={className}>
-			<BodyCell colSchema={colSchemas[0]}>
+			{/*<BodyCell colSchema={colSchemas[0]}>
 				{getTitle(rowData)}
-			</BodyCell>
+			</BodyCell>*/}
 			{colSchemas.filter(c => !c.custom).map(colSchema => (
 				<BodyCell
 					key={colSchema.key}
