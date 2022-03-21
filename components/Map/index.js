@@ -33,15 +33,18 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 	const DC_OFFSET_Y = -20;
 
 	const dcOffset = [90, -20];
-	const stateRange = [
+
+	const stateColors = [
 		"#FCFCFF",
 		"#DEE2E4",
 		"#D4DFE3"
 	];
+	
 	const localColors = {
 		LocalSch: "#C66E3B",
 		LocalOth: "#5B5D84"
 	};
+
 	const localShapes = {
 		LocalSch: `M 0, ${MARKER_SIZE} a ${MARKER_SIZE},${MARKER_SIZE} 0 1,0 ${MARKER_SIZE * 2},0 a ${MARKER_SIZE},${MARKER_SIZE} 0 1,0 -${MARKER_SIZE * 2},0`,
 		LocalOth: `M${MARKER_SIZE} 1L${MARKER_SIZE*2} ${MARKER_SIZE*2}H0L${MARKER_SIZE} 1Z`
@@ -346,9 +349,9 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		svg.selectAll(".states path")
 			.attr("fill", d => {
 				const stateActivities = filteredActivities.filter(a => a["Level"] === "State" && a["State/US"] === d.properties.state);
-				if(!stateActivities.length) return stateRange[0];
-				if(stateActivities.filter(d => d["Progress"] === "Enacted").length) return stateRange[2];
-				return stateRange[1];
+				if(!stateActivities.length) return stateColors[0];
+				if(stateActivities.filter(d => d["Progress"] === "Enacted").length) return stateColors[2];
+				return stateColors[1];
 			})
 			.attr("stroke-width", d => {
 				let strokeWidth;
@@ -369,9 +372,9 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		svg.select(".federal-icon rect")
 			.attr("fill", d => {
 				const federalActivities = filteredActivities.filter(a => a["Level"] === "Federal" && a["State/US"] === d.properties.state);
-				if(!federalActivities.length) return stateRange[0];
-				if(federalActivities.filter(d => d["Progress"] === "Enacted").length) return stateRange[2];
-				return stateRange[1];
+				if(!federalActivities.length) return stateColors[0];
+				if(federalActivities.filter(d => d["Progress"] === "Enacted").length) return stateColors[2];
+				return stateColors[1];
 			})
 			.attr("stroke-width", d => {
 				let strokeWidth;
@@ -421,7 +424,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 
 				<Legend
 					localColors={localColors}
-					stateColors={stateRange} />
+					stateColors={stateColors} />
 
 			</div>
 		</>
