@@ -5,7 +5,7 @@ import { getText, getDate, getTitle } from "./../../helpers";
 import Accordion from "./_Accordion";
 import CloseBttn from "./../Icon/_CloseBttn";
 
-export default function StatePanel({ state, stateActivities, filtersSchema, hasFilters, onClickActivityRow, closeBttn }) {
+export default function StatePanel({ state, stateActivities, schema, hasFilters, onClickActivityRow, closeBttn }) {
 	const [panelData, setPanelData] = useState({});
 	const [activeTab, setActiveTab] = useState("state");
 
@@ -40,7 +40,7 @@ export default function StatePanel({ state, stateActivities, filtersSchema, hasF
 
 				<div>
 					{progressListLength ?
-						filtersSchema["Activity Type"].options.map((type, index) => {
+						schema["Activity Type"].filter.options.map((type, index) => {
 							const typeListActivities = progressListActivities.filter(a => a["Activity Type"] === type);
 							return (
 								typeListActivities.length ?

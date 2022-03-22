@@ -1,5 +1,6 @@
 {
 	"Level": {
+		"tooltip": "Federal, state, school district, or city or county government",
 		"options": [
 			"LocalSch",
 			"LocalOth",
@@ -8,6 +9,7 @@
 		]
 	},
 	"Activity Type": {
+		"tooltip": "Instrument being used to advance anti-CRT activity",
 		"options": [
 			"Exec directive",
 			"Legislation",
@@ -20,9 +22,11 @@
 		]
 	},
 	"Date Intro": {
+		"tooltip": "When the activity was introduced",
 		"options": []
 	},
 	"Progress": {
+		"tooltip": "Status of the anti-CRT activity",
 		"options": [
 			"Pending",
 			"Enacted",
@@ -31,6 +35,7 @@
 		]
 	},
 	"Target Institution": {
+		"tooltip": "The type of entity the authority type is attempting to regulate",
 		"multi": true,
 		"options": [
 			"K-12",
@@ -42,6 +47,7 @@
 		]
 	},
 	"Conduct Regulated": {
+		"tooltip": "Acts the anti-CRT activity suppresses",
 		"multi": true,
 		"options": [
 			"Disclosure of teaching/curriculum",
@@ -50,6 +56,7 @@
 		]
 	},
 	"Conduct Trigger": {
+		"tooltip": "Language used in the anti-CRT activity is derived from the now rescinded Trump Executive Order 13950 to suppress specific acts",
 		"multi": true,
 		"options": [
 			"\"divisive concepts\"/\"controversial issues\"",
@@ -70,6 +77,7 @@
 		]
 	},
 	"Category": {
+		"tooltip": "Focus of the anti-CRT activity is on race or ethnicity, sex or other category like religion or color",
 		"options": [
 			"Race or ethnicity only",
 			"Race or ethnicity & sex",

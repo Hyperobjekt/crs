@@ -4,8 +4,25 @@ import { getText, getDate, getTitle } from "./../../helpers";
 
 import FieldRow from "./_FieldRow";
 import Button from "./../Global/_Button";
+import Tooltip from "./../Global/_Tooltip";
 
-export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
+// const fields = [
+// 	"Level",
+// 	"State/US",
+// 	"Body Name",
+// 	"Bill #",
+// 	"Activity Type",
+// 	"Date Intro",
+// 	"Progress",
+// 	"Target Institution",
+// 	"Conduct Regulated",
+// 	"Content Trigger",
+// 	"Enforcement Mechanism",
+// 	"Category",
+// 	"Related Bill(s)"
+// ];
+
+export default function ActivityPanel({ activity, closeBttn, schema }) {
 	const [panelData, setPanelData] = useState({});
 
 	useEffect(() => {
@@ -41,21 +58,27 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 
 			<div className="overflow-y-scroll pb-6">
 				<ul className="p-4 pt-6 border-b">
-					{activitySchema ? activitySchema.fields.map(key => {
+					{Object.keys(schema).filter(k => panelData[k]).map(key => {
 						const fieldVal = panelData[key];
 						const fieldTitle = getText(key);
+						const tooltip = schema[key].tooltip;						
 						return(
 							<li key={key}
 								className="mb-3">
 								<div className="mb-0.5 text-sm text-gray-500">
 									{fieldTitle}
+									{tooltip ?
+										<Tooltip parent={null}>
+											{tooltip}
+										</Tooltip>
+									: null}
 								</div>
 								<div className="text-sm">
 									<Field fieldKey={key} fieldVal={fieldVal} />
 								</div>
 							</li>
 						);
-					}) : null}
+					})}
 				</ul>
 
 				{["Status (link)", "Full text (link)"].map(key => (

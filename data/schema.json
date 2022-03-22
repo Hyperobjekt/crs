@@ -1,0 +1,125 @@
+{
+	"Level": {
+		"tooltip": "Federal, state, school district, or city or county government",
+		"filter": {
+			"type": "select",
+			"options": [
+				"LocalSch",
+				"LocalOth",
+				"State",
+				"Federal"
+			]
+		}
+	},
+	"State/US": {
+		"tooltip": "State where the anti-CRT activity was introduced"
+	},
+	"Body Name": {
+		"tooltip": "Name of Governing Official, state, or local entity or legislature"
+	},
+	"Bill #": {
+		"tooltip": "The official number assigned to the proposed or enacted state law"
+	},
+	"Activity Type": {
+		"tooltip": "Instrument being used to advance anti-CRT activity",
+		"filter": {
+			"type": "select",
+			"options": [
+				"Exec directive",
+				"Legislation",
+				"Opinion Ltr",
+				"Regulation",
+				"Resolution",
+				"Statement",
+				"Attorney General Letter",
+				"Policy Change"
+			]
+		}
+	},
+	"Date Intro": {
+		"tooltip": "When the activity was introduced",
+		"filter": {
+			"type": "date"
+		}
+	},
+	"Progress": {
+		"tooltip": "Status of the anti-CRT activity",
+		"filter": {
+			"type": "select",
+			"options": [
+				"Pending",
+				"Enacted",
+				"Expired or Withdrawn",
+				"Rejected"
+			]
+		}
+	},
+	"Target Institution": {
+		"tooltip": "The type of entity the authority type is attempting to regulate",
+		"filter": {
+			"type": "select",
+			"multi": true,
+			"options": [
+				"K-12",
+				"Higher Ed",
+				"Other Govt",
+				"Other Contractors",
+				"Private Business/Non Profit",
+				"N/A"
+			]
+		}
+	},
+	"Conduct Regulated": {
+		"tooltip": "Acts the anti-CRT activity suppresses",
+		"filter": {
+			"type": "select",
+			"multi": true,
+			"options": [
+				"Disclosure of teaching/curriculum",
+				"Forbidden Books",
+				"N/A"
+			]
+		}
+	},
+	"Conduct Trigger": {
+		"tooltip": "Language used in the anti-CRT activity is derived from the now rescinded Trump Executive Order 13950 to suppress specific acts",
+		"filter": {
+			"type": "select",
+			"multi": true,
+			"options": [
+				"\"divisive concepts\"/\"controversial issues\"",
+				"US institns = \"inherently\" or \"fundamentally\" \"racist\"",
+				"Indiv. Respons. for systemic racism",
+				"\"Indiv. “discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race”\"",
+				"Meritocracy/hard work = racist",
+				"1619 Project",
+				"\"Critical Race Theory\""
+			]
+		}
+	},
+	"Enforcement Mechanism": {
+		"filter": {
+			"type": "select",
+			"multi": true,
+			"options": [
+				"Funding",
+				"Creates a private cause of action",
+				"Parent Rights"
+			]
+		}
+	},
+	"Category": {
+		"tooltip": "Focus of the anti-CRT activity is on race or ethnicity, sex or other category like religion or color",
+		"filter": {
+			"type": "select",
+			"options": [
+				"Race or ethnicity only",
+				"Race or ethnicity & sex",
+				"Race or ethnicity, sex & more"
+			]
+		}
+	},
+	"Related Bill(s)": {
+
+	}
+}

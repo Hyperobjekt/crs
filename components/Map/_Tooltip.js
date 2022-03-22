@@ -28,7 +28,7 @@ export default function Tooltip({ data = {}, transform }) {
 	
 	return (
 		<div ref={tooltipRef}
-			className="w-52 absolute top-4 right-4 z-10 bg-slate-900 rounded-lg text-white pointer-events-none"
+			className="w-60 absolute top-4 right-4 z-10 bg-slate-900 rounded-lg text-white pointer-events-none"
 			style={style}>
 
 			<div

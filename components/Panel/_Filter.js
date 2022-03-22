@@ -26,16 +26,15 @@ export default function Filter({ group, schema, activeFilters = {}, onChange }) 
 			delete activeFilters["Date Intro"];
 			onChange({ ...activeFilters });
 		}
-		
 	};
 
 	return(
 		<>
-			{schema.options && schema.options.length ?
+			{schema.filter.type === "select" ?
 				<div
 					role="listbox"
 					aria-multiselectable="true">
-					{schema.options.map((option, i) => (
+					{schema.filter.options.map((option, i) => (
 						<Checkbox
 							key={i}
 							val={option}
@@ -48,7 +47,7 @@ export default function Filter({ group, schema, activeFilters = {}, onChange }) 
 				</div>
 			: null}
 
-			{group === "Date Intro" ?
+			{schema.filter.type === "date" ?
 				<div>
 					<DateSelector
 						start={activeFilters["Date Intro"] ? activeFilters["Date Intro"][0] : null}
