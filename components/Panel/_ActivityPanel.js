@@ -6,22 +6,6 @@ import FieldRow from "./_FieldRow";
 import Button from "./../Global/_Button";
 import InfoTooltip from "./../Global/_InfoTooltip";
 
-// const fields = [
-// 	"Level",
-// 	"State/US",
-// 	"Body Name",
-// 	"Bill #",
-// 	"Activity Type",
-// 	"Date Intro",
-// 	"Progress",
-// 	"Target Institution",
-// 	"Conduct Regulated",
-// 	"Content Trigger",
-// 	"Enforcement Mechanism",
-// 	"Category",
-// 	"Related Bill(s)"
-// ];
-
 export default function ActivityPanel({ activity, closeBttn, schema }) {
 	const [panelData, setPanelData] = useState({});
 	const parentRef = useRef(null);
@@ -82,18 +66,25 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 					})}
 				</ul>
 
-				{["Status (link)", "Full text (link)"].map(key => (
+				{["Full text (link)", "Status (link)"].map((key, index) => (
 					panelData[key] ? 
-						<div key={key} className="w-full flex p-4 border-b">
-							<Button
-								url={panelData[key]}
-								style="blue"
-								imgSrc="IconExternal.svg">
-								{getText(key)}
-							</Button>
+						<div key={key} className="w-full p-4 border-b">
+							<div className="flex">
+								<Button
+									url={panelData[key]}
+									style="blue"
+									imgSrc="IconExternal.svg">
+									{getText(key)}
+								</Button>
+							</div>
 						</div>
 					: null
 				))}
+
+				<div className="p-4 text-xs">
+					Progress current as of {getDate(panelData["Date Status Last Checked"])}
+				</div>
+
 			</div>
 
 		</div>
