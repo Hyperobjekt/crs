@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Tooltip from "./_Tooltip";
 
-export default function InfoTooltip({ parent, children }) {
+export default function TooltipInfo({ parent, children }) {
 	const [hovered, setHovered] = useState(false);
 
 	const onHover = () => {
@@ -22,10 +22,10 @@ export default function InfoTooltip({ parent, children }) {
 				onMouseLeave={onUnhover}
 				onFocus={onHover}
 				onBlur={onUnhover} />
-				<div className="absolute left-1/2">
+				<div className="absolute top-6 left-1/2 pointer-events-none">
 					<Tooltip
 						open={hovered}
-						parent={parent}>
+						parentWidth={parent ? parent.getBoundingClientRect().width : null}>
 						<div className="p-4 text-xs font-normal text-gray-blue-100">
 							{children}
 						</div>

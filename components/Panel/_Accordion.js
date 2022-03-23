@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { getText } from "./../../helpers";
-import InfoTooltip from "../Global/_InfoTooltip";
+import TooltipInfo from "../Global/_TooltipInfo";
 
 export default function Accordion({ label, tooltip, open, children }) {
 	const parentRef = useRef(null);
@@ -19,9 +19,9 @@ export default function Accordion({ label, tooltip, open, children }) {
 						{label}
 					</h3>
 					{tooltip ?
-						<InfoTooltip parent={parentRef.current}>
+						<TooltipInfo parent={parentRef.current}>
 							{tooltip}
-						</InfoTooltip>
+						</TooltipInfo>
 					: null}
 				</div>
 				<div

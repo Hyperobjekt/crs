@@ -3,9 +3,9 @@ import { Helmet } from "react-helmet-async";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
-import MapTooltip from "./_MapTooltip";
-import ZoomBttns from "./_ZoomBttns";
 import Legend from "./_Legend";
+import TooltipMap from "./_TooltipMap";
+import ZoomBttns from "./_ZoomBttns";
 
 export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities = [], activeActivity, activeState, setActiveActivity, setActiveState }) {
 	const [mapSizes, setMapSizes] = useState({});
@@ -90,6 +90,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		g.select(".federal-line")
 			.attr("stroke-width", STROKE_WIDTH_DEFAULT / mapTransform.k)
 		svg.classed("moving", true);
+		setHoveredFeature(null);
 	}, [mapTransform]);
 
 	const onResize = () => {
@@ -268,53 +269,52 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 					path = d3.select(elem),
 					parent = d3.select(elem.parentElement),
 					g = d3.select(svgRef.current).select("g");
-
 		let coords, data;
 		let offsetX = 0;
 		let offsetY = 0;
+
 		if(d.properties.type === "state" || d.properties.type === "federal") {
 			data = d.properties;
 			const stateActivities = filteredActivities.filter(a => a["State/US"] === data.state && ["State","Federal"].includes(a["Level"]))
 			data.introduced = stateActivities.filter(a => a["Progress"] !== "Enacted").length;
 			data.passed = stateActivities.filter(a => a["Progress"] === "Enacted").length;
 		}
+
 		if(d.properties.type === "state") {
-			coords = projection(d3.geoCentroid(d.geometry));
+			const stateCentroid = d3.geoCentroid(d.geometry),
+						stateBounds = d3.geoBounds(d.geometry),
+						stateCoords = [stateCentroid[0], stateBounds[0][1]];
+			coords = projection(stateCoords);
 			const activeState = parent.select(`path[stroke="${STROKE_COLOR_ACTIVE}"]`);
 			if(activeState.empty()) {
 				parent.node().appendChild(elem);
 			} else {
 				parent.node().insertBefore(elem, activeState.node());
 			}
-			// d.properties.hovered = true;
-			// path.attr("stroke-width", getStrokeWidth);
 		}
+
 		if(d.properties.type === "federal") {
 			const dcCoords = d.geometry.coordinates[0][0][4];
 			coords = [
 				projection(dcCoords)[0] + dcOffset[0],
 				projection(dcCoords)[1] + dcOffset[1]
 			];
-			// d.properties.hovered = true;
-			// path.attr("stroke-width", getStrokeWidth);
+			offsetY = DC_SIZE;
 		}
+
 		if(d.properties.type === "local") {
-			coords = projection(d.geometry.coordinates);
+			coords = translateLocal(d);
 			data = filteredActivities.find(a => a.index === d.properties.index)
 			offsetX = MARKER_SIZE;
+			offsetY = MARKER_SIZE * 4;
 		}
+
 		if(coords) setHoveredFeature({ ...data, coords, offset: [offsetX, offsetY] });
 	}
 
 	const onUnhoverFeature = (e, d) => {
 		if(d3.select(svgRef.current).classed("moving")) return;
 		setHoveredFeature(null);
-		const elem = e.target,
-					path = d3.select(elem);
-		// if(path.attr("stroke")) {
-			// delete d.properties.hovered;
-			// path.attr("stroke-width", getStrokeWidth);
-		// }
 	}
 
 	const onZoomClick = (e) => {
@@ -343,7 +343,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 	}
 
 	const translateLocal = (d) => {
-		return projection(d.geometry.coordinates).map(l => l - MARKER_SIZE/2);
+		return projection(d.geometry.coordinates).map(l => l - MARKER_SIZE);
 	}
 
 	const updateMapStyle = () => {
@@ -425,11 +425,11 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 
 				<ZoomBttns
 					onZoomClick={onZoomClick} />
-
 				{hoveredFeature ?
-					<MapTooltip
-						data={hoveredFeature}
-						transform={mapTransform} />
+					<TooltipMap
+						feature={hoveredFeature}
+						transform={mapTransform}
+						parentWidth={mapSizes.width} />
 				: null}
 
 				<Legend

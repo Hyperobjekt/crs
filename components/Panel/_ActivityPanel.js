@@ -4,7 +4,7 @@ import { getText, getDate, getTitle } from "./../../helpers";
 
 import FieldRow from "./_FieldRow";
 import Button from "./../Global/_Button";
-import InfoTooltip from "./../Global/_InfoTooltip";
+import TooltipInfo from "./../Global/_TooltipInfo";
 
 export default function ActivityPanel({ activity, closeBttn, schema }) {
 	const [panelData, setPanelData] = useState({});
@@ -53,9 +53,9 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 								<div className="mb-0.5 text-sm text-gray-500">
 									{fieldTitle}
 									{tooltip ?
-										<InfoTooltip parent={parentRef.current}>
+										<TooltipInfo parent={parentRef.current}>
 											{tooltip}
-										</InfoTooltip>
+										</TooltipInfo>
 									: null}
 								</div>
 								<div className="text-sm">
@@ -81,9 +81,11 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 					: null
 				))}
 
-				<div className="p-4 text-sm">
-					Progress current as of {getDate(panelData["Date Status Last Checked"])}
-				</div>
+				{panelData["Date Status Last Checked"] ?
+					<div className="p-4 text-sm">
+						Progress current as of {getDate(panelData["Date Status Last Checked"])}
+					</div>
+				: null}
 
 			</div>
 

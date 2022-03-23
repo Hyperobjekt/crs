@@ -1,42 +1,51 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function Tooltip({ open, parent, children }) {
+export default function Tooltip({ open, parentWidth, children }) {
 	const tooltipRef = useRef(null);
 	const [outerStyle, setOuterStyle] = useState({});
 	const [innerStyle, setInnerStyle] = useState({});
 
+	const MARGIN = 48;
+
 	useEffect(() => {
-		setTimeout(() => setOuterStyle(
+		setOuterStyle(
 			open ? {
-				top: "2.5rem",
+				top: "0",
 				opacity: 1
 			} : {}
-		), 10);
-	}, [open, parent, children]);
+		);
+	}, [open, parentWidth, children]);
 
 	useEffect(() => {
 		if(!tooltipRef.current) return;
 		const tooltipRect = tooltipRef.current.getBoundingClientRect();
-		const parentRect = parent ? parent.getBoundingClientRect() : null;
-		let newInnerStyle = {};
+		const limitLeft = tooltipRect.width/2 - MARGIN;
+		const limitRight = -tooltipRect.width/2 + MARGIN;
+		let translateX;
 		if(tooltipRect.left <= 0) {
-			newInnerStyle = { transform: `translateX(${tooltipRect.left * -1}px)` };
-		} else if(parentRect && tooltipRect.right >= parentRect.width) {
-			newInnerStyle = { transform: `translateX(${parentRect.width - tooltipRect.right}px)` };
+			translateX = tooltipRect.left * -1;
+			if(translateX > limitLeft) {
+				translateX = limitLeft;
+			}
+		} else if(parentWidth && tooltipRect.right >= parentWidth) {
+			translateX = parentWidth - tooltipRect.right - 12;
+			if(translateX < limitRight) {
+				translateX = limitRight;
+			}
 		}
-		setInnerStyle(newInnerStyle);
+		setInnerStyle({ transform: translateX ? `translateX(${translateX}px)` : "none" });
 		
-	}, [tooltipRef, parent, children]);
+	}, [tooltipRef, parentWidth, children]);
 
 	return (
 		<div
 			ref={tooltipRef}
 			style={outerStyle}
-			className="w-64 px-4 pb-4 opacity-0 absolute z-20 top-12 left-0 -translate-x-1/2 transition-all"
+			className="w-64 px-4 pb-4 pt-3 opacity-0 absolute z-20 top-6 left-0 -translate-x-1/2 transition-all"
 			aria-hidden={!open}>
 
 			<div
-				className="w-0 h-0 absolute left-1/2 -top-3 -ml-3 text-slate-900"
+				className="w-0 h-0 absolute left-1/2 top-0 -ml-3 text-slate-900"
 				style={{
 					borderLeft: ".75rem solid transparent",
 					borderRight: ".75rem solid transparent",
