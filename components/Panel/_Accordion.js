@@ -3,12 +3,12 @@ import { getText } from "./../../helpers";
 import InfoTooltip from "../Global/_InfoTooltip";
 
 export default function Accordion({ label, tooltip, open, children }) {
-	const detailsRef = useRef(null);
+	const parentRef = useRef(null);
 	const [pseudoOpen, setPseudoOpen] = useState(open);
 
 	return(
 		<details
-			ref={detailsRef}
+			ref={parentRef}
 			open={open}
 			className="relative border-b">
 			<summary
@@ -19,7 +19,7 @@ export default function Accordion({ label, tooltip, open, children }) {
 						{label}
 					</h3>
 					{tooltip ?
-						<InfoTooltip parent={detailsRef.current}>
+						<InfoTooltip parent={parentRef.current}>
 							{tooltip}
 						</InfoTooltip>
 					: null}

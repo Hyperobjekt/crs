@@ -1,26 +1,23 @@
 import { getText, getDate } from "./../../helpers";
 
 export default function BodyCell({ colVal, colSchema, children }) {
-
-	// const onClick = () => {
-	// 	if(colSchema.key !== "Title/Summary") return;
-	// }
-
+	let content;
+	if(children) {
+		content = children;
+	} else if(colSchema.type === "date") {
+		content = getDate(colVal);
+	} else {
+		content = getText(colVal);
+	}
 	return(
 		<td
 			role="cell"
-			colSpan={colSchema.colSpan}
-			className={colSchema.className}
-			// onClick={onClick}
-			>
-			{children ? children : colSchema.key === "Date Intro" ? getDate(colVal) : colVal ? getText(colVal) : "N/A"}
+			colSpan={colSchema.table.col}
+			// className={`w-${colSchema.table.col}/12`}
+			style={{
+				width: `${colSchema.table.col/12 * 100}%`,
+			}}>
+			{content}
 		</td>
 	)
 };
-
-{/*<Button
-	style="full"
-	url={colVal}
-	imgSrc="IconExternal.svg">
-	{getText(colSchema.key)}
-</Button>*/}

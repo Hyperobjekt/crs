@@ -30,7 +30,7 @@ export default function Filter({ group, schema, activeFilters = {}, onChange }) 
 
 	return(
 		<>
-			{schema.filter.type === "select" ?
+			{schema.type === "string" ?
 				<div
 					role="listbox"
 					aria-multiselectable="true">
@@ -47,7 +47,7 @@ export default function Filter({ group, schema, activeFilters = {}, onChange }) 
 				</div>
 			: null}
 
-			{schema.filter.type === "date" ?
+			{schema.type === "date" ?
 				<div>
 					<DateSelector
 						start={activeFilters["Date Intro"] ? activeFilters["Date Intro"][0] : null}

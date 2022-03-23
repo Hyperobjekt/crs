@@ -4,7 +4,7 @@ import { getText, getDate, getTitle } from "./../../helpers";
 
 import FieldRow from "./_FieldRow";
 import Button from "./../Global/_Button";
-// import Tooltip from "./../Global/_Tooltip";
+import InfoTooltip from "./../Global/_InfoTooltip";
 
 // const fields = [
 // 	"Level",
@@ -24,6 +24,7 @@ import Button from "./../Global/_Button";
 
 export default function ActivityPanel({ activity, closeBttn, schema }) {
 	const [panelData, setPanelData] = useState({});
+	const parentRef = useRef(null);
 
 	useEffect(() => {
 		setPanelData(activity);
@@ -46,7 +47,7 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 	};
 
 	return (
-		<>
+		<div ref={parentRef}>
 			<header className="p-4 border-b">
 				<div className="flex">
 					<h2 className="text-xl font-bold capitalize">
@@ -67,11 +68,11 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 								className="mb-3">
 								<div className="mb-0.5 text-sm text-gray-500">
 									{fieldTitle}
-									{/*{tooltip ?
-										<Tooltip parent={null}>
+									{tooltip ?
+										<InfoTooltip parent={parentRef.current}>
 											{tooltip}
-										</Tooltip>
-									: null}*/}
+										</InfoTooltip>
+									: null}
 								</div>
 								<div className="text-sm">
 									<Field fieldKey={key} fieldVal={fieldVal} />
@@ -95,6 +96,6 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 				))}
 			</div>
 
-		</>
+		</div>
 	);
 }

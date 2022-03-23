@@ -134,5 +134,5 @@ const siteCopy = {
 };
 
 export default function getText(str) {
-	return siteCopy[str] || str;
+	return siteCopy[str] ? siteCopy[str] : str;
 }

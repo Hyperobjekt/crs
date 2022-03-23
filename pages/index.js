@@ -139,6 +139,7 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 					className="w-full h-full"
 					style={{ display: activeView === "table" ? "block" : "none" }}>
 					<Table
+						schema={schema}
 						filteredActivities={filteredActivities}
 						setActiveActivity={setActiveActivity} />
 				</div>

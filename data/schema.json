@@ -1,29 +1,41 @@
 {
 	"Level": {
 		"tooltip": "Federal, state, school district, or city or county government",
+		"type": "string",
 		"filter": {
-			"type": "select",
 			"options": [
 				"LocalSch",
 				"LocalOth",
 				"State",
 				"Federal"
 			]
+		},
+		"table": {
+			"sortable": true,
+			"col": 2
 		}
 	},
 	"State/US": {
-		"tooltip": "State where the anti-CRT activity was introduced"
+		"tooltip": "State where the anti-CRT activity was introduced",
+		"table": {
+			"sortable": true,
+			"col": 1
+		}
 	},
 	"Body Name": {
-		"tooltip": "Name of Governing Official, state, or local entity or legislature"
+		"tooltip": "Name of Governing Official, state, or local entity or legislature",
+		"table": {
+			"sortable": true,
+			"col": 2
+		}
 	},
 	"Bill #": {
 		"tooltip": "The official number assigned to the proposed or enacted state law"
 	},
 	"Activity Type": {
 		"tooltip": "Instrument being used to advance anti-CRT activity",
+		"type": "string",
 		"filter": {
-			"type": "select",
 			"options": [
 				"Exec directive",
 				"Legislation",
@@ -34,30 +46,41 @@
 				"Attorney General Letter",
 				"Policy Change"
 			]
+		},
+		"table": {
+			"sortable": true,
+			"col": 2
 		}
 	},
 	"Date Intro": {
 		"tooltip": "When the activity was introduced",
-		"filter": {
-			"type": "date"
+		"type": "date",
+		"filter": {},
+		"table": {
+			"sortable": true,
+			"col": 1
 		}
 	},
 	"Progress": {
 		"tooltip": "Status of the anti-CRT activity",
+		"type": "string",
 		"filter": {
-			"type": "select",
 			"options": [
 				"Pending",
 				"Enacted",
 				"Expired or Withdrawn",
 				"Rejected"
 			]
+		},
+		"table": {
+			"sortable": true,
+			"col": 2
 		}
 	},
 	"Target Institution": {
 		"tooltip": "The type of entity the authority type is attempting to regulate",
+		"type": "string",
 		"filter": {
-			"type": "select",
 			"multi": true,
 			"options": [
 				"K-12",
@@ -71,8 +94,8 @@
 	},
 	"Conduct Regulated": {
 		"tooltip": "Acts the anti-CRT activity suppresses",
+		"type": "string",
 		"filter": {
-			"type": "select",
 			"multi": true,
 			"options": [
 				"Disclosure of teaching/curriculum",
@@ -83,8 +106,8 @@
 	},
 	"Conduct Trigger": {
 		"tooltip": "Language used in the anti-CRT activity is derived from the now rescinded Trump Executive Order 13950 to suppress specific acts",
+		"type": "string",
 		"filter": {
-			"type": "select",
 			"multi": true,
 			"options": [
 				"\"divisive concepts\"/\"controversial issues\"",
@@ -98,8 +121,8 @@
 		}
 	},
 	"Enforcement Mechanism": {
+		"type": "string",
 		"filter": {
-			"type": "select",
 			"multi": true,
 			"options": [
 				"Funding",
@@ -110,8 +133,8 @@
 	},
 	"Category": {
 		"tooltip": "Focus of the anti-CRT activity is on race or ethnicity, sex or other category like religion or color",
+		"type": "string",
 		"filter": {
-			"type": "select",
 			"options": [
 				"Race or ethnicity only",
 				"Race or ethnicity & sex",
