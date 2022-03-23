@@ -10,7 +10,6 @@ export default function FilterPanel({ activeCount, activeFilters = {}, schema = 
 	const [openedFilter, setOpenedFilter] = useState(null);
 
 	const filterKeys = Object.keys(schema).filter((key) => schema[key].filter);
-	console.log(filterKeys);
 
 	useEffect(() => {
 		onFilterChange(activeFilters);

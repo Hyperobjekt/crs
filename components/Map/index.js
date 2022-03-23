@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
-import Tooltip from "./_Tooltip";
+import MapTooltip from "./_MapTooltip";
 import ZoomBttns from "./_ZoomBttns";
 import Legend from "./_Legend";
 
@@ -427,7 +427,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 					onZoomClick={onZoomClick} />
 
 				{hoveredFeature ?
-					<Tooltip
+					<MapTooltip
 						data={hoveredFeature}
 						transform={mapTransform} />
 				: null}

@@ -4,7 +4,7 @@ import { getText, getDate, getTitle } from "./../../helpers";
 
 import FieldRow from "./_FieldRow";
 import Button from "./../Global/_Button";
-import Tooltip from "./../Global/_Tooltip";
+// import Tooltip from "./../Global/_Tooltip";
 
 // const fields = [
 // 	"Level",
@@ -67,11 +67,11 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 								className="mb-3">
 								<div className="mb-0.5 text-sm text-gray-500">
 									{fieldTitle}
-									{tooltip ?
+									{/*{tooltip ?
 										<Tooltip parent={null}>
 											{tooltip}
 										</Tooltip>
-									: null}
+									: null}*/}
 								</div>
 								<div className="text-sm">
 									<Field fieldKey={key} fieldVal={fieldVal} />
