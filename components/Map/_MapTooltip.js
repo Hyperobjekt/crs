@@ -4,7 +4,12 @@ import Tooltip from "../Global/_Tooltip";
 
 export default function MapTooltip({ data = {}, transform }) {
 	const tooltipRef = useRef(null);
-	const [style, setStyle] = useState();
+	const [style, setStyle] = useState({});
+	const [open, setOpen] = useState(false);
+
+	// useEffect(() => {
+	// 	setOpen(true);
+	// }, []);
 
 	useEffect(() => {
 		if(!data) return;
@@ -33,7 +38,7 @@ export default function MapTooltip({ data = {}, transform }) {
 
 	return(
 		<div className="absolute pointer-events-none" style={style}>
-			<Tooltip>
+			<Tooltip open={true}>
 				<div>
 					{data.hasOwnProperty("state") ?
 						<div className="p-4">
@@ -41,7 +46,7 @@ export default function MapTooltip({ data = {}, transform }) {
 								{getText(data["state"])}
 							</div>
 							<div className="text-gray-blue-400">
-								{data.passed} passed, {data.introduced} introduced
+								{/*{data.passed} passed, {data.introduced} introduced*/}
 							</div>
 						</div>
 					: <div className="p-4">

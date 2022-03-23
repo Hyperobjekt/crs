@@ -22,15 +22,15 @@ export default function InfoTooltip({ parent, children }) {
 				onMouseLeave={onUnhover}
 				onFocus={onHover}
 				onBlur={onUnhover} />
-				{hovered ? 
-					<div className="absolute left-1/2">
-						<Tooltip parent={parent}>
-							<div className="p-4 text-xs font-normal text-gray-blue-100">
-								{children}
-							</div>
-						</Tooltip>
-					</div>
-				 : null}
+				<div className="absolute left-1/2">
+					<Tooltip
+						open={hovered}
+						parent={parent}>
+						<div className="p-4 text-xs font-normal text-gray-blue-100">
+							{children}
+						</div>
+					</Tooltip>
+				</div>
 		</div>
 	);
 };

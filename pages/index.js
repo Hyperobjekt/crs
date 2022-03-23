@@ -144,40 +144,42 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 						setActiveActivity={setActiveActivity} />
 				</div>
 
-				{filterOpen ?
-					<Panel
-						zIndex={50}
-						onClosePanel={onFilterPanelClose}>
-						<FilterPanel
-							schema={schema}
-							activeCount={activeCount}
-							activeFilters={activeFilters}
-							onFilterChange={onFilterChange} />
-					</Panel>
-				: null}
+				<Panel
+					open={filterOpen}
+					zIndex={50}
+					onClosePanel={onFilterPanelClose}>
+					<FilterPanel
+						schema={schema}
+						activeCount={activeCount}
+						activeFilters={activeFilters}
+						onFilterChange={onFilterChange} />
+				</Panel>
 
-				{!filterOpen && activeState && !activeActivity ?
-					<Panel
-						zIndex={30}
-						onClosePanel={onStatePanelClose}>
+				<Panel
+					// open={!filterOpen && activeState && !activeActivity}
+					open={activeState}
+					zIndex={30}
+					onClosePanel={onStatePanelClose}>
+					{activeState ?
 						<StatePanel
 							schema={schema}
 							state={activeState}
 							stateActivities={filteredActivities.filter(d => d["State/US"] === activeState.state )}
-							hasFilters={hasFilters}
 							onClickActivityRow={onClickActivityRow} />
-					</Panel>
-				: null}
+					: null}
+				</Panel>
 
-				{!filterOpen && activeActivity ?
-					<Panel
-						zIndex={40}
-						onClosePanel={onActivityPanelClose}>
+				<Panel
+					// open={!filterOpen && activeActivity}
+					open={activeActivity}
+					zIndex={40}
+					onClosePanel={onActivityPanelClose}>
+					{activeActivity ?
 						<ActivityPanel
 							schema={schema}
 							activity={activeActivity} />
-					</Panel>
-				: null}
+					: null}
+				</Panel>
 
 			</main>
 			

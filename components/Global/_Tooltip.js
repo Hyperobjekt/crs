@@ -1,26 +1,39 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function Tooltip({ parent, children }) {
+export default function Tooltip({ open, parent, children }) {
 	const tooltipRef = useRef(null);
-	const [style, setStyle] = useState(style);
+	const [outerStyle, setOuterStyle] = useState({});
+	const [innerStyle, setInnerStyle] = useState({});
+
+	useEffect(() => {
+		setTimeout(() => setOuterStyle(
+			open ? {
+				top: "2.5rem",
+				opacity: 1
+			} : {}
+		), 10);
+	}, [open, parent, children]);
 
 	useEffect(() => {
 		if(!tooltipRef.current) return;
 		const tooltipRect = tooltipRef.current.getBoundingClientRect();
 		const parentRect = parent ? parent.getBoundingClientRect() : null;
-		let newStyle = {};
+		let newInnerStyle = {};
 		if(tooltipRect.left <= 0) {
-			newStyle = { transform: `translateX(${tooltipRect.left * -1}px)` };
+			newInnerStyle = { transform: `translateX(${tooltipRect.left * -1}px)` };
 		} else if(parentRect && tooltipRect.right >= parentRect.width) {
-			newStyle = { transform: `translateX(${parentRect.width - tooltipRect.right}px)` };
+			newInnerStyle = { transform: `translateX(${parentRect.width - tooltipRect.right}px)` };
 		}
-		setStyle(newStyle);
+		setInnerStyle(newInnerStyle);
+		
 	}, [tooltipRef, parent, children]);
 
 	return (
 		<div
 			ref={tooltipRef}
-			className="w-64 px-4 pb-4 absolute z-20 top-8 left-0 -translate-x-1/2">
+			style={outerStyle}
+			className="w-64 px-4 pb-4 opacity-0 absolute z-20 top-12 left-0 -translate-x-1/2 transition-all"
+			aria-hidden={!open}>
 
 			<div
 				className="w-0 h-0 absolute left-1/2 -top-3 -ml-3 text-slate-900"
@@ -32,8 +45,8 @@ export default function Tooltip({ parent, children }) {
 			</div>
 
 			<div
-				className="bg-slate-900 rounded-lg transition-transform transition-0"
-				style={style}>
+				className="bg-slate-900 rounded-lg transition-transform"
+				style={innerStyle}>
 				{children}
 			</div>
 		</div>
