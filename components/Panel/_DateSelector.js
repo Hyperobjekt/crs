@@ -60,19 +60,27 @@ export default function DateSelector({ start, end, onChange }) {
 
 	const onStartDateChange = (newDate) => {
 		setStartDate(newDate);
+		setActiveButton(null);
 	}
 
 	const onEndDateChange = (newDate) => {
 		setEndDate(newDate);
+		setActiveButton(null);
 	}
 
 	const onClickPreset = (e) => {
 		const dateRange = e.target.value ? e.target.value.split(",") : [null,null];
-		const newStartDate = dateRange[0] ? new Date(dateRange[0]) : null;
-		const newEndDate = dateRange[1] ? new Date(dateRange[1]) : null;
+		let newStartDate = dateRange[0] ? new Date(dateRange[0]) : null;
+		let newEndDate = dateRange[1] ? new Date(dateRange[1]) : null;
 		setStartDate(newStartDate);
 		setEndDate(newEndDate);
 		setActiveButton(e.target.name);
+	}
+
+	const onClickReset = () => {
+		setStartDate(null);
+		setEndDate(null);
+		setActiveButton(null);
 	}
 
 	const DateSelector = ({ type }) => {
@@ -168,7 +176,7 @@ export default function DateSelector({ start, end, onChange }) {
 						className={`${b.className} ${b.name === activeButton ? "button-active" : ""}`}
 						name={b.name}
 						value={b.value}
-						onClick={onClickPreset}>
+						onClick={b.name === activeButton ? onClickReset : onClickPreset}>
 						{b.label}
 					</Button>
 				))}
