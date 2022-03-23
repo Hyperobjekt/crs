@@ -10,37 +10,48 @@ import ButtonExt from "./../Global/_ButtonExt";
 export default function Table({ filteredActivities = [], setActiveActivity, schema }) {
 
 	const [activities, setActivities] = useState([]);
-	const [currSort, setCurrSort] = useState({});
+	const [sort, setSort] = useState({});
 	const [limit, setLimit] = useState(500);
 
 	const colKeys = Object.keys(schema).filter(key => schema[key].table);
 
 	useEffect(() => {
-		setActivities(filteredActivities.filter((row, index) => index < limit));
-	}, [filteredActivities]);
+		console.log("!");
+		setSort({
+			key: "Date Intro",
+			order: "desc",
+			type: "date"
+		});
+	}, []);
 
-	const onHeaderClick = (key, type) => {
-		const newDir = currSort.dir === "asc" ? "desc" : "asc";
+	useEffect(() => {
 		const sortedActivities = [ ...activities ].sort((a, b) => {
-			let aVal = a[key];
-			let bVal = b[key];
+			let aVal = a[sort.key];
+			let bVal = b[sort.key];
 
-			if(type === "date") {
-				aVal = new Date(a[key]);
-				bVal = new Date(b[key]);
+			if(sort.type === "date") {
+				aVal = new Date(a[sort.key]);
+				bVal = new Date(b[sort.key]);
 			}
 
-			if(aVal < bVal) return newDir === "asc" ? 1 : -1;
-			if(aVal > bVal) return newDir === "asc" ? -1 : 1;
+			if(aVal < bVal) return sort.order === "asc" ? -1 : 1;
+			if(aVal > bVal) return sort.order === "asc" ? 1 : -1;
 
 			return 0;
 		});
-
 		setActivities(prevActivities => [ ...sortedActivities ]);
+	}, [sort, setSort, activities, setActivities]);
 
-		setCurrSort({
-			key: colKey,
-			dir: newDir
+	useEffect(() => {
+		// setActivities(filteredActivities.filter((row, index) => index < limit));
+		setActivities(filteredActivities);
+	}, [filteredActivities]);
+
+	const onHeaderClick = (key, type) => { 
+		setSort({
+			key: key,
+			type: type,
+			order: sort.order === "asc" ? "desc" : "asc"
 		});
 	};
 
@@ -59,7 +70,7 @@ export default function Table({ filteredActivities = [], setActiveActivity, sche
 							key={index}
 							colKey={key}
 							colSchema={schema[key]}
-							currSort={currSort}
+							sort={sort}
 							onHeaderClick={onHeaderClick} />
 					))}
 					<th

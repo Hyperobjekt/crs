@@ -1,6 +1,6 @@
 import { getText } from "./../../helpers";
 
-export default function HeaderCell({ colKey, colSchema, currSort, onHeaderClick }) {
+export default function HeaderCell({ colKey, colSchema, sort, onHeaderClick }) {
 	return (
 		<th
 			scole="col"
@@ -17,11 +17,11 @@ export default function HeaderCell({ colKey, colSchema, currSort, onHeaderClick 
 				<div className="">
 					{!colSchema.button ? getText(colKey) : null}
 				</div>
-				{colSchema.sortable ?
+				{colSchema.table.sortable ?
 					<div className="w-2 flex flex-col mb-auto ml-2">
 						<div
 							className="w-2 h-2"
-							style={{ opacity: currSort.key === colKey && currSort.dir === "desc" ? 1 : 0.25 }}>
+							style={{ opacity: sort.key === colKey && sort.order === "asc" ? 1 : 0.25 }}>
 							<img
 								src="/IconArrowSort.svg"
 								alt=""
@@ -30,7 +30,7 @@ export default function HeaderCell({ colKey, colSchema, currSort, onHeaderClick 
 						</div>
 						<div
 							className="w-2 h-2"
-							style={{ opacity: currSort.key === colKey && currSort.dir === "asc" ? 1 : 0.25 }}>
+							style={{ opacity: sort.key === colKey && sort.order === "desc" ? 1 : 0.25 }}>
 							<img
 								src="/IconArrowSort.svg"
 								alt=""

@@ -19,7 +19,7 @@
 		"tooltip": "State where the anti-CRT activity was introduced",
 		"table": {
 			"sortable": true,
-			"col": 1
+			"col": 2
 		}
 	},
 	"Body Name": {
@@ -58,7 +58,7 @@
 		"filter": {},
 		"table": {
 			"sortable": true,
-			"col": 1
+			"col": 2
 		}
 	},
 	"Progress": {
