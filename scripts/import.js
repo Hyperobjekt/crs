@@ -147,7 +147,7 @@ let d3, fetchJson, stateCodes, activities;
 					properties: {
 						type: "local",
 						level: row["Level"],
-						progress: row["Progress"],
+						progress: row["Summary Status"],
 						index: row.index
 					},
 					geometry: geometry

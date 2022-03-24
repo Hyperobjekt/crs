@@ -12,8 +12,8 @@ export default function Legend({ localColors, stateColors  }) {
 				<thead>
 					<tr>
 						<td className="w-22"></td>
-						<td className="w-18 whitespace-nowrap">Not passed</td>
-						<td className="w-18">Passed</td>
+						<td className="w-18 whitespace-nowrap">Not adopted</td>
+						<td className="w-18">Adopted</td>
 					</tr>
 				</thead>
 				<tbody>

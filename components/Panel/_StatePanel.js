@@ -15,8 +15,8 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 		: !["State","Federal"].includes(a["Level"])
 	)
 
-	const passedActivities = stateActivities.filter(a => a["Progress"] === "Enacted");
-	const introducedActivities = stateActivities.filter(a => a["Progress"] !== "Enacted");
+	const passedActivities = stateActivities.filter(a => a["Summary Status"] === "Enacted");
+	const introducedActivities = stateActivities.filter(a => a["Summary Status"] !== "Enacted");
 
 	useEffect(() => {
 		const newPanelData = panelData ? panelData.index === state.index ? {} : state : state;
@@ -40,8 +40,8 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 
 				<div>
 					{progressListLength ?
-						schema["Activity Type"].filter.options.map((type, index) => {
-							const typeListActivities = progressListActivities.filter(a => a["Activity Type"] === type);
+						schema["Authority Type"].filter.options.map((type, index) => {
+							const typeListActivities = progressListActivities.filter(a => a["Authority Type"] === type);
 							return (
 								typeListActivities.length ?
 									<TypeList
@@ -90,12 +90,11 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 						{getTitle(activity)}
 					</div>
 					<div className="mt-1 text-sm text-gray-400">
-						{activity["Date Intro"] ?
+						{activity["Date Passed"] ?
+							`Passed ${getDate(activity["Date Passed"])}`
+						: activity["Date Intro"] ?
 							`Introduced ${getDate(activity["Date Intro"])}`
 						: null}
-						{/*{activity["Date Intro"] ?
-							`Passed ${getDate(activity["Date Intro"])}`
-						: null}*/}
 					</div>
 				</div>
 				<div

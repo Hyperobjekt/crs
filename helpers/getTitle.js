@@ -7,7 +7,7 @@ export default function getTitle(data) {
 	}
 	else {
 		let bodyName = getText(data["Body Name"]);
-		let activityType = getText(data["Activity Type"]);
+		let activityType = getText(data["Authority Type"]);
 		if(!activityType || activityType === "Other activity") {
 			activityType = "Activity";
 		}

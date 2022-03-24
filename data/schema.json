@@ -1,4 +1,11 @@
 {
+	"State/US": {
+		"tooltip": "State where the anti-CRT activity was introduced",
+		"table": {
+			"sortable": true,
+			"col": 2
+		}
+	},
 	"Level": {
 		"tooltip": "Federal, state, school district, or city or county government",
 		"type": "string",
@@ -15,13 +22,6 @@
 			"col": 2
 		}
 	},
-	"State/US": {
-		"tooltip": "State where the anti-CRT activity was introduced",
-		"table": {
-			"sortable": true,
-			"col": 2
-		}
-	},
 	"Body Name": {
 		"tooltip": "Name of Governing Official, state, or local entity or legislature",
 		"table": {
@@ -32,7 +32,7 @@
 	"Bill #": {
 		"tooltip": "The official number assigned to the proposed or enacted state law"
 	},
-	"Activity Type": {
+	"Authority Type": {
 		"tooltip": "Instrument being used to advance anti-CRT activity",
 		"type": "string",
 		"filter": {
@@ -61,7 +61,7 @@
 			"col": 2
 		}
 	},
-	"Progress": {
+	"Summary Status": {
 		"tooltip": "Status of the anti-CRT activity",
 		"type": "string",
 		"filter": {

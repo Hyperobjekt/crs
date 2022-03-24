@@ -276,8 +276,8 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		if(d.properties.type === "state" || d.properties.type === "federal") {
 			data = d.properties;
 			const stateActivities = filteredActivities.filter(a => a["State/US"] === data.state && ["State","Federal"].includes(a["Level"]))
-			data.introduced = stateActivities.filter(a => a["Progress"] !== "Enacted").length;
-			data.passed = stateActivities.filter(a => a["Progress"] === "Enacted").length;
+			data.introduced = stateActivities.filter(a => a["Summary Status"] !== "Enacted").length;
+			data.passed = stateActivities.filter(a => a["Summary Status"] === "Enacted").length;
 		}
 
 		if(d.properties.type === "state") {
@@ -358,7 +358,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 			.attr("fill", d => {
 				const stateActivities = filteredActivities.filter(a => a["Level"] === "State" && a["State/US"] === d.properties.state);
 				if(!stateActivities.length) return stateColors[0];
-				if(stateActivities.filter(d => d["Progress"] === "Enacted").length) return stateColors[2];
+				if(stateActivities.filter(d => d["Summary Status"] === "Enacted").length) return stateColors[2];
 				return stateColors[1];
 			})
 			.attr("stroke-width", d => {
@@ -381,7 +381,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 			.attr("fill", d => {
 				const federalActivities = filteredActivities.filter(a => a["Level"] === "Federal" && a["State/US"] === d.properties.state);
 				if(!federalActivities.length) return stateColors[0];
-				if(federalActivities.filter(d => d["Progress"] === "Enacted").length) return stateColors[2];
+				if(federalActivities.filter(d => d["Summary Status"] === "Enacted").length) return stateColors[2];
 				return stateColors[1];
 			})
 			.attr("stroke-width", d => {

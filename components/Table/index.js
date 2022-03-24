@@ -16,7 +16,6 @@ export default function Table({ filteredActivities = [], setActiveActivity, sche
 	const colKeys = Object.keys(schema).filter(key => schema[key].table);
 
 	useEffect(() => {
-		console.log("!");
 		setSort({
 			key: "Date Intro",
 			order: "desc",
@@ -25,7 +24,7 @@ export default function Table({ filteredActivities = [], setActiveActivity, sche
 	}, []);
 
 	useEffect(() => {
-		const sortedActivities = [ ...activities ].sort((a, b) => {
+		const sortedActivities = [ ...filteredActivities ].sort((a, b) => {
 			let aVal = a[sort.key];
 			let bVal = b[sort.key];
 
@@ -40,12 +39,8 @@ export default function Table({ filteredActivities = [], setActiveActivity, sche
 			return 0;
 		});
 		setActivities(prevActivities => [ ...sortedActivities ]);
-	}, [sort, setSort, activities, setActivities]);
+	}, [filteredActivities, sort]);
 
-	useEffect(() => {
-		// setActivities(filteredActivities.filter((row, index) => index < limit));
-		setActivities(filteredActivities);
-	}, [filteredActivities]);
 
 	const onHeaderClick = (key, type) => { 
 		setSort({
