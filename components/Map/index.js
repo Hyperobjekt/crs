@@ -252,9 +252,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		const elem = e.target,
 					path = d3.select(elem),
 					states = d3.select(svgRef.current).selectAll(".states path, .federal-icon rect");
-		// states.attr("stroke", STROKE_COLOR_DEFAULT);
 		elem.parentElement.appendChild(elem);
-		// path.attr("stroke", STROKE_COLOR_ACTIVE);
 		setActiveActivity(null);
 		setActiveState(null);
 		setActiveState(d.properties);
@@ -275,10 +273,12 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		let offsetY = 0;
 
 		if(d.properties.type === "state" || d.properties.type === "federal") {
-			data = d.properties;
-			const stateActivities = filteredActivities.filter(a => a["State/US"] === data.state && ["State","Federal"].includes(a["Level"]))
-			data.introduced = stateActivities.filter(a => a["Summary Status"] !== "Enacted").length;
-			data.passed = stateActivities.filter(a => a["Summary Status"] === "Enacted").length;
+			data = { ...d.properties, tallies: {} };
+			const stateActivities = filteredActivities.filter(a => a["State/US"] === data.state && ["State","Federal"].includes(a["Level"]));
+			stateActivities.filter(a => a["Summary Status"] === "Enacted").forEach(a => {
+				const value = a["Authority Type"];
+				data.tallies[value] = data.tallies[value] ? data.tallies[value] + 1 : 1;
+			});
 		}
 
 		if(d.properties.type === "state") {

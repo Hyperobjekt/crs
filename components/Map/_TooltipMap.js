@@ -24,12 +24,23 @@ export default function TooltipMap({ feature = {}, transform, parentWidth }) {
 				<div>
 					{feature.hasOwnProperty("state") ?
 						<div className="p-4">
-							<div className="pb-2 text-lg font-bold text-gray-blue-200">
+							<div className="text-lg font-bold text-gray-blue-200">
 								{getText(feature["state"])}
 							</div>
-							<div className="text-gray-blue-400">
-								{/*{feature.passed} passed, {feature.introduced} introduced*/}
-							</div>
+							
+							{Object.keys(feature.tallies).length ?
+								<div className="pt-2 text-gray-blue-400">
+									<strong>Adopted: </strong>
+									{Object.keys(feature.tallies).map((key, i) => (
+										<span>
+											{feature.tallies[key]}
+											&nbsp;
+											{getText(key).toLowerCase()}{feature.tallies[key] > 1 ? "s" : null}{i < Object.keys(feature.tallies).length - 1 ? ", " : ""}
+										</span>
+									))}
+								</div>
+							: null}
+
 						</div>
 					: <div className="p-4">
 							<div className="pb-2 text-lg font-bold capitalize text-gray-blue-200">
