@@ -30,7 +30,7 @@ export default function Panel({ open, zIndex, children, onClosePanel }) {
 		active ?
 			<div
 				style={style}
-				className="w-96 h-full absolute top-0 pb-8 bg-white shadow -translate-x-96 transition-transform duration-300 ease-in-out">
+				className="w-96 h-full absolute top-0 bg-white shadow -translate-x-96 transition-transform duration-300 ease-in-out">
 				<div className="w-full h-full flex flex-col relative">
 					{PanelContent}
 					<div className="w-full h-6 absolute left-0 bottom-0 bg-gradient-to-t from-white pointer-events-none"></div>

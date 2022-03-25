@@ -1,4 +1,3 @@
-// import { useEffect, useState, useRef } from "react";
 import Svg from "../Global/_Svg";
 
 export default function Checkbox({ val, label, id, group, active, onChange }) {

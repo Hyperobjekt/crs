@@ -31,7 +31,7 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 	};
 
 	return (
-		<div ref={parentRef}>
+		<>
 			<header className="p-4 border-b">
 				<div className="flex">
 					<h2 className="text-xl font-bold capitalize">
@@ -41,7 +41,7 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 				</div>
 			</header>
 
-			<div className="overflow-y-scroll pb-6">
+			<div className="overflow-y-scroll pb-6" ref={parentRef}>
 				<ul className="p-4 pt-6 border-b">
 					{Object.keys(schema).filter(k => panelData[k]).map(key => {
 						const fieldVal = panelData[key];
@@ -89,6 +89,6 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 
 			</div>
 
-		</div>
+		</>
 	);
 }

@@ -32,7 +32,7 @@ export default function TooltipMap({ feature = {}, transform, parentWidth }) {
 								<div className="pt-2 text-gray-blue-400">
 									<strong>Adopted: </strong>
 									{Object.keys(feature.tallies).map((key, i) => (
-										<span>
+										<span key={key}>
 											{feature.tallies[key]}
 											&nbsp;
 											{getText(key).toLowerCase()}{feature.tallies[key] > 1 ? "s" : null}

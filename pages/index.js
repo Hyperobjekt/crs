@@ -50,6 +50,7 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 					} else if(Array.isArray(d[groupKey])) {
 						return activeFilters[groupKey].some(o => (o === "N/A" && !d[groupKey].length) || d[groupKey].includes(o));
 					} else {
+						// console.log(groupKey);
 						return activeFilters[groupKey].includes(d[groupKey]);
 					}
 				}).length === activeGroups.length
@@ -150,7 +151,7 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 
 				<Panel
 					open={filterOpen}
-					zIndex={50}
+					zIndex={60}
 					onClosePanel={onFilterPanelClose}>
 					<FilterPanel
 						schema={schema}
@@ -160,7 +161,6 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 				</Panel>
 
 				<Panel
-					// open={!filterOpen && activeState && !activeActivity}
 					open={activeState}
 					zIndex={30}
 					onClosePanel={onStatePanelClose}>
@@ -174,9 +174,8 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 				</Panel>
 
 				<Panel
-					// open={!filterOpen && activeActivity}
 					open={activeActivity}
-					zIndex={40}
+					zIndex={50}
 					onClosePanel={onActivityPanelClose}>
 					{activeActivity ?
 						<ActivityPanel

@@ -50,7 +50,7 @@ export default function Table({ filteredActivities = [], setActiveActivity, sche
 		});
 	};
 
-	const onButtonClick = () => {
+	const onButtonClick = (rowData) => {
 		setActiveActivity(rowData);
 	}
 
@@ -93,7 +93,7 @@ export default function Table({ filteredActivities = [], setActiveActivity, sche
 						<BodyCell
 							colSchema={{table:{col:2}}}>
 							<Button
-								onClick={onButtonClick}>
+								onClick={() => onButtonClick(rowData)}>
 								Read more
 							</Button>
 						</BodyCell>

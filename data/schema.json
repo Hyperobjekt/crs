@@ -85,9 +85,9 @@
 			"options": [
 				"K-12",
 				"Higher Ed",
-				"Other Govt",
-				"Other Contractors",
-				"Private Business/Non Profit",
+				"Private Business or Non Profit",
+				"State or Federal Government",
+				"Contractors",
 				"N/A"
 			]
 		}
@@ -98,25 +98,41 @@
 		"filter": {
 			"multi": true,
 			"options": [
-				"Disclosure of teaching/curriculum",
+				"Classroom teaching",
+				"Curricular content",
+				"Revision of a general EDI/antiracism policy",
+				"Trainings",
+				"N/A"
+			]
+		}
+	},
+	"Conduct Required": {
+		"tooltip": "Acts the anti-CRT activity demands",
+		"type": "string",
+		"filter": {
+			"multi": true,
+			"options": [
+				"Curricular Surveillance",
+				"Student Education Opt-Out",
 				"Forbidden Books",
 				"N/A"
 			]
 		}
 	},
-	"Conduct Trigger": {
+	"Content Trigger": {
 		"tooltip": "Language used in the anti-CRT activity is derived from the now rescinded Trump Executive Order 13950 to suppress specific acts",
 		"type": "string",
 		"filter": {
 			"multi": true,
 			"options": [
-				"\"divisive concepts\"/\"controversial issues\"",
+				"\"Critical Race Theory\"",
+				"1619 Project",
 				"US institns = \"inherently\" or \"fundamentally\" \"racist\"",
 				"Indiv. Respons. for systemic racism",
 				"\"Indiv. “discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race”\"",
 				"Meritocracy/hard work = racist",
-				"1619 Project",
-				"\"Critical Race Theory\""
+				"\"divisive concepts\"/\"controversial issues\"",
+				"N/A"
 			]
 		}
 	},
@@ -127,18 +143,20 @@
 			"options": [
 				"Funding",
 				"Creates a private cause of action",
-				"Parent Rights"
+				"Parent Rights",
+				"N/A"
 			]
 		}
 	},
-	"Category": {
+	"Race/sex/other?": {
 		"tooltip": "Focus of the anti-CRT activity is on race or ethnicity, sex or other category like religion or color",
 		"type": "string",
 		"filter": {
 			"options": [
 				"Race or ethnicity only",
 				"Race or ethnicity & sex",
-				"Race or ethnicity, sex & more"
+				"Race or ethnicity, sex & more",
+				"N/A"
 			]
 		}
 	},
