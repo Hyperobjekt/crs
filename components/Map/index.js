@@ -23,11 +23,10 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 	const MIN_ZOOM = .7;
 	const MAX_ZOOM = 4;
 	const STROKE_COLOR_DEFAULT = "#99ABB0";
-	const STROKE_COLOR_ACTIVE = "#363A3E";
+	const STROKE_COLOR_ACTIVE = "#7C8D92";
 	const STROKE_WIDTH_DEFAULT = 1;
 	const STROKE_WIDTH_ACTIVE = 2;
-	const CIRCLE_RADIUS = 5;
-	const MARKER_SIZE = 6;
+	const MARKER_SIZE = 6.5;
 	const DC_SIZE = 30;
 	const DC_OFFSET_X = 90;
 	const DC_OFFSET_Y = -20;
@@ -36,13 +35,13 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 
 	const stateColors = [
 		"#FCFCFF",
-		"#DEE2E4",
-		"#D4DFE3"
+		"#E9EFF1",
+		"#CBD8DD"
 	];
 	
 	const localColors = {
-		LocalSch: "#C66E3B",
-		LocalOth: "#5B5D84"
+		LocalSch: ["#5B5D84", "#393B5F"],
+		LocalOth: ["#C66E3B", "#844825"]
 	};
 
 	const localShapes = {
@@ -125,8 +124,10 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 				.data(localsGeo.features)
 			.enter().append("path")
 				.attr("d", d => localShapes[d.properties.level])
-				.attr("fill", d => localColors[d.properties.level])
+				.attr("fill", d => localColors[d.properties.level][0])
 				.attr("opacity", d => d.properties.progress === "Enacted" ? 1 : .5)
+				.attr("stroke-width", STROKE_WIDTH_DEFAULT)
+				.attr("stroke", d => localColors[d.properties.level][1])
 				.attr("transform", d => `translate(${translateLocal(d)}) scale(${mapTransform.k})`)
 				.attr("cursor", "pointer")
 				.on("mouseover", onHoverFeature)
@@ -349,10 +350,13 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 	const updateMapStyle = () => {
 		const svg = d3.select(svgRef.current);
 		svg.selectAll(".local path")
-			.attr("visibility", d => filteredIndices.includes(d.properties.index) ? "visisble" : "hidden");
-
-		// svg.selectAll(".locals path")
-		// 	.attr("fill")
+			.attr("visibility", d => filteredIndices.includes(d.properties.index) ? "visisble" : "hidden")
+			.attr("stroke-width", d => {
+				const isHovered = hoveredFeature && hoveredFeature.index === d.properties.index;
+				const isActive = activeActivity && activeActivity.index === d.properties.index;
+				const strokeWidth = isActive ? STROKE_WIDTH_ACTIVE : isHovered ? STROKE_WIDTH_ACTIVE * .75 : STROKE_WIDTH_DEFAULT;
+				return strokeWidth;
+			});
 
 		svg.selectAll(".states path")
 			.attr("fill", d => {
@@ -362,13 +366,9 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 				return stateColors[1];
 			})
 			.attr("stroke-width", d => {
-				let strokeWidth;
-				if(hoveredFeature) {
-					strokeWidth = d.properties.index === hoveredFeature.index
-						? STROKE_WIDTH_ACTIVE : STROKE_WIDTH_DEFAULT;
-				} else {
-					strokeWidth = STROKE_WIDTH_DEFAULT;
-				}
+				const isHovered = hoveredFeature && hoveredFeature.index === d.properties.index;
+				const isActive = activeState && activeState.index === d.properties.index;
+				const strokeWidth = isHovered || isActive ? STROKE_WIDTH_ACTIVE : STROKE_WIDTH_DEFAULT;
 				return strokeWidth / mapTransform.k;
 			})
 			.attr("stroke", d => {
@@ -385,13 +385,9 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 				return stateColors[1];
 			})
 			.attr("stroke-width", d => {
-				let strokeWidth;
-				if(hoveredFeature) {
-					strokeWidth = d.properties.index === hoveredFeature.index
-						? STROKE_WIDTH_ACTIVE : STROKE_WIDTH_DEFAULT;
-				} else {
-					strokeWidth = STROKE_WIDTH_DEFAULT;
-				}
+				const isHovered = hoveredFeature && hoveredFeature.index === d.properties.index;
+				const isActive = activeState && activeState.index === d.properties.index;
+				const strokeWidth = isHovered || isActive ? STROKE_WIDTH_ACTIVE : STROKE_WIDTH_DEFAULT;
 				return strokeWidth / mapTransform.k;
 			})
 			.attr("stroke", d => {
@@ -399,12 +395,12 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 					? STROKE_COLOR_ACTIVE
 					: STROKE_COLOR_DEFAULT
 			});
-		svg.select(".federal-icon image")
-			.attr("style", d => {
-				return d.properties.index === (activeState ? activeState.index : null)
-					? "filter: brightness(0)"
-					: ""
-			});
+		// svg.select(".federal-icon image")
+		// 	.attr("style", d => {
+		// 		return d.properties.index === (activeState ? activeState.index : null)
+		// 			? "filter: brightness(0)"
+		// 			: ""
+		// 	});
 	};
 
 	

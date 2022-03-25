@@ -10,29 +10,30 @@ import DateTextField from "./_DateTextField";
 import Button from "../Global/_Button";
 
 const DATE_FORMAT = "YYYY-MM-DD";
-const UTC_TZ = "T00:00:00.000-07:00";
+const UTC_TZ = "T00:00:00.000-06:00";
 
 // const TODAY = new Date();
 // const JAN_2020 = new Date("2020-01-01");
 // const PAST_30 = new Date(new Date().setDate(TODAY.getDate() - 30));
 
-const PRESET_1_START = new Date("2020-09-01"+UTC_TZ);
-const PRESET_1_END = new Date("2020-12-31"+UTC_TZ);
+const PRESET_1_START = `2020-09-01${UTC_TZ}`;
+const PRESET_1_END = `2020-12-31${UTC_TZ}`;
 
-const PRESET_2_START = new Date("2021-01-01"+UTC_TZ);
-const PRESET_2_END = new Date("2021-03-31"+UTC_TZ);
+const PRESET_2_START = `2021-01-01${UTC_TZ}`;
+const PRESET_2_END = `2021-03-31${UTC_TZ}`;
 
-const PRESET_3_START = new Date("2021-04-01"+UTC_TZ);
-const PRESET_3_END = new Date("2021-07-31"+UTC_TZ);
+const PRESET_3_START = `2021-04-01${UTC_TZ}`;
+const PRESET_3_END = `2021-07-31${UTC_TZ}`;
 
-const PRESET_4_START = new Date("2021-08-01"+UTC_TZ);
-const PRESET_4_END = new Date("2021-10-31"+UTC_TZ);
+const PRESET_4_START = `2021-08-01${UTC_TZ}`;
+const PRESET_4_END = `2021-10-31${UTC_TZ}`;
 
 const getDateStr = (date) => {
-	const dd = date.getDate();
-	const mm = date.getMonth()+1; 
-	const yyyy = date.getFullYear();
-	const newStr = `${yyyy}-${mm}-${dd}`;
+	const dateObj = new Date(date);
+	const dd = ("0" + (dateObj.getDate())).slice(-2);
+	const mm = ("0" + (dateObj.getMonth() + 1)).slice(-2); 
+	const yyyy = dateObj.getFullYear();
+	const newStr = `${yyyy}-${mm}-${dd}${UTC_TZ}`;
 	return newStr;
 }
 
@@ -44,8 +45,8 @@ export default function DateSelector({ start, end, onChange }) {
 	
 
 	useEffect(() => {
-		setStartDate(start ? new Date(start) : null);
-		setEndDate(end ? new Date(end) : null);
+		setStartDate(start)
+		setEndDate(end)
 		if(new Date(start).toJSON() !== new Date(startDate).toJSON()
 			|| new Date(end).toJSON() !== new Date(endDate).toJSON()) {
 			setActiveButton(null);	
@@ -53,25 +54,25 @@ export default function DateSelector({ start, end, onChange }) {
 	}, [start, end]);
 
 	useEffect(() => {
-		const newStartDate = startDate ? new Date(startDate).toJSON() : null;
-		const newEndDate = endDate ? new Date(endDate).toJSON() : null;
+		const newStartDate = startDate;
+		const newEndDate = endDate;
 		onChange(newStartDate || newEndDate ? [newStartDate, newEndDate] : null);
 	}, [startDate, endDate]);
 
 	const onStartDateChange = (newDate) => {
-		setStartDate(newDate);
+		setStartDate(newDate ? new Date(newDate).toJSON() : null);
 		setActiveButton(null);
 	}
 
 	const onEndDateChange = (newDate) => {
-		setEndDate(newDate);
+		setEndDate(newDate ? new Date(newDate).toJSON() : null);
 		setActiveButton(null);
 	}
 
 	const onClickPreset = (e) => {
 		const dateRange = e.target.value ? e.target.value.split(",") : [null,null];
-		let newStartDate = dateRange[0] ? new Date(dateRange[0]) : null;
-		let newEndDate = dateRange[1] ? new Date(dateRange[1]) : null;
+		let newStartDate = dateRange[0];
+		let newEndDate = dateRange[1];
 		setStartDate(newStartDate);
 		setEndDate(newEndDate);
 		setActiveButton(e.target.name);
@@ -83,7 +84,7 @@ export default function DateSelector({ start, end, onChange }) {
 		setActiveButton(null);
 	}
 
-	const DateSelector = ({ type }) => {
+	const DateElem = ({ type }) => {
 		let date, oppDate, onChangeDate;
 
 		if(type === "start") {
@@ -102,43 +103,21 @@ export default function DateSelector({ start, end, onChange }) {
 				<LocalizationProvider dateAdapter={AdapterDateFns}>
 					<DatePicker
 						format={DATE_FORMAT}
-						value={date}
+						value={date ? new Date(date) : null}
 						hiddenLabel={true}
-						maxDate={type === "start" ? oppDate : null}
-						minDate={type === "end" ? oppDate : null}
+						maxDate={type === "start" && oppDate ? new Date(oppDate) : null}
+						minDate={type === "end" && oppDate ? new Date(oppDate) : null}
 						disableFuture={true}
 						disableToolbar={true}
 						clearable={true}
 						reduceAnimations={true}
 						variant="inline"
-						// label={type === "start" ? "From" : "To"}
 						renderInput={(params) => <TextField {...params} />}
 						onChange={onChangeDate} />
 				</LocalizationProvider>
 			</div>
 		)
 	}
-
-	// const buttons = [
-	// 	{
-	// 		className: "button-left",
-	// 		label: "All Time",
-	// 		name: "all-time",
-	// 		value: [null, getDateStr(TODAY)]
-	// 	},
-	// 	{
-	// 		className: "button-center",
-	// 		label: "Since 2020",
-	// 		name: "2020",
-	// 		value: [getDateStr(JAN_2020),getDateStr(TODAY)]
-	// 	},
-	// 	{
-	// 		className: "button-right",
-	// 		label: "Last 30 Days",
-	// 		name: "30",
-	// 		value: [getDateStr(PAST_30),getDateStr(TODAY)]
-	// 	}
-	// ];
 
 	const buttons = [
 		{
@@ -151,19 +130,19 @@ export default function DateSelector({ start, end, onChange }) {
 			className: "w-1/2 rounded-none rounded-tr-md -mb-[1px] -ml-[1px]",
 			label: "Jan 2021 - Apr 2021",
 			name: "2",
-			value: [getDateStr(PRESET_2_START),getDateStr(PRESET_2_END)]
+			value: [getDateStr(PRESET_2_START), getDateStr(PRESET_2_END)]
 		},
 		{
 			className: "w-1/2 rounded-none rounded-bl-md",
 			label: "Apr 2021 - Aug 2021",
 			name: "3",
-			value: [getDateStr(PRESET_3_START),getDateStr(PRESET_3_END)]
+			value: [getDateStr(PRESET_3_START), getDateStr(PRESET_3_END)]
 		},
 		{
 			className: "w-1/2 rounded-none rounded-br-md -ml-[1px]",
 			label: "Aug 2021 - Nov 2021",
 			name: "4",
-			value: [getDateStr(PRESET_4_START),getDateStr(PRESET_4_END)]
+			value: [getDateStr(PRESET_4_START), getDateStr(PRESET_4_END)]
 		}
 	];
 
@@ -182,11 +161,11 @@ export default function DateSelector({ start, end, onChange }) {
 				))}
 			</div>
 			<div className="flex space-x-2 type-label">
-				<DateSelector type="start" />
+				<DateElem type="start" />
 				<div className="flex">
 					<div className="my-auto">to</div>
 				</div>
-				<DateSelector type="end" />
+				<DateElem type="end" />
 			</div>
 		</>
 	)

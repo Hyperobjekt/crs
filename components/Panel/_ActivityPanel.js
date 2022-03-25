@@ -44,7 +44,6 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 			<div className="overflow-y-scroll pb-6">
 				<ul className="p-4 pt-6 border-b">
 					{Object.keys(schema).filter(k => panelData[k]).map(key => {
-						console.log(key, panelData[key], panelData);
 						const fieldVal = panelData[key];
 						const fieldTitle = getText(key);
 						const tooltip = schema[key].tooltip;						

@@ -39,8 +39,8 @@ module.exports = {
 				"local-2": "#C66E3B",
 
 				"state-1": "#FCFCFF",
-				"state-2": "#DEE2E4",
-				"state-3": "#D4DFE3",
+				"state-2": "#E9EFF1",
+				"state-3": "#CBD8DD",
 
 				"map-outline": "#99ABB0"
 			},
