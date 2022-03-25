@@ -69,7 +69,7 @@ const siteCopy = {
   "Bill #": "Bill Number",
   "BodyName": "Body Name",
   "Title/Summary": "Summary",
-  "Status (link)": "Source for current progress",
+  "Status (link)": "Source for current progress status",
   "Full text (link)": "Full text",
   "US": "Federal",
   "AL": "Alabama",

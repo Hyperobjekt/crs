@@ -83,7 +83,7 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 
 				{panelData["Date Status Last Checked"] ?
 					<div className="p-4 text-sm">
-						Progress current as of {getDate(panelData["Date Status Last Checked"])}
+						Progress status current as of {getDate(panelData["Date Status Last Checked"])}
 					</div>
 				: null}
 
