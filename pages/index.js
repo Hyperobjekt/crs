@@ -102,10 +102,6 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 			id="page"
 			className="w-screen h-screen flex flex-col">
 
-			{/*<Header activeView={activeView} activityCount={activities.length} onViewClick={onViewClick} onMenuClick={onMenuClick} />*/}
-
-			{/*<Menu showMenu={showMenu} />*/}
-
 			<SubHeader
 				filterOpen={filterOpen}
 				activeFilters={activeFilters}
@@ -121,9 +117,13 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 					height: activeView === "table" ? "100%" : null,
 				}}>
 
-				<div 
-					className="w-full flex"
-					style={{ display: activeView === "map" ? "block" : "none" }}>
+				<div
+					aria-hidden={activeView !== "map"} 
+					className="w-full flex relative"
+					style={activeView !== "map" ? {
+						position: "absolute",
+						left: "-9999999px"
+					} : null}>
 					<Map
 						statesGeo={statesGeo}
 						localsGeo={localsGeo}
@@ -135,9 +135,13 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 						setActiveState={setActiveState} />
 				</div>
 
-				<div 
+				<div
+					aria-hidden={activeView !== "table"} 
 					className="w-full h-full"
-					style={{ display: activeView === "table" ? "block" : "none" }}>
+					style={activeView !== "table" ? {
+						position: "absolute",
+						left: "-9999999px"
+					} : null}>
 					<Table
 						schema={schema}
 						filteredActivities={filteredActivities}

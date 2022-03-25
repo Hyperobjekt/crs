@@ -27,11 +27,9 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 	const STROKE_WIDTH_DEFAULT = 1;
 	const STROKE_WIDTH_ACTIVE = 2;
 	const MARKER_SIZE = 6.5;
-	const DC_SIZE = 30;
-	const DC_OFFSET_X = 90;
+	const DC_SIZE = 45;
+	const DC_OFFSET_X = 110;
 	const DC_OFFSET_Y = -20;
-
-	const dcOffset = [90, -20];
 
 	const stateColors = [
 		"#FCFCFF",
@@ -171,8 +169,8 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 				.attr("stroke", STROKE_COLOR_DEFAULT)
 				.attr("x1", projection(dcCoords)[0])
 				.attr("y1", projection(dcCoords)[1])
-				.attr("x2", projection(dcCoords)[0] + dcOffset[0])
-				.attr("y2", projection(dcCoords)[1] + dcOffset[1]);
+				.attr("x2", projection(dcCoords)[0] + DC_OFFSET_X)
+				.attr("y2", projection(dcCoords)[1] + DC_OFFSET_Y);
 	
 		const dcMarker = d3.select(svgRef.current)
 			.select("g.federal")
@@ -181,8 +179,8 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 			.enter().append("g")
 				.attr("class", "federal-icon")
 				.attr("transform", d => `translate(${[
-					projection(dcCoords)[0] + dcOffset[0],
-					projection(dcCoords)[1] + dcOffset[1]
+					projection(dcCoords)[0] + DC_OFFSET_X,
+					projection(dcCoords)[1] + DC_OFFSET_Y
 				]})`);
 
 		dcMarker
@@ -297,8 +295,8 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		if(d.properties.type === "federal") {
 			const dcCoords = d.geometry.coordinates[0][0][4];
 			coords = [
-				projection(dcCoords)[0] + dcOffset[0],
-				projection(dcCoords)[1] + dcOffset[1]
+				projection(dcCoords)[0] + DC_OFFSET_X,
+				projection(dcCoords)[1] + DC_OFFSET_Y
 			];
 			offsetY = DC_SIZE;
 		}
@@ -388,7 +386,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 				const isHovered = hoveredFeature && hoveredFeature.index === d.properties.index;
 				const isActive = activeState && activeState.index === d.properties.index;
 				const strokeWidth = isHovered || isActive ? STROKE_WIDTH_ACTIVE : STROKE_WIDTH_DEFAULT;
-				return strokeWidth / mapTransform.k;
+				return strokeWidth;
 			})
 			.attr("stroke", d => {
 				return d.properties.index === (activeState ? activeState.index : null)

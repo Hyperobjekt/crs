@@ -35,7 +35,8 @@ export default function TooltipMap({ feature = {}, transform, parentWidth }) {
 										<span>
 											{feature.tallies[key]}
 											&nbsp;
-											{getText(key).toLowerCase()}{feature.tallies[key] > 1 ? "s" : null}{i < Object.keys(feature.tallies).length - 1 ? ", " : ""}
+											{getText(key).toLowerCase()}{feature.tallies[key] > 1 ? "s" : null}
+											{i < Object.keys(feature.tallies).length - 1 ? ", " : ""}
 										</span>
 									))}
 								</div>
