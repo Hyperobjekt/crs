@@ -75,9 +75,8 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, activit
 								Clear all
 							</button>
 						</div> :
-						<div className="max-w-prose my-auto whitespace-normal">
-							{/*This map displays {activityCount} local, state, and federal activities aimed at restricting the ability to speak truthfully about race, racism, and sexism through a campaign to reject Critical Race Theory (CRT), diversity, inclusion, equity, antiracism and antisexism.*/}
-							{/*This map displays {activityCount} places in the USA where people are trying to implement laws against teaching Critical Race Theory*/}
+						<div className="my-auto whitespace-normal">
+							This map displays {activityCount} anti-CRT efforts introduced at the local, state, and federal levels.
 						</div>
 					}
 				</div>
