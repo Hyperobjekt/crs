@@ -50,7 +50,6 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 					} else if(Array.isArray(d[groupKey])) {
 						return activeFilters[groupKey].some(o => (o === "N/A" && !d[groupKey].length) || d[groupKey].includes(o));
 					} else {
-						// console.log(groupKey);
 						return activeFilters[groupKey].includes(d[groupKey]);
 					}
 				}).length === activeGroups.length
