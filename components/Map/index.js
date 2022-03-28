@@ -281,9 +281,11 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 
 		if(d.properties.type === "state") {
 			const stateCentroid = d3.geoCentroid(d.geometry),
-						stateBounds = d3.geoBounds(d.geometry),
-						stateCoords = [stateCentroid[0], stateBounds[0][1]];
-			coords = projection(stateCoords);
+						stateBounds = d3.geoBounds(d.geometry);
+			coords = [
+				projection(stateCentroid)[0],
+				projection(stateBounds[0])[1]
+			];
 			const activeState = parent.select(`path[stroke="${STROKE_COLOR_ACTIVE}"]`);
 			if(activeState.empty()) {
 				parent.node().appendChild(elem);
@@ -307,7 +309,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 			offsetX = MARKER_SIZE;
 			offsetY = MARKER_SIZE * 4;
 		}
-
+		// console.log(coords, data);
 		if(coords) setHoveredFeature({ ...data, coords, offset: [offsetX, offsetY] });
 	}
 
