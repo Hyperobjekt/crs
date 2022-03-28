@@ -4,9 +4,11 @@ import { getText, getDate, getTitle } from "./../../helpers";
 
 import FieldRow from "./_FieldRow";
 import Button from "./../Global/_Button";
+import TooltipInfo from "./../Global/_TooltipInfo";
 
-export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
+export default function ActivityPanel({ activity, closeBttn, schema }) {
 	const [panelData, setPanelData] = useState({});
+	const parentRef = useRef(null);
 
 	useEffect(() => {
 		setPanelData(activity);
@@ -39,37 +41,52 @@ export default function ActivityPanel({ activity, closeBttn, activitySchema }) {
 				</div>
 			</header>
 
-			<div className="overflow-y-scroll pb-6">
+			<div className="overflow-y-scroll pb-6" ref={parentRef}>
 				<ul className="p-4 pt-6 border-b">
-					{activitySchema ? activitySchema.fields.map(key => {
+					{Object.keys(schema).filter(k => panelData[k]).map(key => {
 						const fieldVal = panelData[key];
 						const fieldTitle = getText(key);
+						const tooltip = schema[key].tooltip;						
 						return(
 							<li key={key}
 								className="mb-3">
 								<div className="mb-0.5 text-sm text-gray-500">
 									{fieldTitle}
+									{tooltip ?
+										<TooltipInfo parent={parentRef.current}>
+											{tooltip}
+										</TooltipInfo>
+									: null}
 								</div>
 								<div className="text-sm">
 									<Field fieldKey={key} fieldVal={fieldVal} />
 								</div>
 							</li>
 						);
-					}) : null}
+					})}
 				</ul>
 
-				{["Status (link)", "Full text (link)"].map(key => (
+				{["Full text (link)", "Status (link)"].map((key, index) => (
 					panelData[key] ? 
-						<div key={key} className="w-full flex p-4 border-b">
-							<Button
-								url={panelData[key]}
-								style="blue"
-								imgSrc="IconExternal.svg">
-								{getText(key)}
-							</Button>
+						<div key={key} className="w-full p-4 border-b">
+							<div className="flex">
+								<Button
+									url={panelData[key]}
+									style="blue"
+									imgSrc="IconExternal.svg">
+									{getText(key)}
+								</Button>
+							</div>
 						</div>
 					: null
 				))}
+
+				{panelData["Date Status Last Checked"] ?
+					<div className="p-4 text-sm">
+						Progress status current as of {getDate(panelData["Date Status Last Checked"])}
+					</div>
+				: null}
+
 			</div>
 
 		</>

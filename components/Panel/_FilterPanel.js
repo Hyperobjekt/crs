@@ -6,8 +6,10 @@ import Button from "../Global/_Button";
 import Accordion from "./_Accordion";
 import Filter from "./_Filter";
 
-export default function FilterPanel({ activeCount, activeFilters = {}, filtersSchema = {}, onFilterChange, closeBttn }) {
+export default function FilterPanel({ activeCount, activeFilters = {}, schema = {}, onFilterChange, closeBttn }) {
 	const [openedFilter, setOpenedFilter] = useState(null);
+
+	const filterKeys = Object.keys(schema).filter((key) => schema[key].filter);
 
 	useEffect(() => {
 		onFilterChange(activeFilters);
@@ -33,9 +35,11 @@ export default function FilterPanel({ activeCount, activeFilters = {}, filtersSc
 
 	const onClickEnableAll = () => {
 		onFilterChange(Object.fromEntries(
-			Object.keys(filtersSchema).map(key => (
-		  	[key, filtersSchema[key].options.reduce((prev, curr) => [...prev, curr], [])]
-			))
+			Object.keys(schema)
+				.filter(key => schema[key].filter && schema[key].filter.options)
+				.map(key => (
+			  	[key, schema[key].filter.options.reduce((prev, curr) => [...prev, curr], [])]
+				))
 		));
 	}
 
@@ -51,7 +55,7 @@ export default function FilterPanel({ activeCount, activeFilters = {}, filtersSc
 			</header>
 			
 			<div className="overflow-hidden relative">
-				<div className="h-full overflow-y-scroll pt-6 pb-16">
+				<div className="h-full overflow-hidden overflow-y-scroll pt-6 pb-16">
 					<div className="flex gap-2 px-4">
 						<div>
 							<Button
@@ -70,14 +74,15 @@ export default function FilterPanel({ activeCount, activeFilters = {}, filtersSc
 						Filter results by:
 					</div>
 					<div>
-						{Object.keys(filtersSchema).map(key => (
+						{filterKeys.map(key => (
 							<Accordion
 								key={key}
 								open={true}
-								label={getText(key)}>
+								label={getText(key)}
+								tooltip={schema[key].tooltip}>
 								<Filter
 									group={key}
-									schema={filtersSchema[key]}
+									schema={schema[key]}
 									activeFilters={activeFilters}
 									onChange={onChangeFilters}	/>
 							</Accordion>

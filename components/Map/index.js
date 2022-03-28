@@ -3,9 +3,9 @@ import { Helmet } from "react-helmet-async";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
-import Tooltip from "./_Tooltip";
-import ZoomBttns from "./_ZoomBttns";
 import Legend from "./_Legend";
+import TooltipMap from "./_TooltipMap";
+import ZoomBttns from "./_ZoomBttns";
 
 export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities = [], activeActivity, activeState, setActiveActivity, setActiveState }) {
 	const [mapSizes, setMapSizes] = useState({});
@@ -23,26 +23,23 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 	const MIN_ZOOM = .7;
 	const MAX_ZOOM = 4;
 	const STROKE_COLOR_DEFAULT = "#99ABB0";
-	const STROKE_COLOR_ACTIVE = "#363A3E";
+	const STROKE_COLOR_ACTIVE = "#7C8D92";
 	const STROKE_WIDTH_DEFAULT = 1;
 	const STROKE_WIDTH_ACTIVE = 2;
-	const CIRCLE_RADIUS = 5;
-	const MARKER_SIZE = 6;
-	const DC_SIZE = 30;
-	const DC_OFFSET_X = 90;
+	const MARKER_SIZE = 6.5;
+	const DC_SIZE = 45;
+	const DC_OFFSET_X = 110;
 	const DC_OFFSET_Y = -20;
-
-	const dcOffset = [90, -20];
 
 	const stateColors = [
 		"#FCFCFF",
-		"#DEE2E4",
-		"#D4DFE3"
+		"#E9EFF1",
+		"#CBD8DD"
 	];
 	
 	const localColors = {
-		LocalSch: "#C66E3B",
-		LocalOth: "#5B5D84"
+		LocalSch: ["#5B5D84", "#393B5F"],
+		LocalOth: ["#C66E3B", "#844825"]
 	};
 
 	const localShapes = {
@@ -90,6 +87,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		g.select(".federal-line")
 			.attr("stroke-width", STROKE_WIDTH_DEFAULT / mapTransform.k)
 		svg.classed("moving", true);
+		setHoveredFeature(null);
 	}, [mapTransform]);
 
 	const onResize = () => {
@@ -124,8 +122,10 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 				.data(localsGeo.features)
 			.enter().append("path")
 				.attr("d", d => localShapes[d.properties.level])
-				.attr("fill", d => localColors[d.properties.level])
+				.attr("fill", d => localColors[d.properties.level][0])
 				.attr("opacity", d => d.properties.progress === "Enacted" ? 1 : .5)
+				.attr("stroke-width", STROKE_WIDTH_DEFAULT)
+				.attr("stroke", d => localColors[d.properties.level][1])
 				.attr("transform", d => `translate(${translateLocal(d)}) scale(${mapTransform.k})`)
 				.attr("cursor", "pointer")
 				.on("mouseover", onHoverFeature)
@@ -169,8 +169,8 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 				.attr("stroke", STROKE_COLOR_DEFAULT)
 				.attr("x1", projection(dcCoords)[0])
 				.attr("y1", projection(dcCoords)[1])
-				.attr("x2", projection(dcCoords)[0] + dcOffset[0])
-				.attr("y2", projection(dcCoords)[1] + dcOffset[1]);
+				.attr("x2", projection(dcCoords)[0] + DC_OFFSET_X)
+				.attr("y2", projection(dcCoords)[1] + DC_OFFSET_Y);
 	
 		const dcMarker = d3.select(svgRef.current)
 			.select("g.federal")
@@ -179,8 +179,8 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 			.enter().append("g")
 				.attr("class", "federal-icon")
 				.attr("transform", d => `translate(${[
-					projection(dcCoords)[0] + dcOffset[0],
-					projection(dcCoords)[1] + dcOffset[1]
+					projection(dcCoords)[0] + DC_OFFSET_X,
+					projection(dcCoords)[1] + DC_OFFSET_Y
 				]})`);
 
 		dcMarker
@@ -250,9 +250,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		const elem = e.target,
 					path = d3.select(elem),
 					states = d3.select(svgRef.current).selectAll(".states path, .federal-icon rect");
-		// states.attr("stroke", STROKE_COLOR_DEFAULT);
 		elem.parentElement.appendChild(elem);
-		// path.attr("stroke", STROKE_COLOR_ACTIVE);
 		setActiveActivity(null);
 		setActiveState(null);
 		setActiveState(d.properties);
@@ -268,53 +266,56 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 					path = d3.select(elem),
 					parent = d3.select(elem.parentElement),
 					g = d3.select(svgRef.current).select("g");
-
 		let coords, data;
 		let offsetX = 0;
 		let offsetY = 0;
+
 		if(d.properties.type === "state" || d.properties.type === "federal") {
-			data = d.properties;
-			const stateActivities = filteredActivities.filter(a => a["State/US"] === data.state && ["State","Federal"].includes(a["Level"]))
-			data.introduced = stateActivities.filter(a => a["Progress"] !== "Enacted").length;
-			data.passed = stateActivities.filter(a => a["Progress"] === "Enacted").length;
+			data = { ...d.properties, tallies: {} };
+			const stateActivities = filteredActivities.filter(a => a["State/US"] === data.state && ["State","Federal"].includes(a["Level"]));
+			stateActivities.filter(a => a["Summary Status"] === "Enacted").forEach(a => {
+				const value = a["Authority Type"];
+				data.tallies[value] = data.tallies[value] ? data.tallies[value] + 1 : 1;
+			});
 		}
+
 		if(d.properties.type === "state") {
-			coords = projection(d3.geoCentroid(d.geometry));
+			const stateCentroid = d3.geoCentroid(d.geometry),
+						stateBounds = d3.geoBounds(d.geometry);
+			coords = [
+				projection(stateCentroid)[0],
+				projection(stateBounds[0])[1]
+			];
 			const activeState = parent.select(`path[stroke="${STROKE_COLOR_ACTIVE}"]`);
 			if(activeState.empty()) {
 				parent.node().appendChild(elem);
 			} else {
 				parent.node().insertBefore(elem, activeState.node());
 			}
-			// d.properties.hovered = true;
-			// path.attr("stroke-width", getStrokeWidth);
 		}
+
 		if(d.properties.type === "federal") {
 			const dcCoords = d.geometry.coordinates[0][0][4];
 			coords = [
-				projection(dcCoords)[0] + dcOffset[0],
-				projection(dcCoords)[1] + dcOffset[1]
+				projection(dcCoords)[0] + DC_OFFSET_X,
+				projection(dcCoords)[1] + DC_OFFSET_Y
 			];
-			// d.properties.hovered = true;
-			// path.attr("stroke-width", getStrokeWidth);
+			offsetY = DC_SIZE;
 		}
+
 		if(d.properties.type === "local") {
-			coords = projection(d.geometry.coordinates);
+			coords = translateLocal(d);
 			data = filteredActivities.find(a => a.index === d.properties.index)
 			offsetX = MARKER_SIZE;
+			offsetY = MARKER_SIZE * 4;
 		}
+		// console.log(coords, data);
 		if(coords) setHoveredFeature({ ...data, coords, offset: [offsetX, offsetY] });
 	}
 
 	const onUnhoverFeature = (e, d) => {
 		if(d3.select(svgRef.current).classed("moving")) return;
 		setHoveredFeature(null);
-		const elem = e.target,
-					path = d3.select(elem);
-		// if(path.attr("stroke")) {
-			// delete d.properties.hovered;
-			// path.attr("stroke-width", getStrokeWidth);
-		// }
 	}
 
 	const onZoomClick = (e) => {
@@ -343,32 +344,31 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 	}
 
 	const translateLocal = (d) => {
-		return projection(d.geometry.coordinates).map(l => l - MARKER_SIZE/2);
+		return projection(d.geometry.coordinates).map(l => l - MARKER_SIZE);
 	}
 
 	const updateMapStyle = () => {
 		const svg = d3.select(svgRef.current);
 		svg.selectAll(".local path")
-			.attr("visibility", d => filteredIndices.includes(d.properties.index) ? "visisble" : "hidden");
-
-		// svg.selectAll(".locals path")
-		// 	.attr("fill")
+			.attr("visibility", d => filteredIndices.includes(d.properties.index) ? "visisble" : "hidden")
+			.attr("stroke-width", d => {
+				const isHovered = hoveredFeature && hoveredFeature.index === d.properties.index;
+				const isActive = activeActivity && activeActivity.index === d.properties.index;
+				const strokeWidth = isActive ? STROKE_WIDTH_ACTIVE : isHovered ? STROKE_WIDTH_ACTIVE * .75 : STROKE_WIDTH_DEFAULT;
+				return strokeWidth;
+			});
 
 		svg.selectAll(".states path")
 			.attr("fill", d => {
 				const stateActivities = filteredActivities.filter(a => a["Level"] === "State" && a["State/US"] === d.properties.state);
 				if(!stateActivities.length) return stateColors[0];
-				if(stateActivities.filter(d => d["Progress"] === "Enacted").length) return stateColors[2];
+				if(stateActivities.filter(d => d["Summary Status"] === "Enacted").length) return stateColors[2];
 				return stateColors[1];
 			})
 			.attr("stroke-width", d => {
-				let strokeWidth;
-				if(hoveredFeature) {
-					strokeWidth = d.properties.index === hoveredFeature.index
-						? STROKE_WIDTH_ACTIVE : STROKE_WIDTH_DEFAULT;
-				} else {
-					strokeWidth = STROKE_WIDTH_DEFAULT;
-				}
+				const isHovered = hoveredFeature && hoveredFeature.index === d.properties.index;
+				const isActive = activeState && activeState.index === d.properties.index;
+				const strokeWidth = isHovered || isActive ? STROKE_WIDTH_ACTIVE : STROKE_WIDTH_DEFAULT;
 				return strokeWidth / mapTransform.k;
 			})
 			.attr("stroke", d => {
@@ -381,30 +381,26 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 			.attr("fill", d => {
 				const federalActivities = filteredActivities.filter(a => a["Level"] === "Federal" && a["State/US"] === d.properties.state);
 				if(!federalActivities.length) return stateColors[0];
-				if(federalActivities.filter(d => d["Progress"] === "Enacted").length) return stateColors[2];
+				if(federalActivities.filter(d => d["Summary Status"] === "Enacted").length) return stateColors[2];
 				return stateColors[1];
 			})
 			.attr("stroke-width", d => {
-				let strokeWidth;
-				if(hoveredFeature) {
-					strokeWidth = d.properties.index === hoveredFeature.index
-						? STROKE_WIDTH_ACTIVE : STROKE_WIDTH_DEFAULT;
-				} else {
-					strokeWidth = STROKE_WIDTH_DEFAULT;
-				}
-				return strokeWidth / mapTransform.k;
+				const isHovered = hoveredFeature && hoveredFeature.index === d.properties.index;
+				const isActive = activeState && activeState.index === d.properties.index;
+				const strokeWidth = isHovered || isActive ? STROKE_WIDTH_ACTIVE : STROKE_WIDTH_DEFAULT;
+				return strokeWidth;
 			})
 			.attr("stroke", d => {
 				return d.properties.index === (activeState ? activeState.index : null)
 					? STROKE_COLOR_ACTIVE
 					: STROKE_COLOR_DEFAULT
 			});
-		svg.select(".federal-icon image")
-			.attr("style", d => {
-				return d.properties.index === (activeState ? activeState.index : null)
-					? "filter: brightness(0)"
-					: ""
-			});
+		// svg.select(".federal-icon image")
+		// 	.attr("style", d => {
+		// 		return d.properties.index === (activeState ? activeState.index : null)
+		// 			? "filter: brightness(0)"
+		// 			: ""
+		// 	});
 	};
 
 	
@@ -425,11 +421,11 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 
 				<ZoomBttns
 					onZoomClick={onZoomClick} />
-
 				{hoveredFeature ?
-					<Tooltip
-						data={hoveredFeature}
-						transform={mapTransform} />
+					<TooltipMap
+						feature={hoveredFeature}
+						transform={mapTransform}
+						parentWidth={mapSizes.width} />
 				: null}
 
 				<Legend

@@ -21,7 +21,7 @@ button {
 	text-align: left;
 }
 
-input[type="checkbox"]:focus + label > div:first-child div:first-child {
+input[type="checkbox"]:focus + label > div:first-child div:first-child div {
 	outline: 5px auto Highlight;
 	outline: 5px auto -webkit-focus-ring-color;
 }
@@ -126,8 +126,26 @@ input[type="checkbox"]:focus + label > div:first-child div:first-child {
 		position: relative;
 		z-index: 2;
 	}
+	.button-info {
+		@apply w-3.5;
+		@apply h-3.5;
+		@apply rounded-full;
+		/*@apply border;*/
+		/*@apply border-gray-400;*/
+		@apply bg-gray-blue-200;
+		@apply text-gray-700;
+		display: inline-flex;
+		position: relative;
+		text-align: center;
+	}
+	.button-info::before {
+		content: "?";
+		@apply text-xxs;
+		line-height: 1;
+		margin: auto;
+		transform: scale(.8);
+	}
 }
-
 /*MUI OVERRIDES*/
 
 .MuiTouchRipple-root {

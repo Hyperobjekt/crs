@@ -17,7 +17,7 @@ const siteCopy = {
   "LocalSch": "Local school district",
   "LocalOth": "City or county government",
   "\"County Name if Local\"": "County",
-  "Activity Type": "Activity Type",
+  "Authority Type": "Activity Type",
   "Exec directive": "Executive directive",
   "Legislation": "Legislation",
   "Opinion Ltr": "Opinion letter",
@@ -27,9 +27,10 @@ const siteCopy = {
   "Attorney General Letter": "Attorney general letter",
   "Policy Change": "Policy revision",
   "Other": "Other activity",
-  "\"Date Intro\"": "Date",
+  "\"Date Intro\"": "Date Introduced",
+  "Date Intro": "Date Introduced",
   "6/8/2021": "June 8, 2021",
-  "Progress": "Progress",
+  "Summary Status": "Progress Status",
   "Pending": "Introduced and pending",
   "Enacted": "Introduced and adopted",
   "Expired or Withdrawn": "Introduced and withdrawn/expired",
@@ -50,7 +51,7 @@ const siteCopy = {
   "Disclosure of teaching/curriculum": "Curricular surveillance",
   "Forbidden Books": "Forbidden books",
   "CONTENT TRIGGER": "Content Trigger",
-  "\"divisive concepts\"/\"controversial issues\"": "\"Divisive concepts\" or \"controvesial issues\"",
+  "\"divisive concepts\"/\"controversial issues\"": "\"Divisive concepts\" or \"controversial issues\"",
   "US institns = \"inherently\" or \"fundamentally\" \"racist\"": "The U.S. is fundamentally racist or sexist",
   "Indiv. Respons. for systemic racism": "Any individual should feel discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race or sex",
   "\"Indiv. “discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race”\"": "Any individual should feel discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race or sex",
@@ -68,8 +69,8 @@ const siteCopy = {
   "Bill #": "Bill Number",
   "BodyName": "Body Name",
   "Title/Summary": "Summary",
-  "Status (link)": "See Status",
-  "Full text (link)": "Read Full Text",
+  "Status (link)": "Source for current progress status",
+  "Full text (link)": "Full text",
   "US": "Federal",
   "AL": "Alabama",
   "AK": "Alaska",
@@ -133,5 +134,5 @@ const siteCopy = {
 };
 
 export default function getText(str) {
-	return siteCopy[str] || str;
+	return siteCopy[str] ? siteCopy[str] : str;
 }

@@ -6,14 +6,16 @@ import Svg from "../Global/_Svg";
 
 export default function Legend({ localColors, stateColors  }) {
 	return (
-		<div className="p-4 absolute bottom-4 right-4 text-xs bg-white shadow rounded-xl">
-
-			<table cellPadding="5">
-				<thead>
+		<div className="p-4 absolute bottom-4 right-4 bg-white shadow rounded-xl">
+			<h3 className="text-sm font-bold center pb-3 px-[5px]">
+				Progress and level of anti-CRT activity
+			</h3>
+			<table cellPadding="5" className="text-xs">
+				<thead className="font-bold">
 					<tr>
-						<td className="w-22"></td>
-						<td className="w-18 whitespace-nowrap">Not passed</td>
-						<td className="w-18">Passed</td>
+						<td className="w-22">{getText("Level")}</td>
+						<td className="w-18 whitespace-nowrap">Not adopted</td>
+						<td className="w-18">Adopted</td>
 					</tr>
 				</thead>
 				<tbody>

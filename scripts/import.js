@@ -35,10 +35,13 @@ let d3, fetchJson, stateCodes, activities;
 			if(key === "Date Intro") {
 				newVal = new Date(val).toJSON();	
 			}
+
 			const booleanGroups = {
-				"Target Institution": ["K-12",	"Higher Ed", "Other Govt", "Other Contractors"],
-				"Conduct Regulated": ["Classroom teaching",	"Curricular content",	"Disclosure of teaching/curriculum", "Staff Trainings"],
-				"Content Trigger": ["Critical Race Theory","US  institns  \= \"inherently\" or \"fundamentally\" \"racist\"","Indiv. Respons. for systemic racism","Indiv. “discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race”","Meritocracy/hard work =  racist","\"divisive concepts\"/\"controversial issues\""]
+				"Target Institution": ["K-12", "Higher Ed", "Private Business or Non Profit", "State or Federal Government", "Contractors"],
+				"Conduct Regulated": ["Classroom teaching", "Curricular content", "Revision of a general EDI/antiracism policy", "Trainings"],
+				"Conduct Required": ["Curricular Surveillance",	"Student Education Opt-Out", "Forbidden Books"],
+				"Content Trigger": ["\"Critical Race Theory\"", "1619 Project", "US institns = \"inherently\" or \"fundamentally\" \"racist\"", "Indiv. Respons. for systemic racism", "\"Indiv. “discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race”\"", "Meritocracy/hard work = racist", "\"divisive concepts\"/\"controversial issues\""],
+				"Enforcement Mechanism": ["Funding", "Creates a private cause of action", "Parent Rights"]
 			};
 			let isBooleanGroup = false;
 			Object.keys(booleanGroups).forEach(groupKey => {
@@ -68,9 +71,9 @@ let d3, fetchJson, stateCodes, activities;
 		const url = `https://api.mapbox.com/geocoding/v5/${endpoint}/${search_text}.json?limit=1&access_token=${accessToken}`;
 		const res = await fetch(url)
 			.then(response => response.json())
-		  .then(resJson => {
-		  	return resJson.features ? { ...row, geometry: resJson.features[0].geometry } : row;
-		  });
+			.then(resJson => {
+				return resJson.features ? { ...row, geometry: resJson.features[0].geometry } : row;
+			});
 		return await res;
 	}));
 }).then(async () => {
@@ -101,9 +104,6 @@ let d3, fetchJson, stateCodes, activities;
 				properties: {
 					type: "state",
 					state: state,
-					// activities: activities
-					// 	.filter(row => ["State","Federal"].includes(row["Level"]) && row["State/US"] === state)
-					// 	.map(row => row.index),
 					index: i
 				},
 				geometry: d.geometry
@@ -147,7 +147,7 @@ let d3, fetchJson, stateCodes, activities;
 					properties: {
 						type: "local",
 						level: row["Level"],
-						progress: row["Progress"],
+						progress: row["Summary Status"],
 						index: row.index
 					},
 					geometry: geometry

@@ -25,9 +25,9 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, activit
 	}
 
 	return (
-		<div className="w-full flex relative z-50 bg-white border-b whitespace-nowrap shadow">
+		<div className="w-full flex flex-wrap relative z-50 bg-white border-b whitespace-nowrap shadow">
 
-			<div className="p-4 pr-0 flex items-center">
+			<div className="p-4 sm:pr-0 flex items-center">
 				<Button
 					className={filterOpen ? "button-active" : ""}
 					imgSrc={`IconFilter${filterOpen ? "Blue" : ""}.svg`}
@@ -35,8 +35,8 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, activit
 					Filters
 				</Button>
 			</div>
-			<div className="flex-1 relative overflow-x-hidden">
-				<div className="h-full flex gap-2 p-4 px-6 overflow-x-scroll">
+			<div className="sm:flex-1 relative overflow-x-hidden order-3 sm:order-none">
+				<div className="h-full flex gap-2 p-4 overflow-x-scroll">
 					{Object.keys(activeFilters).map(key => (
 						activeFilters[key].length ?
 							<div key={key} className="flex gap-2 items-center">
@@ -75,9 +75,8 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, activit
 								Clear all
 							</button>
 						</div> :
-						<div className="max-w-prose my-auto whitespace-normal">
-							{/*This map displays {activityCount} local, state, and federal activities aimed at restricting the ability to speak truthfully about race, racism, and sexism through a campaign to reject Critical Race Theory (CRT), diversity, inclusion, equity, antiracism and antisexism.*/}
-							{/*This map displays {activityCount} places in the USA where people are trying to implement laws against teaching Critical Race Theory*/}
+						<div className="my-auto whitespace-normal">
+							This map displays {activityCount} anti-CRT efforts introduced at the local, state, and federal levels.
 						</div>
 					}
 				</div>
@@ -85,7 +84,7 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, activit
 				<div className="w-6 h-full absolute right-0 top-0 bg-gradient-to-l from-white pointer-events-none"></div>
 			</div>
 
-			<div className="p-4 pl-0 flex items-center">
+			<div className="p-4 pl-0 flex items-center ml-auto">
 				{/*<Button
 					// className="mr-3"
 					imgSrc={`Icon${activeView === "map" ? "Table" : "Map"}.svg`}

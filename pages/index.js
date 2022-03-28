@@ -13,8 +13,7 @@ import Table from "./../components/Table";
 import statesGeo from "./../data/states";
 import localsGeo from "./../data/locals";
 import { activities } from "../data/activities";
-import filtersSchema from "./../data/filters";
-import activitySchema from "./../data/activity";
+import schema from "./../data/schema";
 
 export const getStaticProps = async () => {
 	return {
@@ -22,13 +21,12 @@ export const getStaticProps = async () => {
 			statesGeo: statesGeo,
 			localsGeo: localsGeo,
 			activities: activities,
-			filtersSchema: filtersSchema,
-			activitySchema: activitySchema,
+			schema: schema
 		}
 	}
 }
 
-export default function Index({ statesGeo, localsGeo, activities, filtersSchema, activitySchema }) {
+export default function Index({ statesGeo, localsGeo, activities, schema }) {
 	const [activeView, setActiveView] = useState("map");
 	const [activeActivity, setActiveActivity] = useState(null);
 	const [activeState, setActiveState] = useState(null);
@@ -36,24 +34,12 @@ export default function Index({ statesGeo, localsGeo, activities, filtersSchema,
 	const [activeCount, setActiveCount] = useState(localsGeo.features.length);
 	const [filteredActivities, setFilteredData] = useState(activities);
 	const [hasFilters, setHasFilters] = useState(false);
-	const [filterOpen, setFilterOpen] = useState(true);
+	const [filterOpen, setFilterOpen] = useState(false);
 	const [showMenu, setShowMenu] = useState(false);
 
 	useEffect(() => {
 		const activeGroups = Object.keys(activeFilters).filter(groupKey => activeFilters[groupKey].length);
 		const newFilteredData = activities.filter(d => {
-			// console.log(d, activeGroups.filter(groupKey => {
-			// 		if(groupKey === "Date Intro") {
-			// 			const [start, end] = activeFilters[groupKey];
-			// 			if(start && end) return d[groupKey] >= start && d[groupKey] <= end;
-			// 			if(start) return d[groupKey] >= start;
-			// 			if(end) return d[groupKey] <= end;
-			// 		} else if(Array.isArray(d[groupKey])) {
-			// 			return activeFilters[groupKey].some(o => (o === "N/A" && !d[groupKey].length) || d[groupKey].includes(o));
-			// 		} else {
-			// 			return activeFilters[groupKey].includes(d[groupKey]);
-			// 		}
-			// 	}).length);
 			return activeGroups.length ?
 				activeGroups.filter(groupKey => {
 					if(groupKey === "Date Intro") {
@@ -76,14 +62,7 @@ export default function Index({ statesGeo, localsGeo, activities, filtersSchema,
 		if(activeActivity || activeState) setFilterOpen(false);
 	}, [activeState, activeActivity]);
 
-	// const filterTable = (row) => {
-	// 	const activeGroups = Object.keys(filterData).filter((groupKey) => filterData[groupKey].length);
-	// 	const activeOptions = activeGroups.filter((groupKey) => filterData[groupKey].includes(row[groupKey]));
-	// 	return activeGroups.length > activeOptions.length ? 0 : 1;
-	// };
-
 	const onViewClick = (view) => {
-		// setFilterOpen(false);
 		setActiveActivity(null);
 		setActiveState(null);
 		setActiveView(view);
@@ -123,10 +102,6 @@ export default function Index({ statesGeo, localsGeo, activities, filtersSchema,
 			id="page"
 			className="w-screen h-screen flex flex-col">
 
-			{/*<Header activeView={activeView} activityCount={activities.length} onViewClick={onViewClick} onMenuClick={onMenuClick} />*/}
-
-			{/*<Menu showMenu={showMenu} />*/}
-
 			<SubHeader
 				filterOpen={filterOpen}
 				activeFilters={activeFilters}
@@ -142,9 +117,13 @@ export default function Index({ statesGeo, localsGeo, activities, filtersSchema,
 					height: activeView === "table" ? "100%" : null,
 				}}>
 
-				<div 
-					className="w-full flex"
-					style={{ display: activeView === "map" ? "block" : "none" }}>
+				<div
+					aria-hidden={activeView !== "map"} 
+					className="w-full flex relative"
+					style={activeView !== "map" ? {
+						position: "absolute",
+						left: "-9999999px"
+					} : null}>
 					<Map
 						statesGeo={statesGeo}
 						localsGeo={localsGeo}
@@ -156,48 +135,53 @@ export default function Index({ statesGeo, localsGeo, activities, filtersSchema,
 						setActiveState={setActiveState} />
 				</div>
 
-				<div 
+				<div
+					aria-hidden={activeView !== "table"} 
 					className="w-full h-full"
-					style={{ display: activeView === "table" ? "block" : "none" }}>
+					style={activeView !== "table" ? {
+						position: "absolute",
+						left: "-9999999px"
+					} : null}>
 					<Table
+						schema={schema}
 						filteredActivities={filteredActivities}
 						setActiveActivity={setActiveActivity} />
 				</div>
 
-				{filterOpen ?
-					<Panel
-						zIndex={50}
-						onClosePanel={onFilterPanelClose}>
-						<FilterPanel
-							activeCount={activeCount}
-							filtersSchema={filtersSchema}
-							activeFilters={activeFilters}
-							onFilterChange={onFilterChange} />
-					</Panel>
-				: null}
+				<Panel
+					open={filterOpen}
+					zIndex={60}
+					onClosePanel={onFilterPanelClose}>
+					<FilterPanel
+						schema={schema}
+						activeCount={activeCount}
+						activeFilters={activeFilters}
+						onFilterChange={onFilterChange} />
+				</Panel>
 
-				{!filterOpen && activeState && !activeActivity ?
-					<Panel
-						zIndex={30}
-						onClosePanel={onStatePanelClose}>
+				<Panel
+					open={activeState}
+					zIndex={30}
+					onClosePanel={onStatePanelClose}>
+					{activeState ?
 						<StatePanel
+							schema={schema}
 							state={activeState}
 							stateActivities={filteredActivities.filter(d => d["State/US"] === activeState.state )}
-							filtersSchema={filtersSchema}
-							hasFilters={hasFilters}
 							onClickActivityRow={onClickActivityRow} />
-					</Panel>
-				: null}
+					: null}
+				</Panel>
 
-				{!filterOpen && activeActivity ?
-					<Panel
-						zIndex={40}
-						onClosePanel={onActivityPanelClose}>
+				<Panel
+					open={activeActivity}
+					zIndex={50}
+					onClosePanel={onActivityPanelClose}>
+					{activeActivity ?
 						<ActivityPanel
-							activitySchema={activitySchema}
+							schema={schema}
 							activity={activeActivity} />
-					</Panel>
-				: null}
+					: null}
+				</Panel>
 
 			</main>
 			

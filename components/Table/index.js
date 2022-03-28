@@ -3,121 +3,105 @@ import { useEffect, useState, useRef } from "react";
 import { getText, getDate } from "./../../helpers";
 
 import HeaderCell from "./_HeaderCell";
-import BodyRow from "./_BodyRow";
 import BodyCell from "./_BodyCell";
+import Button from "./../Global/_Button";
 import ButtonExt from "./../Global/_ButtonExt";
 
-export default function Table({ filteredActivities = [], setActiveActivity }) {
+export default function Table({ filteredActivities = [], setActiveActivity, schema }) {
 
 	const [activities, setActivities] = useState([]);
-	const [currSort, setCurrSort] = useState({});
+	const [sort, setSort] = useState({});
 	const [limit, setLimit] = useState(500);
 
+	const colKeys = Object.keys(schema).filter(key => schema[key].table);
+
 	useEffect(() => {
-		setActivities(filteredActivities.filter((row, index) => index < limit));
-	}, [filteredActivities]);
-
-	const colSchemas = [
-		// {
-		// 	key: "Title",
-		// 	className: "w-3/12 capitalize font-bold",
-		// 	colSpan: 3,
-		// 	custom: true,
-		// },
-		{
-			key: "State/US",
-			className: "w-1/12",
-			colSpan: 1,
-			sortable: true,
-		},
-		{
-			key: "Body Name",
-			className: "w-2/12",
-			colSpan: 2,
-			sortable: true,
-		},
-		{
+		setSort({
 			key: "Date Intro",
-			className: "w-1/12",
-			colSpan: 1,
-			sortable: true,
-		},
-		{
-			key: "Progress",
-			className: "w-2/12",
-			colSpan: 2,
-			sortable: true,
-		},
-		{
-			key: "Level",
-			className: "w-2/12",
-			colSpan: 2,
-			sortable: true,
-		},
-		{
-			key: "Activity Type",
-			className: "w-1/12",
-			colSpan: 1,
-			sortable: true,
-		},
-		{
-			key: "Related Bill(s)",
-			className: "w-1/12",
-			colSpan: 1,
-			// custom: true,
-		},
-	];
+			order: "desc",
+			type: "date"
+		});
+	}, []);
 
-	const onHeaderClick = (colKey) => {
-		// if(!colSchemas[colKey].sortable) return;
-		const newDir = currSort.dir === "asc" ? "desc" : "asc";
-		const sortedActivities = [ ...activities ].sort((a, b) => {
-			let aVal = a[colKey];
-			let bVal = b[colKey];
+	useEffect(() => {
+		const sortedActivities = [ ...filteredActivities ].sort((a, b) => {
+			let aVal = a[sort.key];
+			let bVal = b[sort.key];
 
-			if(colKey === "Date Intro") {
-				aVal = new Date(a[colKey]);
-				bVal = new Date(b[colKey]);
+			if(sort.type === "date") {
+				aVal = new Date(a[sort.key]);
+				bVal = new Date(b[sort.key]);
 			}
 
-			if(aVal < bVal) return newDir === "asc" ? 1 : -1;
-			if(aVal > bVal) return newDir === "asc" ? -1 : 1;
+			if(aVal < bVal) return sort.order === "asc" ? -1 : 1;
+			if(aVal > bVal) return sort.order === "asc" ? 1 : -1;
 
 			return 0;
 		});
-
 		setActivities(prevActivities => [ ...sortedActivities ]);
+	}, [filteredActivities, sort]);
 
-		setCurrSort({
-			key: colKey,
-			dir: newDir
+
+	const onHeaderClick = (key, type) => { 
+		setSort({
+			key: key,
+			type: type,
+			order: sort.order === "asc" ? "desc" : "asc"
 		});
 	};
 
-	// const filterTable = (row) => {
-	// 	const activeGroups = Object.keys(filterData).filter((groupKey) => filterData[groupKey].length);
-	// 	const activeOptions = activeGroups.filter((groupKey) => filterData[groupKey].includes(row[groupKey]));
-	// 	return activeGroups.length > activeOptions.length ? 0 : 1;
-	// };
+	const onButtonClick = (rowData) => {
+		setActiveActivity(rowData);
+	}
 
 	return (
-		<table
-			className="w-full h-full min-w-[70rem] flex flex-col table-fixed relative">
-			<thead className="bg-white sticky">
-				<tr
-					className="flex px-4 space-x-2 border-b">
-					{colSchemas.map((colSchema, index) => (
-						<HeaderCell key={index} index={index} colSchema={colSchema} currSort={currSort} onHeaderClick={onHeaderClick} />
+		<div className="w-full h-full overflow-x-scroll">
+			<table
+				className="w-full h-full min-w-[70rem] flex flex-col table-fixed relative">
+				<thead className="bg-white sticky z-50">
+					<tr
+						className="flex px-4 space-x-2 border-b">
+						{colKeys.map((key, index) => (
+							<HeaderCell
+								key={index}
+								colKey={key}
+								colSchema={schema[key]}
+								sort={sort}
+								onHeaderClick={onHeaderClick} />
+						))}
+						<th
+							scole="col"
+							role="colheader"
+							colSpan="2"
+							style={{
+								width: `${2/12 * 100}%`
+							}}/>
+					</tr>
+				</thead>
+				<tbody className="overflow-y-scroll">
+					{activities.map((rowData, index) => (
+						<tr
+							key={index}
+							role="row"
+							className={index % 2 ? "body-row flex px-4 py-6 space-x-2 bg-gray-100" : "body-row flex px-4 py-6 space-x-2 bg-white"}>
+							{colKeys.map(key => (
+								<BodyCell
+									key={key}
+									colVal={rowData[key]}
+									colSchema={schema[key]}>
+								</BodyCell>
+							))}
+							<BodyCell
+								colSchema={{table:{col:2}}}>
+								<Button
+									onClick={() => onButtonClick(rowData)}>
+									Read more
+								</Button>
+							</BodyCell>
+						</tr>
 					))}
-				</tr>
-			</thead>
-			<tbody className="overflow-scroll">
-				{activities.map((rowData, index) => (
-					rowData["State/US"] ?
-						<BodyRow key={index} index={index} rowData={rowData} colSchemas={colSchemas} setActiveActivity={setActiveActivity} />
-					: null
-				))}
-			</tbody>
-		</table>
+				</tbody>
+			</table>
+		</div>
 	)
 }

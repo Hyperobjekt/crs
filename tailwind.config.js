@@ -5,6 +5,9 @@ module.exports = {
 	],
 	theme: {
 		extend: {
+			spacing: {
+				"100": "25rem",
+			},
 			colors: {
 
 				"primary": "#99ABB0",
@@ -39,12 +42,14 @@ module.exports = {
 				"local-2": "#C66E3B",
 
 				"state-1": "#FCFCFF",
-				"state-2": "#DEE2E4",
-				"state-3": "#D4DFE3",
+				"state-2": "#E9EFF1",
+				"state-3": "#CBD8DD",
 
 				"map-outline": "#99ABB0"
 			},
 			fontSize: {
+				"xxs": [10, "11px"],
+				"xs": [10, "12px"],
 				"sm": [12, "14px"],
 				"md": [14, "17px"],
 				"lg": [15, "20px"],
