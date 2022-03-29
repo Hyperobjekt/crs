@@ -140,7 +140,7 @@ input[type="checkbox"]:focus + label > div:first-child div:first-child div {
 	}
 	.button-info::before {
 		content: "?";
-		@apply text-xxs;
+		@apply text-xs;
 		line-height: 1;
 		margin: auto;
 		transform: scale(.8);

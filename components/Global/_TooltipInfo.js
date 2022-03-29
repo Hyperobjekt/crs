@@ -26,7 +26,7 @@ export default function TooltipInfo({ parent, children }) {
 					<Tooltip
 						open={hovered}
 						parentWidth={parent ? parent.getBoundingClientRect().width : null}>
-						<div className="p-4 text-xs font-normal text-gray-blue-100">
+						<div className="p-4 text-sm font-normal text-gray-blue-100">
 							{children}
 						</div>
 					</Tooltip>

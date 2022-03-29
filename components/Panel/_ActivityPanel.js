@@ -58,7 +58,7 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 										</TooltipInfo>
 									: null}
 								</div>
-								<div className="text-sm">
+								<div className="text-md">
 									<Field fieldKey={key} fieldVal={fieldVal} />
 								</div>
 							</li>
@@ -82,7 +82,7 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 				))}
 
 				{panelData["Date Status Last Checked"] ?
-					<div className="p-4 text-sm">
+					<div className="p-4 text-md">
 						Progress status current as of {getDate(panelData["Date Status Last Checked"])}
 					</div>
 				: null}

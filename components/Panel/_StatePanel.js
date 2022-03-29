@@ -32,7 +32,7 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 						{title}
 					</h3>
 					{/*{hasFilters ?
-						<span className="ml-1 relative -top-0.5 text-sm">
+						<span className="ml-1 relative -top-0.5 text-md">
 							({progressListLength}/{state.activities.length})
 						</span>
 					: null}*/}
@@ -52,7 +52,7 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 								: null
 							)
 						})
-					: <div className="text-sm text-gray-400">
+					: <div className="text-md text-gray-400">
 							No {title.toLowerCase()} activities
 						</div>
 					}
@@ -68,7 +68,7 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 					<h4 className="type-heading-3 inline">
 						{getText(type)}
 					</h4>
-					<span className="ml-1 text-sm">
+					<span className="ml-1 text-md">
 						({typeListActivities.length}/{progressListLength})
 					</span>
 				</header>
@@ -89,7 +89,7 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 					<div className="text-md capitalize">
 						{getTitle(activity)}
 					</div>
-					<div className="mt-1 text-sm text-gray-400">
+					<div className="mt-1 text-md text-gray-400">
 						{activity["Date Passed"] ?
 							`Passed ${getDate(activity["Date Passed"])}`
 						: activity["Date Intro"] ?

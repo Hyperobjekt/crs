@@ -48,7 +48,6 @@ module.exports = {
 				"map-outline": "#99ABB0"
 			},
 			fontSize: {
-				"xxs": [10, "11px"],
 				"xs": [10, "12px"],
 				"sm": [12, "14px"],
 				"md": [14, "17px"],

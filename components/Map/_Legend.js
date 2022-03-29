@@ -7,10 +7,10 @@ import Svg from "../Global/_Svg";
 export default function Legend({ localColors, stateColors  }) {
 	return (
 		<div className="p-4 absolute bottom-4 right-4 bg-white shadow rounded-xl">
-			<h3 className="text-sm font-bold center pb-3 px-[5px]">
+			<h3 className="text-md font-bold center pb-3 px-[5px]">
 				Progress and level of anti-CRT activity
 			</h3>
-			<table cellPadding="5" className="text-xs">
+			<table cellPadding="5" className="text-sm">
 				<thead className="font-bold">
 					<tr>
 						<td className="w-22">{getText("Level")}</td>
