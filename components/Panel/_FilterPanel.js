@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 
 import { getText } from "../../helpers";
 
-import Button from "../Global/_Button";
+import { Button } from "../Utils";
 import Accordion from "./_Accordion";
 import Filter from "./_Filter";
 

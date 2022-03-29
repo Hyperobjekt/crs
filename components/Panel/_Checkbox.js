@@ -1,4 +1,4 @@
-import Svg from "../Global/_Svg";
+import { Svg } from "../Utils";
 
 export default function Checkbox({ val, label, id, group, active, onChange }) {
 	let symbolClassName;

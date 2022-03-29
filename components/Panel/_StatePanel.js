@@ -1,9 +1,6 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 import { getText, getDate, getTitle } from "./../../helpers";
-
-import Accordion from "./_Accordion";
-import CloseBttn from "./../Icon/_CloseBttn";
 
 export default function StatePanel({ state, stateActivities, schema, hasFilters, onClickActivityRow, closeBttn }) {
 	const [panelData, setPanelData] = useState({});

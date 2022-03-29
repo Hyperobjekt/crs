@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 
-import CloseBttn from "./../Icon/_CloseBttn";
+import { ButtonClose } from "./../Utils";
 
 export default function Panel({ open, zIndex, children, onClosePanel }) {
 
@@ -20,7 +20,7 @@ export default function Panel({ open, zIndex, children, onClosePanel }) {
 	const PanelContent = children ? React.Children.map(children, (child) => {
   	if (React.isValidElement(child)) {
       return React.cloneElement(child, {
-      	closeBttn: <CloseBttn className="ml-auto mb-auto" callback={onCloseClick} />
+      	closeBttn: <ButtonClose className="ml-auto mb-auto" callback={onCloseClick} />
       });
     }
     return child;

@@ -1,4 +1,4 @@
-import Button from "./../Global/_Button";
+import { Button } from "./../Utils";
 
 export default function Header({ activeView, activityCount, onViewClick, onMenuClick }) {
 	return (

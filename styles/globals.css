@@ -76,25 +76,25 @@ input[type="checkbox"]:focus + label > div:first-child div:first-child div {
 	}
 
 	.type-body {
-		font-size: 12px;
+		@apply text-sm;
 		line-height: 18px;
 		color: #393B3D;
 		letter-spacing: 0.02em;
 	}
 	.type-label {
-		font-size: 12px;
+		@apply text-sm;
 		line-height: 16px;
 		color: #72746D;
 		letter-spacing: 0.02em;
 	}
 	.type-sm-label {
-		font-size: 10px;
+		@apply text-xs;
 		line-height: 12px;
 		color: #72746D;
 		letter-spacing: 0.02em;
 	}
 	.type-button-label {
-		font-size: 12px;
+		@apply text-sm;
 		line-height: 16px;
 		color: #444743;
 		letter-spacing: 0.02em;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getText, getDate } from "../../helpers";
-import Button from "../Global/_Button";
+import { Button } from "../Utils";
 
 export default function AppliedFilters({ filterOpen, activeFilters = {}, activityCount, onFilterChange, onFilterPanelToggle, onViewClick }) {
 	const [activeView, setActiveView] = useState("map");
@@ -76,7 +76,7 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, activit
 							</button>
 						</div> :
 						<div className="my-auto whitespace-normal">
-							This map displays {activityCount} anti-CRT efforts introduced at the local, state, and federal levels.
+							This map displays <strong className="text-accent-blue">{activityCount}</strong> anti-CRT efforts introduced at the local, state, and federal levels.
 						</div>
 					}
 				</div>

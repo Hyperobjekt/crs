@@ -1,4 +1,4 @@
-import Button from "./../Global/_Button";
+import { Button } from "./../Utils";
 
 const menu_items = [
 	{
