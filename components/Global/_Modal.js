@@ -43,7 +43,7 @@ export default function Modal({ modalOpen, activeView, setModalOpen, setActiveVi
 				</div>
 
 				<div className="text-center">
-					Read more <a href="https://crtforward.law.ucla.edu/about/" target="_blank" className="underline">about the project</a> and our <a href="https://crtforward.law.ucla.edu/methodology/" target="_blank" className="underline">methodology</a>.
+					Read more <a href="https://crtforward.law.ucla.edu/about/" target="_blank" rel="noreferrer" className="underline">about the project</a> and our <a href="https://crtforward.law.ucla.edu/methodology/" target="_blank" rel="noreferrer" className="underline">methodology</a>.
 				</div>
 
 			</div>
