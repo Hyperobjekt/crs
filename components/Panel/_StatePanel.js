@@ -12,7 +12,7 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 		: !["State","Federal"].includes(a["Level"])
 	)
 
-	const passedActivities = stateActivities.filter(a => a["Summary Status"] === "Enacted");
+	const adoptedActivities = stateActivities.filter(a => a["Summary Status"] === "Enacted");
 	const introducedActivities = stateActivities.filter(a => a["Summary Status"] !== "Enacted");
 
 	useEffect(() => {
@@ -88,7 +88,7 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 					</div>
 					<div className="mt-1 text-md text-gray-400">
 						{activity["Date Passed"] ?
-							`Passed ${getDate(activity["Date Passed"])}`
+							`Adopted ${getDate(activity["Date Adopted"])}`
 						: activity["Date Intro"] ?
 							`Introduced ${getDate(activity["Date Intro"])}`
 						: null}
@@ -153,7 +153,7 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 
 				<ProgessList
 					title="Passed"
-					progressListActivities={passedActivities} />
+					progressListActivities={adoptedActivities} />
 
 				<ProgessList
 					title="Introduced"
