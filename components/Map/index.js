@@ -7,7 +7,7 @@ import Legend from "./_Legend";
 import TooltipMap from "./_TooltipMap";
 import ZoomBttns from "./_ZoomBttns";
 
-export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities = [], activeActivity, activeState, setActiveActivity, setActiveState }) {
+export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities = [], activeActivity, activeState, setActiveActivity, setActiveState, setModalOpen }) {
 	const [mapSizes, setMapSizes] = useState({});
 	const [mapTransform, setMapTransform] = useState({ k:1, x:0, y:0 });
 	const [mapIsReady, setMapIsReady] = useState(false);
@@ -410,6 +410,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 			<Helmet>
 				<body className="overflow-hidden" />
 			</Helmet>
+
 			<div ref={mapRef}
 				className={`w-full h-full relative`}>
 
@@ -420,7 +421,9 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 				</div>
 
 				<ZoomBttns
-					onZoomClick={onZoomClick} />
+					onZoomClick={onZoomClick}
+					setModalOpen={setModalOpen} />
+
 				{hoveredFeature ?
 					<TooltipMap
 						feature={hoveredFeature}

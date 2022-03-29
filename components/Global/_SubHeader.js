@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getText, getDate } from "../../helpers";
 import { Button } from "../Utils";
 
-export default function AppliedFilters({ filterOpen, activeFilters = {}, activityCount, onFilterChange, onFilterPanelToggle, onViewClick }) {
-	const [activeView, setActiveView] = useState("map");
+export default function AppliedFilters({ activeView, filterOpen, activeFilters = {}, activityCount, onFilterChange, onFilterPanelToggle, onViewClick }) {
+	const [_activeView, _setActiveView] = useState(activeView);
+
+	useEffect(() => {
+		_setActiveView(activeView);
+	}, [activeView]);
 
 	const onClickApplied = (e) => {
 		const { key, value } = e.target.dataset;
@@ -20,7 +24,7 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, activit
 
 	const onClickView = (e) => {
 		const view = e.target.value;
-		setActiveView(view);
+		_setActiveView(view);
 		onViewClick(view);
 	}
 
@@ -92,14 +96,14 @@ export default function AppliedFilters({ filterOpen, activeFilters = {}, activit
 					{activeView === "map" ? "Table" : "Map"}
 				</Button>*/}
 				<Button
-					className={`${activeView === "map" ? "button-active" : ""} rounded-r-none`}
+					className={`${_activeView === "map" ? "button-active" : ""} rounded-r-none`}
 					imgSrc={`IconMap.svg`}
 					value="map"
 					onClick={onClickView}>
 					Map
 				</Button>
 				<Button
-					className={`${activeView === "table" ? "button-active" : ""} rounded-l-none -ml-1`}
+					className={`${_activeView === "table" ? "button-active" : ""} rounded-l-none -ml-1`}
 					imgSrc={`IconTable.svg`}
 					value="table"
 					onClick={onClickView}>
