@@ -21,7 +21,7 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 		} else if(Array.isArray(fieldVal) && fieldVal.length) {
 			fieldContent = (
 				<ul>
-					{fieldVal.map((v,i) => <li key={i} className="mt-1">{getText(v)}</li>)}
+					{fieldVal.map((v,i) => <li key={i} className="mb-0.5">{getText(v)}</li>)}
 				</ul>
 			);
 		} else if(typeof fieldVal === "string") {
@@ -43,27 +43,30 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 
 			<div className="overflow-y-scroll pb-6" ref={parentRef}>
 				<ul className="p-4 pt-6 border-b">
-					{Object.keys(schema).filter(k => panelData[k]).map(key => {
-						const fieldVal = panelData[key];
-						const fieldTitle = getText(key);
-						const tooltip = schema[key].tooltip;						
-						return(
-							<li key={key}
-								className="mb-3">
-								<div className="mb-0.5 text-sm text-gray-500">
-									{fieldTitle}
-									{tooltip ?
-										<TooltipInfo parent={parentRef.current}>
-											{tooltip}
-										</TooltipInfo>
-									: null}
-								</div>
-								<div className="text-md">
-									<Field fieldKey={key} fieldVal={fieldVal} />
-								</div>
-							</li>
-						);
-					})}
+					{Object.keys(schema)
+						.filter(k => panelData[k] && panelData[k].length)
+						.map(key => {
+							const fieldVal = panelData[key];
+							const fieldTitle = getText(key);
+							const tooltip = schema[key].tooltip;
+							console.log(panelData[key]);
+							return(
+								<li key={key}
+									className="mb-3">
+									<div className="mb-0.5 text-sm text-gray-500">
+										{fieldTitle}
+										{tooltip ?
+											<TooltipInfo parent={parentRef.current}>
+												{tooltip}
+											</TooltipInfo>
+										: null}
+									</div>
+									<div className="text-md">
+										<Field fieldKey={key} fieldVal={fieldVal} />
+									</div>
+								</li>
+							);
+						})}
 				</ul>
 
 				{["Full text (link)", "Status (link)"].map((key, index) => (
