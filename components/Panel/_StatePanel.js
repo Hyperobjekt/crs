@@ -1,9 +1,6 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 import { getText, getDate, getTitle } from "./../../helpers";
-
-import Accordion from "./_Accordion";
-import CloseBttn from "./../Icon/_CloseBttn";
 
 export default function StatePanel({ state, stateActivities, schema, hasFilters, onClickActivityRow, closeBttn }) {
 	const [panelData, setPanelData] = useState({});
@@ -15,7 +12,7 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 		: !["State","Federal"].includes(a["Level"])
 	)
 
-	const passedActivities = stateActivities.filter(a => a["Summary Status"] === "Enacted");
+	const adoptedActivities = stateActivities.filter(a => a["Summary Status"] === "Enacted");
 	const introducedActivities = stateActivities.filter(a => a["Summary Status"] !== "Enacted");
 
 	useEffect(() => {
@@ -32,7 +29,7 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 						{title}
 					</h3>
 					{/*{hasFilters ?
-						<span className="ml-1 relative -top-0.5 text-sm">
+						<span className="ml-1 relative -top-0.5 text-md">
 							({progressListLength}/{state.activities.length})
 						</span>
 					: null}*/}
@@ -52,7 +49,7 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 								: null
 							)
 						})
-					: <div className="text-sm text-gray-400">
+					: <div className="text-md text-gray-400">
 							No {title.toLowerCase()} activities
 						</div>
 					}
@@ -68,7 +65,7 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 					<h4 className="type-heading-3 inline">
 						{getText(type)}
 					</h4>
-					<span className="ml-1 text-sm">
+					<span className="ml-1 text-md">
 						({typeListActivities.length}/{progressListLength})
 					</span>
 				</header>
@@ -89,9 +86,9 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 					<div className="text-md capitalize">
 						{getTitle(activity)}
 					</div>
-					<div className="mt-1 text-sm text-gray-400">
-						{activity["Date Passed"] ?
-							`Passed ${getDate(activity["Date Passed"])}`
+					<div className="mt-1 text-md text-gray-400">
+						{activity["Date Adopted"] ?
+							`Adopted ${getDate(activity["Date Adopted"])}`
 						: activity["Date Intro"] ?
 							`Introduced ${getDate(activity["Date Intro"])}`
 						: null}
@@ -155,8 +152,8 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 			<div className="overflow-y-scroll pb-16">
 
 				<ProgessList
-					title="Passed"
-					progressListActivities={passedActivities} />
+					title="Adopted"
+					progressListActivities={adoptedActivities} />
 
 				<ProgessList
 					title="Introduced"

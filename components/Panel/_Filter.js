@@ -3,7 +3,7 @@ import { getText } from "./../../helpers";
 import Checkbox from "./_Checkbox";
 import DateSelector from "./_DateSelector";
 
-export default function Filter({ group, schema, activeFilters = {}, onChange }) {
+export default function Filter({ group, schema, activeFilters = {}, parent, onChange }) {
 
 	const onCheckboxChange = (e) => {
 		const { group, value } = e.target.dataset;
@@ -34,16 +34,21 @@ export default function Filter({ group, schema, activeFilters = {}, onChange }) 
 				<div
 					role="listbox"
 					aria-multiselectable="true">
-					{schema.filter.options.map((option, i) => (
-						<Checkbox
-							key={i}
-							val={option}
-							label={getText(option)}
-							id={`${group}_${option}`}
-							group={group}
-							active={activeFilters[group] ? activeFilters[group].includes(option) : false}
-							onChange={onCheckboxChange} />
-					))}
+					{schema.filter.options.map((option, i) => {
+						const key = typeof option === "object" ? option.key : option;
+						return(
+							<Checkbox
+								key={i}
+								val={key}
+								label={getText(key)}
+								id={`${group}_${key}`}
+								group={group}
+								active={activeFilters[group] ? activeFilters[group].includes(key) : false}
+								tooltip={typeof option === "object" ? option.tooltip : null}
+								parent={parent}
+								onChange={onCheckboxChange} />
+						)
+					})}
 				</div>
 			: null}
 

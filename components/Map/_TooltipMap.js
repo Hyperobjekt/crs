@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { getText, getDate, getTitle } from "./../../helpers";
-import Tooltip from "../Global/_Tooltip";
+import { Tooltip } from "../Utils";
 
 export default function TooltipMap({ feature = {}, transform, parentWidth }) {
 	const [style, setStyle] = useState({});

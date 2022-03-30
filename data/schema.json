@@ -39,11 +39,11 @@
 			"options": [
 				"Exec directive",
 				"Legislation",
+				"Attorney General Letter",
 				"Opinion Ltr",
 				"Regulation",
 				"Resolution",
 				"Statement",
-				"Attorney General Letter",
 				"Policy Change"
 			]
 		},
@@ -78,72 +78,129 @@
 		}
 	},
 	"Target Institution": {
-		"tooltip": "The type of entity the authority type is attempting to regulate",
+		"tooltip": "The type of entity the anti-CRT activity is attempting to regulate",
 		"type": "string",
 		"filter": {
 			"multi": true,
 			"options": [
-				"K-12",
-				"Higher Ed",
-				"Private Business or Non Profit",
-				"State or Federal Government",
-				"Contractors",
-				"N/A"
+				{
+					"key": "K-12"
+				},
+				{
+					"key": "Higher Ed"
+				},
+				{
+					"key": "Private Business or Non Profit"
+				},
+				{
+					"key": "State or Federal Government"
+				},
+				{
+					"key": "Contractors"
+				}
 			]
 		}
 	},
-	"Conduct Regulated": {
+	"Conduct Prohibited": {
 		"tooltip": "Acts the anti-CRT activity suppresses",
 		"type": "string",
 		"filter": {
 			"multi": true,
 			"options": [
-				"Classroom teaching",
-				"Curricular content",
-				"Revision of a general EDI/antiracism policy",
-				"Trainings",
+				{
+					"key": "Classroom teaching",
+					"tooltip": "Instruction in the classroom"
+				},
+				{
+					"key": "Curricular content",
+					"tooltip": "Collection of lessons, facts, theories, assessments, and concepts taught in school"
+				},
+				{
+					"key": "Revision of a general EDI/antiracism policy",
+					"tooltip": "Failure to adopt or implement a policy as a result of anti-CRT sentiment"
+				},
+				{
+					"key": "Trainings",
+					"tooltip": "Staff or student trainings"
+				},
 				"N/A"
 			]
 		}
 	},
 	"Conduct Required": {
-		"tooltip": "Acts the anti-CRT activity demands",
+		"tooltip": "Acts the anti-CRT activity demands or forbids",
 		"type": "string",
 		"filter": {
 			"multi": true,
 			"options": [
-				"Curricular Surveillance",
-				"Student Education Opt-Out",
-				"Forbidden Books",
+				{
+					"key": "Curricular Surveillance",
+					"tooltip": "Publishing the classroom teaching and curricular content"
+				},
+				{
+					"key": "Forbidden Books",
+					"tooltip": "Restricting access to certain books"
+				},
+				{
+					"key": "Student Education Opt-Out",
+					"tooltip": "Allows parents to restrict their student from certain education"
+				},
 				"N/A"
 			]
 		}
 	},
 	"Content Trigger": {
-		"tooltip": "Language used in the anti-CRT activity is derived from the now rescinded Trump Executive Order 13950 to suppress specific acts",
+		"tooltip": "Features of the regulated conduct that trigger anti-CRT restrictions",
 		"type": "string",
 		"filter": {
 			"multi": true,
 			"options": [
-				"\"Critical Race Theory\"",
-				"1619 Project",
-				"US institns = \"inherently\" or \"fundamentally\" \"racist\"",
-				"Indiv. Respons. for systemic racism",
-				"\"Indiv. “discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race”\"",
-				"Meritocracy/hard work = racist",
-				"\"divisive concepts\"/\"controversial issues\"",
+				{
+					"key": "\"Critical Race Theory\"",
+					"tooltip": ""
+				},
+				{
+					"key": "1619 Project",
+					"tooltip": ""
+				},
+				{
+					"key": "US institns = \"inherently\" or \"fundamentally\" \"racist\"",
+					"tooltip": "Concept from the now rescinded Trump Executive Order 13950"
+				},
+				{
+					"key": "Indiv. Respons. for systemic racism",
+					"tooltip": "Concept from the now rescinded Trump Executive Order 13950"
+				},
+				{
+					"key": "Indiv. “discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race”",
+					"tooltip": "Concept from the now rescinded Trump Executive Order 13950"
+				},
+				{
+					"key": "Meritocracy/hard work = racist",
+					"tooltip": "Concept from the now rescinded Trump Executive Order 13950"
+				},
+				{
+					"key": "\"divisive concepts\"/\"controversial issues\"",
+					"tooltip": "Concept from the now rescinded Trump Executive Order 13950"
+				},
 				"N/A"
 			]
 		}
 	},
 	"Enforcement Mechanism": {
+		"tooltip": "Methods to achieve compliance",
 		"type": "string",
 		"filter": {
 			"multi": true,
 			"options": [
-				"Funding",
-				"Creates a private cause of action",
-				"Parent Rights",
+				{
+					"key": "Funding Withheld",
+					"tooltip": "Financial support withheld if entity found to have engaged in CRT activity"
+				},
+				{
+					"key": "Creates a private cause of action",
+					"tooltip": "An individual can privately sue an individual or school for engaging in CRT activity"
+				},
 				"N/A"
 			]
 		}
@@ -155,8 +212,7 @@
 			"options": [
 				"Race or ethnicity only",
 				"Race or ethnicity & sex",
-				"Race or ethnicity, sex & more",
-				"N/A"
+				"Race or ethnicity, sex & more"
 			]
 		}
 	},

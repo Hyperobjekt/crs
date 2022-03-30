@@ -48,10 +48,9 @@ module.exports = {
 				"map-outline": "#99ABB0"
 			},
 			fontSize: {
-				"xxs": [10, "11px"],
 				"xs": [10, "12px"],
 				"sm": [12, "14px"],
-				"md": [14, "17px"],
+				"md": [14, "20px"],
 				"lg": [15, "20px"],
 				"xl": [17, "23px"],
 				"xxl": [20, "23px"],
@@ -61,7 +60,7 @@ module.exports = {
 			},
 			borderColor: {
 				"DEFAULT": "#EAEAEA",
-			}
+			},
 		},
 	},
 	plugins: [],

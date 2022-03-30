@@ -21,7 +21,7 @@ button {
 	text-align: left;
 }
 
-input[type="checkbox"]:focus + label > div:first-child div:first-child div {
+input[type="checkbox"]:focus + label > span:first-child span:first-child span {
 	outline: 5px auto Highlight;
 	outline: 5px auto -webkit-focus-ring-color;
 }
@@ -76,25 +76,25 @@ input[type="checkbox"]:focus + label > div:first-child div:first-child div {
 	}
 
 	.type-body {
-		font-size: 12px;
+		@apply text-sm;
 		line-height: 18px;
 		color: #393B3D;
 		letter-spacing: 0.02em;
 	}
 	.type-label {
-		font-size: 12px;
+		@apply text-md;
 		line-height: 16px;
 		color: #72746D;
 		letter-spacing: 0.02em;
 	}
 	.type-sm-label {
-		font-size: 10px;
+		@apply text-xs;
 		line-height: 12px;
 		color: #72746D;
 		letter-spacing: 0.02em;
 	}
 	.type-button-label {
-		font-size: 12px;
+		@apply text-sm;
 		line-height: 16px;
 		color: #444743;
 		letter-spacing: 0.02em;
@@ -140,7 +140,7 @@ input[type="checkbox"]:focus + label > div:first-child div:first-child div {
 	}
 	.button-info::before {
 		content: "?";
-		@apply text-xxs;
+		@apply text-xs;
 		line-height: 1;
 		margin: auto;
 		transform: scale(.8);

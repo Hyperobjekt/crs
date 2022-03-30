@@ -4,8 +4,7 @@ import { getText, getDate } from "./../../helpers";
 
 import HeaderCell from "./_HeaderCell";
 import BodyCell from "./_BodyCell";
-import Button from "./../Global/_Button";
-import ButtonExt from "./../Global/_ButtonExt";
+import { Button, ButtonExt } from "./../Utils";
 
 export default function Table({ filteredActivities = [], setActiveActivity, schema }) {
 
@@ -17,9 +16,9 @@ export default function Table({ filteredActivities = [], setActiveActivity, sche
 
 	useEffect(() => {
 		setSort({
-			key: "Date Intro",
-			order: "desc",
-			type: "date"
+			key: "Summary Status",
+			order: "asc",
+			type: "string"
 		});
 	}, []);
 
