@@ -2,10 +2,10 @@ export default function Button({ style, imgSrc, url, className, onClick, childre
 	let classes = "button w-full flex";
 
 	if(style === "blue") {
-		classes = "button w-full flex bg-gray-blue-200 border-0";
+		classes = "button w-full flex bg-gray-blue-200 text-md border-0";
 	}
 	if(style === "active") {
-		classes = "button w-full flex bg-gray-blue-200 border-accent-blue text-dark-blue";
+		classes = "button w-full flex bg-gray-blue-200 text-md border-accent-blue text-dark-blue";
 	}
 
 	let TagName = url ? "a" : "button";

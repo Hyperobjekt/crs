@@ -7,7 +7,7 @@ import Legend from "./_Legend";
 import TooltipMap from "./_TooltipMap";
 import ZoomBttns from "./_ZoomBttns";
 
-export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities = [], activeActivity, activeState, setActiveActivity, setActiveState }) {
+export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities = [], activeActivity, activeState, setActiveActivity, setActiveState, setModalOpen }) {
 	const [mapSizes, setMapSizes] = useState({});
 	const [mapTransform, setMapTransform] = useState({ k:1, x:0, y:0 });
 	const [mapIsReady, setMapIsReady] = useState(false);
@@ -207,13 +207,6 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 			.attr("height", `${DC_SIZE * .75}px`)
 			.attr("transform", d => `translate(${-DC_SIZE/2 * .75}, ${-DC_SIZE/2 * .75})`)
 			.attr("pointer-events", "none");
-
-		// dcMarker
-		// 	.select("image")
-		// 	.on("mouseover", onHoverFeature)
-		// 	.on("mouseout", onUnhoverFeature)
-		// 	.on("click", onClickFederalFeature)
-		// 	.on("dblclick", (e) => e.stopPropagation());
 	};
 
 
@@ -238,9 +231,6 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		const elem = e.target,
 					path = d3.select(elem),
 					states = d3.select(svgRef.current).selectAll(".states path");
-		// states.attr("stroke", STROKE_COLOR_DEFAULT);
-		// elem.parentElement.appendChild(elem);
-		// path.attr("stroke", STROKE_COLOR_ACTIVE);
 		setActiveActivity(null);
 		setActiveState(null);
 		setActiveState(d.properties);
@@ -309,7 +299,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 			offsetX = MARKER_SIZE;
 			offsetY = MARKER_SIZE * 4;
 		}
-		// console.log(coords, data);
+
 		if(coords) setHoveredFeature({ ...data, coords, offset: [offsetX, offsetY] });
 	}
 
@@ -395,12 +385,6 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 					? STROKE_COLOR_ACTIVE
 					: STROKE_COLOR_DEFAULT
 			});
-		// svg.select(".federal-icon image")
-		// 	.attr("style", d => {
-		// 		return d.properties.index === (activeState ? activeState.index : null)
-		// 			? "filter: brightness(0)"
-		// 			: ""
-		// 	});
 	};
 
 	
@@ -410,6 +394,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 			<Helmet>
 				<body className="overflow-hidden" />
 			</Helmet>
+
 			<div ref={mapRef}
 				className={`w-full h-full relative`}>
 
@@ -420,7 +405,9 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 				</div>
 
 				<ZoomBttns
-					onZoomClick={onZoomClick} />
+					onZoomClick={onZoomClick}
+					setModalOpen={setModalOpen} />
+
 				{hoveredFeature ?
 					<TooltipMap
 						feature={hoveredFeature}

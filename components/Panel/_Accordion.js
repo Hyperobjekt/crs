@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { getText } from "./../../helpers";
-import TooltipInfo from "../Global/_TooltipInfo";
+import { TooltipInfo } from "../Utils";
 
 export default function Accordion({ label, tooltip, open, children }) {
 	const parentRef = useRef(null);

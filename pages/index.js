@@ -1,12 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 
-import Header from "./../components/Header";
-import Menu from "./../components/Menu";
+import { SubHeader, Modal } from "./../components/Global";
 import Panel from "./../components/Panel";
 import ActivityPanel from "./../components/Panel/_ActivityPanel";
 import StatePanel from "./../components/Panel/_StatePanel";
 import FilterPanel from "./../components/Panel/_FilterPanel";
-import SubHeader from "./../components/Header/_SubHeader";
 import Map from "./../components/Map";
 import Table from "./../components/Table";
 
@@ -35,7 +33,7 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 	const [filteredActivities, setFilteredData] = useState(activities);
 	const [hasFilters, setHasFilters] = useState(false);
 	const [filterOpen, setFilterOpen] = useState(false);
-	const [showMenu, setShowMenu] = useState(false);
+	const [modalOpen, setModalOpen] = useState(true);
 
 	useEffect(() => {
 		const activeGroups = Object.keys(activeFilters).filter(groupKey => activeFilters[groupKey].length);
@@ -93,17 +91,26 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 		setActiveActivity(activity);
 	};
 
-	const onMenuClick = () => {
-		setShowMenu(!showMenu)
-	}
+	const onModalButtonClick = (e) => {
+		const view = e.target.value;
+		setActiveView(view);
+		setModalOpen(false);
+	};
 
 	return(
 		<div
 			id="page"
 			className="w-screen h-screen flex flex-col">
 
+			<Modal
+				modalOpen={modalOpen}
+				activeView={activeView}
+				setModalOpen={setModalOpen}
+				setActiveView={setActiveView} />
+
 			<SubHeader
 				filterOpen={filterOpen}
+				activeView={activeView}
 				activeFilters={activeFilters}
 				activityCount={activities.length}
 				onFilterPanelToggle={onFilterPanelToggle}
@@ -132,7 +139,8 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 						activeActivity={activeActivity}
 						activeState={activeState}
 						setActiveActivity={setActiveActivity}
-						setActiveState={setActiveState} />
+						setActiveState={setActiveState}
+						setModalOpen={setModalOpen} />
 				</div>
 
 				<div

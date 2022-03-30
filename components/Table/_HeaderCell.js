@@ -13,7 +13,7 @@ export default function HeaderCell({ colKey, colSchema, sort, onHeaderClick }) {
 			}}
 			tabIndex={0}
 			onClick={() => colSchema.table.sortable ? onHeaderClick(colKey, colSchema.type) : false}>
-			<div className="flex py-5 text-left text-xs text-gray-500 font-normal">
+			<div className="flex py-5 text-left text-sm text-gray-500 font-normal">
 				<div className="">
 					{!colSchema.button ? getText(colKey) : null}
 				</div>
