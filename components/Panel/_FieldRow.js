@@ -2,7 +2,7 @@ export default function FieldRow({ children, fieldTitle }) {
 	return (
 		<li
 			className="mb-2">
-			<div className="text-xs">{fieldTitle}</div>
+			<div className="text-sm">{fieldTitle}</div>
 			{children}
 		</li>
 	);

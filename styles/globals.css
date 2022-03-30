@@ -21,7 +21,7 @@ button {
 	text-align: left;
 }
 
-input[type="checkbox"]:focus + label > div:first-child div:first-child div {
+input[type="checkbox"]:focus + label > span:first-child span:first-child span {
 	outline: 5px auto Highlight;
 	outline: 5px auto -webkit-focus-ring-color;
 }
@@ -82,7 +82,7 @@ input[type="checkbox"]:focus + label > div:first-child div:first-child div {
 		letter-spacing: 0.02em;
 	}
 	.type-label {
-		@apply text-sm;
+		@apply text-md;
 		line-height: 16px;
 		color: #72746D;
 		letter-spacing: 0.02em;

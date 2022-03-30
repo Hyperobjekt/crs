@@ -94,7 +94,6 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 	const onModalButtonClick = (e) => {
 		const view = e.target.value;
 		setActiveView(view);
-		console.log(view);
 		setModalOpen(false);
 	};
 

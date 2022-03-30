@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 
-import { getText, getDate, getTitle } from "./../../helpers";
+import { getText, getDate, getTitle } from "../../helpers";
 
 import FieldRow from "./_FieldRow";
-import { Button } from "./../Utils";
-import { TooltipInfo } from "./../Utils";
+import { Button } from "../Utils";
+import { TooltipInfo } from "../Utils";
 
 export default function ActivityPanel({ activity, closeBttn, schema }) {
 	const [panelData, setPanelData] = useState({});

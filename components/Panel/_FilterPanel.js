@@ -8,6 +8,7 @@ import Filter from "./_Filter";
 
 export default function FilterPanel({ activeCount, activeFilters = {}, schema = {}, onFilterChange, closeBttn }) {
 	const [openedFilter, setOpenedFilter] = useState(null);
+	const parentRef = useRef(null);
 
 	const filterKeys = Object.keys(schema).filter((key) => schema[key].filter);
 
@@ -37,8 +38,11 @@ export default function FilterPanel({ activeCount, activeFilters = {}, schema = 
 		onFilterChange(Object.fromEntries(
 			Object.keys(schema)
 				.filter(key => schema[key].filter && schema[key].filter.options)
+				// .map(key => {
+			 //  	[key, schema[key].filter.options.reduce((prev, curr) => console.log(curr.key ?))]
+				// })
 				.map(key => (
-			  	[key, schema[key].filter.options.reduce((prev, curr) => [...prev, curr], [])]
+			  	[key, schema[key].filter.options.reduce((prev, curr) => [...prev, typeof curr === "object" ? curr.key : curr], [])]
 				))
 		));
 	}
@@ -55,7 +59,7 @@ export default function FilterPanel({ activeCount, activeFilters = {}, schema = 
 			</header>
 			
 			<div className="overflow-hidden relative">
-				<div className="h-full overflow-hidden overflow-y-scroll pt-6 pb-16">
+				<div className="h-full overflow-hidden overflow-y-scroll pt-6 pb-16" ref={parentRef}>
 					<div className="flex gap-2 px-4">
 						<div>
 							<Button
@@ -84,6 +88,7 @@ export default function FilterPanel({ activeCount, activeFilters = {}, schema = 
 									group={key}
 									schema={schema[key]}
 									activeFilters={activeFilters}
+									parent={parentRef.current}
 									onChange={onChangeFilters}	/>
 							</Accordion>
 						))}

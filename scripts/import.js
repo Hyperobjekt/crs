@@ -38,10 +38,10 @@ let d3, fetchJson, stateCodes, activities;
 
 			const booleanGroups = {
 				"Target Institution": ["K-12", "Higher Ed", "Private Business or Non Profit", "State or Federal Government", "Contractors"],
-				"Conduct Regulated": ["Classroom teaching", "Curricular content", "Revision of a general EDI/antiracism policy", "Trainings"],
+				"Conduct Prohibited": ["Classroom teaching", "Curricular content", "Revision of a general EDI/antiracism policy", "Trainings"],
 				"Conduct Required": ["Curricular Surveillance",	"Student Education Opt-Out", "Forbidden Books"],
-				"Content Trigger": ["\"Critical Race Theory\"", "1619 Project", "US institns = \"inherently\" or \"fundamentally\" \"racist\"", "Indiv. Respons. for systemic racism", "\"Indiv. “discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race”\"", "Meritocracy/hard work = racist", "\"divisive concepts\"/\"controversial issues\""],
-				"Enforcement Mechanism": ["Funding", "Creates a private cause of action", "Parent Rights"]
+				"Content Trigger": ["\"Critical Race Theory\"", "1619 Project", "US institns = \"inherently\" or \"fundamentally\" \"racist\"", "Indiv. Respons. for systemic racism", "Indiv. “discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race”", "Meritocracy/hard work = racist", "\"divisive concepts\"/\"controversial issues\""],
+				"Enforcement Mechanism": ["Funding Withheld", "Creates a private cause of action", "Parent Rights"]
 			};
 			let isBooleanGroup = false;
 			Object.keys(booleanGroups).forEach(groupKey => {
@@ -98,7 +98,6 @@ let d3, fetchJson, stateCodes, activities;
 		name: "states",
 		features: topojson.feature(countryTopo, countryTopo.objects.states).features.map((d, i) => {
 			const { [d.id]: state } = stateCodes;
-			// console.log(state)
 			return({
 				type: "Feature",
 				properties: {
@@ -110,7 +109,6 @@ let d3, fetchJson, stateCodes, activities;
 			});
 		})
 	};
-	// console.log(states.features.map(s => console.log(s)))
 	//HANDLE FEDERAL ACTIVITIES
 	// 38.8938672,-77.0846159
 	// const states = {
@@ -131,7 +129,6 @@ let d3, fetchJson, stateCodes, activities;
 	// };
 	// //HANDLE LOCAL ACTIVITIES
 	// activities.filter((row) => console.log(row["Level"], row["Level"].includes("Local")));
-	// console.log(activities.filter((row) => row));
 	const locals = {
 		type: "FeatureCollection",
 		name: "local",
