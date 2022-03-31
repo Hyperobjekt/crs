@@ -6,7 +6,7 @@ import { Svg } from "../Utils";
 
 export default function Legend({ localColors, stateColors  }) {
 	return (
-		<div className="p-4 absolute bottom-4 right-4 bg-white shadow rounded-xl">
+		<div className="p-4 absolute hidden md:block bottom-4 right-4 bg-white shadow rounded-xl">
 			<h3 className="text-md font-bold center pb-3 px-[5px]">
 				Progress and level of anti-CRT activity
 			</h3>
