@@ -20,7 +20,7 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 			fieldContent = getDate(fieldVal);
 		} else if(Array.isArray(fieldVal) && fieldVal.length) {
 			fieldContent = (
-				<ul>
+				<ul className="conditional-bullets">
 					{fieldVal.map((v,i) => <li key={i} className="mb-0.5">{getText(v)}</li>)}
 				</ul>
 			);

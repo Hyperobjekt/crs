@@ -145,6 +145,10 @@ input[type="checkbox"]:focus + label > span:first-child span:first-child span {
 		margin: auto;
 		transform: scale(.8);
 	}
+	.conditional-bullets li:not(:last-child:first-child) {
+		margin-left: 1.1em;
+		list-style: disc;
+	}
 }
 /*MUI OVERRIDES*/
 
