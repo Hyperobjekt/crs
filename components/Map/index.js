@@ -65,7 +65,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		setUpMap();
 		addStates();
 		addLocal();
-		addFed();
+		addFederal();
 	}, [mapSizes]);
 
 	useEffect(() => {
@@ -152,7 +152,7 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 				.on("dblclick", (e) => e.stopPropagation());
 	};
 
-	const addFed = () => {
+	const addFederal = () => {
 		const dcGeo = statesGeo.features.filter(d => d.properties.state === "US"),
 					dcCoords = dcGeo[0].geometry.coordinates[0][0][4];
 
@@ -209,7 +209,6 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 			.attr("pointer-events", "none");
 	};
 
-
 	const onClickFeature = (e, d) => {
 		setActiveFeature(d);
 		switch(d.properties.type) {
@@ -259,7 +258,6 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		let coords, data;
 		let offsetX = 0;
 		let offsetY = 0;
-
 		if(d.properties.type === "state" || d.properties.type === "federal") {
 			data = { ...d.properties, tallies: {} };
 			const stateActivities = filteredActivities.filter(a => a["State/US"] === data.state && ["State","Federal"].includes(a["Level"]));
@@ -267,30 +265,28 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 				const value = a["Authority Type"];
 				data.tallies[value] = data.tallies[value] ? data.tallies[value] + 1 : 1;
 			});
-		}
-
-		if(d.properties.type === "state") {
-			const stateCentroid = d3.geoCentroid(d.geometry),
-						stateBounds = d3.geoBounds(d.geometry);
-			coords = [
-				projection(stateCentroid)[0],
-				projection(stateBounds[0])[1]
-			];
-			const activeState = parent.select(`path[stroke="${STROKE_COLOR_ACTIVE}"]`);
-			if(activeState.empty()) {
-				parent.node().appendChild(elem);
-			} else {
-				parent.node().insertBefore(elem, activeState.node());
+			if(d.properties.state !== "US") {
+				const stateCentroid = d3.geoCentroid(d.geometry),
+							stateBounds = d3.geoBounds(d.geometry);
+				coords = [
+					projection(stateCentroid)[0],
+					projection(stateBounds[0])[1]
+				];
+				const activeState = parent.select(`path[stroke="${STROKE_COLOR_ACTIVE}"]`);
+				if(activeState.empty()) {
+					parent.node().appendChild(elem);
+				} else {
+					parent.node().insertBefore(elem, activeState.node());
+				}
 			}
-		}
-
-		if(d.properties.type === "federal") {
-			const dcCoords = d.geometry.coordinates[0][0][4];
-			coords = [
-				projection(dcCoords)[0] + DC_OFFSET_X,
-				projection(dcCoords)[1] + DC_OFFSET_Y
-			];
-			offsetY = DC_SIZE;
+			if(d.properties.state === "US") {
+				const dcCoords = d.geometry.coordinates[0][0][4];
+				coords = [
+					projection(dcCoords)[0] + DC_OFFSET_X,
+					projection(dcCoords)[1] + DC_OFFSET_Y
+				];
+				offsetY = DC_SIZE / 2 + 15;
+			}
 		}
 
 		if(d.properties.type === "local") {

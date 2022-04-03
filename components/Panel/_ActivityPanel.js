@@ -49,7 +49,6 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 							const fieldVal = panelData[key];
 							const fieldTitle = getText(key);
 							const tooltip = schema[key].tooltip;
-							console.log(panelData[key]);
 							return(
 								<li key={key}
 									className="mb-3">
