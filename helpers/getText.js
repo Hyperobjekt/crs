@@ -20,7 +20,6 @@ const siteCopy = {
   "Authority Type": "Activity Type",
   "Exec directive": "Executive directive",
   "Legislation": "Legislation",
-  "Opinion Ltr": "Opinion letter",
   "Regulation": "Regulation",
   "Resolution": "Resolution",
   "Statement": "Statement",

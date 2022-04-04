@@ -87,8 +87,8 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 						{getTitle(activity)}
 					</div>
 					<div className="mt-1 text-md text-gray-400">
-						{activity["Date Adopted"] ?
-							`Adopted ${getDate(activity["Date Adopted"])}`
+						{activity["Date Passed"] ?
+							`Adopted ${getDate(activity["Date Passed"])}`
 						: activity["Date Intro"] ?
 							`Introduced ${getDate(activity["Date Intro"])}`
 						: null}
