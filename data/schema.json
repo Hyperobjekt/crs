@@ -1,6 +1,7 @@
 {
 	"State/US": {
 		"tooltip": "State where the anti-CRT activity was introduced",
+		"type": "string",
 		"table": {
 			"sortable": true,
 			"col": 2
@@ -24,13 +25,15 @@
 	},
 	"Body Name": {
 		"tooltip": "Name of Governing Official, state, or local entity or legislature",
+		"type": "string",
 		"table": {
 			"sortable": true,
 			"col": 2
 		}
 	},
 	"Bill #": {
-		"tooltip": "The official number assigned to the proposed or enacted state law"
+		"tooltip": "The official number assigned to the proposed or enacted state law",
+		"type": "string"
 	},
 	"Authority Type": {
 		"tooltip": "Instrument being used to advance anti-CRT activity",
@@ -54,7 +57,16 @@
 	"Date Intro": {
 		"tooltip": "When the activity was introduced",
 		"type": "date",
-		"filter": {},
+		"filter": true,
+		"table": {
+			"sortable": true,
+			"col": 2
+		}
+	},
+	"Date Passed": {
+		"tooltip": "When the activity was adopted",
+		"type": "date",
+		"filter": false,
 		"table": {
 			"sortable": true,
 			"col": 2
@@ -216,6 +228,6 @@
 		}
 	},
 	"Related Bill(s)": {
-
+		"type": "string"
 	}
 }

@@ -28,6 +28,7 @@ const siteCopy = {
   "Other": "Other activity",
   "\"Date Intro\"": "Date Introduced",
   "Date Intro": "Date Introduced",
+  "Date Passed": "Date Adopted",
   "6/8/2021": "June 8, 2021",
   "Summary Status": "Progress Status",
   "Pending": "Pending",

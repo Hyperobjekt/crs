@@ -19,15 +19,16 @@ export default function Button({ style, imgSrc, url, className, onClick, childre
 			onClick={onClick}
 			{ ...props }>
 			<div className="h-full flex m-auto pointer-events-none">
-				{/*<div className="w-4 h-full flex absolute left-0 top-0">*/}
 				{imgSrc ?
-					<div className="w-3.5 h-full flex mr-4">
+					<div className="w-3.5 h-full flex">
 						<img src={imgSrc} className="w-auto h-full m-auto" />
 					</div>
 				: null}
-				<span className="auto">
-					{children}
-				</span>
+				{children ?
+					<span className="auto ml-4">
+						{children}
+					</span>
+				: null}
 			</div>
 		</TagName>
 	);

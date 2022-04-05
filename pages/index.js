@@ -110,12 +110,14 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 
 			<SubHeader
 				filterOpen={filterOpen}
+				modalOpen={modalOpen}
 				activeView={activeView}
 				activeFilters={activeFilters}
 				activityCount={activities.length}
 				onFilterPanelToggle={onFilterPanelToggle}
 				onFilterChange={onFilterChange}
-				onViewClick={onViewClick} />
+				onViewClick={onViewClick}
+				setModalOpen={setModalOpen} />
 
 			<main
 				className="flex flex-1 relative"
@@ -139,8 +141,7 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 						activeActivity={activeActivity}
 						activeState={activeState}
 						setActiveActivity={setActiveActivity}
-						setActiveState={setActiveState}
-						setModalOpen={setModalOpen} />
+						setActiveState={setActiveState} />
 				</div>
 
 				<div

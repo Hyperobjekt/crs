@@ -101,7 +101,7 @@ input[type="checkbox"]:focus + label > span:first-child span:first-child span {
 	}
 
 	.button {
-		@apply px-5;
+		@apply px-4;
 		@apply py-3;
 		@apply border;
 		@apply rounded-md;

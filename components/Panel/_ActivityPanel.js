@@ -14,9 +14,10 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 		setPanelData(activity);
 	}, [activity]);
 
-	const Field = ({ fieldKey, fieldVal }) => {
+	const Field = ({ fieldKey, fieldVal, fieldSchema }) => {
 		let fieldContent;
-		if(fieldKey === "Date Intro") {
+		console.log(fieldSchema);
+		if(fieldSchema.type === "date") {
 			fieldContent = getDate(fieldVal);
 		} else if(Array.isArray(fieldVal) && fieldVal.length) {
 			fieldContent = (
@@ -24,7 +25,7 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 					{fieldVal.map((v,i) => <li key={i} className="mb-0.5">{getText(v)}</li>)}
 				</ul>
 			);
-		} else if(typeof fieldVal === "string") {
+		} else if(fieldSchema.type === "string") {
 			fieldContent = getText(fieldVal);
 		}
 		return fieldContent ? fieldContent : "N/A";
@@ -61,7 +62,7 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 										: null}
 									</div>
 									<div className="text-md">
-										<Field fieldKey={key} fieldVal={fieldVal} />
+										<Field fieldKey={key} fieldVal={fieldVal} fieldSchema={schema[key]} />
 									</div>
 								</li>
 							);

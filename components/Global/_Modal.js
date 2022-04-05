@@ -8,6 +8,18 @@ export default function Modal({ modalOpen, activeView, setModalOpen, setActiveVi
 		setModalOpen(false);
 	}
 
+	let mapClass, tableClass;
+	const activeClass = "w-auto button-active";
+	const inactiveClass = "w-auto";
+	if(activeView === "map") {
+		mapClass = activeClass;
+		tableClass = inactiveClass;
+	}
+	if(activeView === "table") {
+		tableClass = activeClass;
+		mapClass = inactiveClass;
+	}
+
 	return(
 		<div
 			className="w-full h-full flex p-6 absolute left-0 top-0 z-[60] transition-opacity duration-700 ease-in-out"
@@ -27,14 +39,14 @@ export default function Modal({ modalOpen, activeView, setModalOpen, setActiveVi
 
 				<div className="flex flex-wrap gap-6 justify-center my-6 text-center">
 					<Button
-						className="w-auto button-active"
+						className={mapClass}
 						imgSrc={`IconMap.svg`}
 						value="map"
 						onClick={onClick}>
 						View data on the map
 					</Button>
 					<Button
-						className="w-auto"
+						className={tableClass}
 						imgSrc={`IconTable.svg`}
 						value="table"
 						onClick={onClick}>

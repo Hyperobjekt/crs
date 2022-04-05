@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { getText, getDate } from "../../helpers";
 import { Button } from "../Utils";
 
-export default function AppliedFilters({ activeView, filterOpen, activeFilters = {}, activityCount, onFilterChange, onFilterPanelToggle, onViewClick }) {
+export default function AppliedFilters({ activeView, filterOpen, modalOpen, activeFilters = {}, activityCount, onFilterChange, onFilterPanelToggle, onViewClick, setModalOpen }) {
 	const [_activeView, _setActiveView] = useState(activeView);
 
 	useEffect(() => {
@@ -26,6 +26,21 @@ export default function AppliedFilters({ activeView, filterOpen, activeFilters =
 		const view = e.target.value;
 		_setActiveView(view);
 		onViewClick(view);
+	}
+
+	let mapButtonClass, tableButtonClass, modalButtonClass;
+	if(_activeView === "map") {
+		mapButtonClass = "button-active rounded-r-none";
+		tableButtonClass = "rounded-l-none border-l-0";
+	}
+	if(_activeView === "table") {
+		tableButtonClass = "button-active rounded-l-none";
+		mapButtonClass = "rounded-r-none border-r-0";
+	}
+	if(modalOpen) {
+		modalButtonClass = "button-active ml-3";
+	} else {
+		modalButtonClass = "ml-3";
 	}
 
 	return (
@@ -96,18 +111,25 @@ export default function AppliedFilters({ activeView, filterOpen, activeFilters =
 					{activeView === "map" ? "Table" : "Map"}
 				</Button>*/}
 				<Button
-					className={`${_activeView === "map" ? "button-active" : ""} rounded-r-none`}
+					className={mapButtonClass}
 					imgSrc={`IconMap.svg`}
 					value="map"
 					onClick={onClickView}>
 					Map
 				</Button>
 				<Button
-					className={`${_activeView === "table" ? "button-active" : ""} rounded-l-none -ml-1`}
+					className={tableButtonClass}
 					imgSrc={`IconTable.svg`}
 					value="table"
 					onClick={onClickView}>
 					Table
+				</Button>
+
+				<Button
+					className={modalButtonClass}
+					imgSrc={`IconInfo.svg`}
+					onClick={() => setModalOpen(true)}>
+					Info
 				</Button>
 			</div>
 		</div>
