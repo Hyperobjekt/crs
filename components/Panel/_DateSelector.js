@@ -152,7 +152,7 @@ export default function DateSelector({ start, end, onChange }) {
 				{buttons.map(b => (
 					<Button
 						key={b.name}
-						className={`${b.className} ${b.name === activeButton ? "button-active" : ""}`}
+						className={`${b.className} ${b.name === activeButton ? "button-active pl-0" : "pl-0"}`}
 						name={b.name}
 						value={b.value}
 						onClick={b.name === activeButton ? onClickReset : onClickPreset}>

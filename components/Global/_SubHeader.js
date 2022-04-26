@@ -63,7 +63,7 @@ export default function AppliedFilters({ activeView, filterOpen, modalOpen, acti
 									{getText(key)}:
 								</span>
 								{activeFilters[key].map((val, i) => {
-									const label = key === "Date Intro" ? getDate(val) : getText(val);
+									const label = key === "date_intro" ? getDate(val) : getText(val);
 									return(
 										val ?
 											<div

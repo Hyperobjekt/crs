@@ -12,11 +12,7 @@ export default function BodyCell({ colVal, colSchema, children }) {
 	return(
 		<td
 			role="cell"
-			colSpan={colSchema.table.col}
-			// className={`w-${colSchema.table.col}/12`}
-			style={{
-				width: `${colSchema.table.col/12 * 100}%`,
-			}}>
+			className="w-2/12">
 			{content}
 		</td>
 	)

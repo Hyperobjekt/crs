@@ -17,6 +17,7 @@ export default function Checkbox({ val, label, id, group, active, tooltip, paren
 				data-group={group}
 				data-value={val}
 				aria-checked={active}
+				aria-selected={active}
 				checked={active}
 				tabIndex={0}
 				onChange={onChange}
@@ -40,7 +41,7 @@ export default function Checkbox({ val, label, id, group, active, tooltip, paren
 						</span>
 					</span>
 					<span className="inline pl-2">
-						{group === "Level" ?
+						{group === "level" ?
 							<Svg symbol={val} className={symbolClassName} />
 						: null}
 						<span className="type-label">

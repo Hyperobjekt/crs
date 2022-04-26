@@ -10,7 +10,7 @@ import Table from "./../components/Table";
 
 import statesGeo from "./../data/states";
 import localsGeo from "./../data/locals";
-import { activities } from "../data/activities";
+import activities from "../data/activities";
 import schema from "./../data/schema";
 
 export const getStaticProps = async () => {
@@ -18,7 +18,7 @@ export const getStaticProps = async () => {
 		props: {
 			statesGeo: statesGeo,
 			localsGeo: localsGeo,
-			activities: activities,
+			activities: activities.activities,
 			schema: schema
 		}
 	}
@@ -40,7 +40,7 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 		const newFilteredData = activities.filter(d => {
 			return activeGroups.length ?
 				activeGroups.filter(groupKey => {
-					if(groupKey === "Date Intro") {
+					if(groupKey === "date_intro") {
 						const [start, end] = activeFilters[groupKey];
 						if(start && end) return d[groupKey] >= start && d[groupKey] <= end;
 						if(start) return d[groupKey] >= start;
@@ -54,7 +54,7 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 			: true;
 		});
 		setFilteredData(newFilteredData);
-	}, [activeFilters]);
+	}, [activeFilters, activities]);
 
 	useEffect(() => {
 		if(activeActivity || activeState) setFilterOpen(false);
@@ -176,7 +176,7 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 						<StatePanel
 							schema={schema}
 							state={activeState}
-							stateActivities={filteredActivities.filter(d => d["State/US"] === activeState.state )}
+							stateActivities={filteredActivities.filter(d => d.state === activeState.state )}
 							onClickActivityRow={onClickActivityRow} />
 					: null}
 				</Panel>

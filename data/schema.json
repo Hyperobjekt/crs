@@ -1,5 +1,5 @@
 {
-	"State/US": {
+	"state": {
 		"tooltip": "State where the anti-CRT activity was introduced",
 		"type": "string",
 		"table": {
@@ -7,7 +7,7 @@
 			"col": 2
 		}
 	},
-	"Level": {
+	"level": {
 		"tooltip": "Federal, state, school district, or city or county government",
 		"type": "string",
 		"filter": {
@@ -23,7 +23,7 @@
 			"col": 2
 		}
 	},
-	"Body Name": {
+	"body": {
 		"tooltip": "Name of Governing Official, state, or local entity or legislature",
 		"type": "string",
 		"table": {
@@ -31,11 +31,11 @@
 			"col": 2
 		}
 	},
-	"Bill #": {
+	"bill": {
 		"tooltip": "The official number assigned to the proposed or enacted state law",
 		"type": "string"
 	},
-	"Authority Type": {
+	"type": {
 		"tooltip": "Instrument being used to advance anti-CRT activity",
 		"type": "string",
 		"filter": {
@@ -54,7 +54,7 @@
 			"col": 2
 		}
 	},
-	"Date Intro": {
+	"date_intro": {
 		"tooltip": "When the activity was introduced",
 		"type": "date",
 		"filter": true,
@@ -63,16 +63,12 @@
 			"col": 2
 		}
 	},
-	"Date Passed": {
+	"date_passed": {
 		"tooltip": "When the activity was adopted",
 		"type": "date",
-		"filter": false,
-		"table": {
-			"sortable": true,
-			"col": 2
-		}
+		"filter": false
 	},
-	"Summary Status": {
+	"progress": {
 		"tooltip": "Status of the anti-CRT activity",
 		"type": "string",
 		"filter": {
@@ -88,135 +84,135 @@
 			"col": 2
 		}
 	},
-	"Target Institution": {
+	"target": {
 		"tooltip": "The type of entity the anti-CRT activity is attempting to regulate",
 		"type": "string",
 		"filter": {
 			"multi": true,
 			"options": [
 				{
-					"key": "K-12"
+					"key": "target_1"
 				},
 				{
-					"key": "Higher Ed"
+					"key": "target_2"
 				},
 				{
-					"key": "Private Business or Non Profit"
+					"key": "target_3"
 				},
 				{
-					"key": "State or Federal Government"
+					"key": "target_4"
 				},
 				{
-					"key": "Contractors"
+					"key": "target_5"
 				}
 			]
 		}
 	},
-	"Conduct Prohibited": {
+	"prohibited": {
 		"tooltip": "Acts the anti-CRT activity suppresses",
 		"type": "string",
 		"filter": {
 			"multi": true,
 			"options": [
 				{
-					"key": "Classroom teaching",
+					"key": "prohibited_1",
 					"tooltip": "Instruction in the classroom"
 				},
 				{
-					"key": "Curricular content",
+					"key": "prohibited_2",
 					"tooltip": "Collection of lessons, facts, theories, assessments, and concepts taught in school"
 				},
 				{
-					"key": "Revision of a general EDI/antiracism policy",
+					"key": "prohibited_3",
 					"tooltip": "Failure to adopt or implement a policy as a result of anti-CRT sentiment"
 				},
 				{
-					"key": "Trainings",
+					"key": "prohibited_4",
 					"tooltip": "Staff or student trainings"
 				},
 				"N/A"
 			]
 		}
 	},
-	"Conduct Required": {
+	"required": {
 		"tooltip": "Acts the anti-CRT activity demands or forbids",
 		"type": "string",
 		"filter": {
 			"multi": true,
 			"options": [
 				{
-					"key": "Curricular Surveillance",
+					"key": "required_1",
 					"tooltip": "Publishing the classroom teaching and curricular content"
 				},
 				{
-					"key": "Forbidden Books",
+					"key": "required_2",
 					"tooltip": "Restricting access to certain books"
 				},
 				{
-					"key": "Student Education Opt-Out",
+					"key": "required_3",
 					"tooltip": "Allows parents to restrict their student from certain education"
 				},
 				"N/A"
 			]
 		}
 	},
-	"Content Trigger": {
+	"trigger": {
 		"tooltip": "Features of the regulated conduct that trigger anti-CRT restrictions",
 		"type": "string",
 		"filter": {
 			"multi": true,
 			"options": [
 				{
-					"key": "\"Critical Race Theory\"",
+					"key": "trigger_1",
 					"tooltip": ""
 				},
 				{
-					"key": "1619 Project",
+					"key": "trigger_2",
 					"tooltip": ""
 				},
 				{
-					"key": "US institns = \"inherently\" or \"fundamentally\" \"racist\"",
+					"key": "trigger_3",
 					"tooltip": "Concept from the now rescinded Trump Executive Order 13950"
 				},
 				{
-					"key": "Indiv. Respons. for systemic racism",
+					"key": "trigger_4",
 					"tooltip": "Concept from the now rescinded Trump Executive Order 13950"
 				},
 				{
-					"key": "Indiv. “discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race”",
+					"key": "trigger_5",
 					"tooltip": "Concept from the now rescinded Trump Executive Order 13950"
 				},
 				{
-					"key": "Meritocracy/hard work = racist",
+					"key": "trigger_6",
 					"tooltip": "Concept from the now rescinded Trump Executive Order 13950"
 				},
 				{
-					"key": "\"divisive concepts\"/\"controversial issues\"",
+					"key": "trigger_7",
 					"tooltip": "Concept from the now rescinded Trump Executive Order 13950"
 				},
 				"N/A"
 			]
 		}
 	},
-	"Enforcement Mechanism": {
+	"enforcement": {
 		"tooltip": "Methods to achieve compliance",
 		"type": "string",
 		"filter": {
 			"multi": true,
 			"options": [
 				{
-					"key": "Funding Withheld",
+					"key": "enforcement_1",
 					"tooltip": "Financial support withheld if entity found to have engaged in CRT activity"
 				},
 				{
-					"key": "Creates a private cause of action",
+					"key": "enforcement_2",
 					"tooltip": "An individual can privately sue an individual or school for engaging in CRT activity"
 				},
 				"N/A"
 			]
 		}
 	},
-	"Race/sex/other?": {
+	"category": {
 		"tooltip": "Focus of the anti-CRT activity is on race or ethnicity, sex or other category like religion or color",
 		"type": "string",
 		"filter": {
@@ -227,7 +223,7 @@
 			]
 		}
 	},
-	"Related Bill(s)": {
+	"related": {
 		"type": "string"
 	}
 }

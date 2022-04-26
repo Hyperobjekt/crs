@@ -19,11 +19,11 @@ export default function Filter({ group, schema, activeFilters = {}, parent, onCh
 	};
 
 	const onDateChange = (newDates) => {
-		const newFilters = newDates && (newDates[0] || newDates[1]) ? { "Date Intro": newDates } : null;
+		const newFilters = newDates && (newDates[0] || newDates[1]) ? { "date_intro": newDates } : null;
 		if(newFilters) {
 			onChange({ ...activeFilters, ...newFilters });	
 		} else {
-			delete activeFilters["Date Intro"];
+			delete activeFilters.date_intro;
 			onChange({ ...activeFilters });
 		}
 	};
@@ -55,8 +55,8 @@ export default function Filter({ group, schema, activeFilters = {}, parent, onCh
 			{schema.type === "date" ?
 				<div>
 					<DateSelector
-						start={activeFilters["Date Intro"] ? activeFilters["Date Intro"][0] : null}
-						end={activeFilters["Date Intro"] ? activeFilters["Date Intro"][1] : null}
+						start={activeFilters.date_intro ? activeFilters.date_intro[0] : null}
+						end={activeFilters.date_intro ? activeFilters.date_intro[1] : null}
 						onChange={onDateChange} />
 				</div>
 			: null}

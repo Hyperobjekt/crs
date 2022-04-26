@@ -13,7 +13,7 @@ export default function Legend({ localColors, stateColors  }) {
 			<table cellPadding="5" className="text-sm">
 				<thead className="font-bold">
 					<tr>
-						<td className="w-22">{getText("Level")}</td>
+						<td className="w-22">{getText("level")}</td>
 						<td className="w-18 whitespace-nowrap">Not adopted</td>
 						<td className="w-18">Adopted</td>
 					</tr>

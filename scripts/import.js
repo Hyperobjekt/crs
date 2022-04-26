@@ -32,16 +32,16 @@ let d3, fetchJson, stateCodes, activities;
 		Object.keys(row).forEach(key => {
 			const val = row[key];
 			let newVal = val.trim();
-			if(key === "Date Intro") {
+			if(key === "date_intro") {
 				newVal = new Date(val).toJSON();	
 			}
 
 			const booleanGroups = {
-				"Target Institution": ["K-12", "Higher Ed", "Private Business or Non Profit", "State or Federal Government", "Contractors"],
-				"Conduct Prohibited": ["Classroom teaching", "Curricular content", "Revision of a general EDI/antiracism policy", "Trainings"],
-				"Conduct Required": ["Curricular Surveillance",	"Student Education Opt-Out", "Forbidden Books"],
-				"Content Trigger": ["\"Critical Race Theory\"", "1619 Project", "US institns = \"inherently\" or \"fundamentally\" \"racist\"", "Indiv. Respons. for systemic racism", "Indiv. “discomfort, guilt, anguish, or any other form of psychological distress on account of his or her race”", "Meritocracy/hard work = racist", "\"divisive concepts\"/\"controversial issues\""],
-				"Enforcement Mechanism": ["Funding Withheld", "Creates a private cause of action", "Parent Rights"]
+				"target": ["target_1", "target_2", "target_3", "target_4", "target_5"],
+				"prohibited": ["prohibited_1", "prohibited_2", "prohibited_3", "prohibited_4"],
+				"required": ["required_1", "required_2", "required_3"],
+				"trigger": ["trigger_1", "trigger_2", "trigger_3", "trigger_4", "trigger_5" ,"trigger_6", "trigger_7"],
+				"mechanism": ["mechanism_1", "mechanism_2", "mechanism_3"]
 			};
 			let isBooleanGroup = false;
 			Object.keys(booleanGroups).forEach(groupKey => {
@@ -66,8 +66,8 @@ let d3, fetchJson, stateCodes, activities;
 	const accessToken = process.env.MAPBOX_ACCESS_TOKEN;
 	const endpoint = "mapbox.places";
 	activities = await Promise.all(activities.map(async (row) => {
-		if(!row["Address"]) return row;
-		const search_text = encodeURIComponent(row["Address"]);
+		if(!row.address) return row;
+		const search_text = encodeURIComponent(row.address);
 		const url = `https://api.mapbox.com/geocoding/v5/${endpoint}/${search_text}.json?limit=1&access_token=${accessToken}`;
 		const res = await fetch(url)
 			.then(response => response.json())
@@ -120,7 +120,7 @@ let d3, fetchJson, stateCodes, activities;
 	// 			type: "Feature",
 	// 			properties: {
 	// 				state: state,
-	// 				activities: activities.filter((row) => row["Level"] === "State" && row["State/US"] === state),
+	// 				activities: activities.filter((row) => row.level === "State" && row.state === state),
 	// 				index: i + 1
 	// 			},
 	// 			geometry: d.geometry
@@ -128,13 +128,13 @@ let d3, fetchJson, stateCodes, activities;
 	// 	})
 	// };
 	// //HANDLE LOCAL ACTIVITIES
-	// activities.filter((row) => console.log(row["Level"], row["Level"].includes("Local")));
+	// activities.filter((row) => console.log(row.level, row.level.includes("Local")));
 	const locals = {
 		type: "FeatureCollection",
 		name: "local",
 		features: activities
-			.filter((row) => row["Level"] && row["Level"].includes("Local"))
-			.filter((row) => row["geometry"])
+			.filter((row) => row.level && row.level.includes("Local"))
+			.filter((row) => row.geometry)
 			.map((row, i) => {
 				const { geometry } = row;
 				delete row.geometry;
@@ -143,8 +143,8 @@ let d3, fetchJson, stateCodes, activities;
 					// properties: { ...row, index: i },
 					properties: {
 						type: "local",
-						level: row["Level"],
-						progress: row["Summary Status"],
+						level: row.level,
+						progress: row.progress,
 						index: row.index
 					},
 					geometry: geometry
@@ -153,9 +153,9 @@ let d3, fetchJson, stateCodes, activities;
 	};
 	//HANDLE TABLE DATA
 	// const table = activities
-	// 	.filter(row => row["Level"])
+	// 	.filter(row => row.level)
 	// 	.reduce((obj, row) => {
-	// 	const level = row["Level"].indexOf("Local") > -1 ? "Local" : row["Level"];
+	// 	const level = row.level.indexOf("Local") > -1 ? "Local" : row.level;
 	// 	obj[level] = obj[level] ? obj[level] : [];
 	// 	obj[level].push(row);
 	// 	return obj;

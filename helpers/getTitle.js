@@ -2,12 +2,12 @@ import getText from "./getText"
 
 export default function getTitle(data) {
 
-	if(data["Level"] && ["State", "Federal"].includes(data["Level"]) && data["Bill #"]) {
-		return data["Bill #"];
+	if(data.level && ["State", "Federal"].includes(data.level) && data.bill) {
+		return data.bill;
 	}
 	else {
-		let bodyName = getText(data["Body Name"]);
-		let activityType = getText(data["Authority Type"]);
+		let bodyName = getText(data.body);
+		let activityType = getText(data.type);
 		if(!activityType || activityType === "Other activity") {
 			activityType = "Activity";
 		}

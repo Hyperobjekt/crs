@@ -16,7 +16,7 @@ export default function Table({ filteredActivities = [], setActiveActivity, sche
 
 	useEffect(() => {
 		setSort({
-			key: "Summary Status",
+			key: "progress",
 			order: "asc",
 			type: "string"
 		});

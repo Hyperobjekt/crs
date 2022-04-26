@@ -260,9 +260,9 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 		let offsetY = 0;
 		if(d.properties.type === "state" || d.properties.type === "federal") {
 			data = { ...d.properties, tallies: {} };
-			const stateActivities = filteredActivities.filter(a => a["State/US"] === data.state && ["State","Federal"].includes(a["Level"]));
-			stateActivities.filter(a => a["Summary Status"] === "Enacted").forEach(a => {
-				const value = a["Authority Type"];
+			const stateActivities = filteredActivities.filter(a => a.state === data.state && ["State","Federal"].includes(a.level));
+			stateActivities.filter(a => a.progress === "Enacted").forEach(a => {
+				const value = a.type;
 				data.tallies[value] = data.tallies[value] ? data.tallies[value] + 1 : 1;
 			});
 			if(d.properties.state !== "US") {
@@ -346,9 +346,9 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 
 		svg.selectAll(".states path")
 			.attr("fill", d => {
-				const stateActivities = filteredActivities.filter(a => a["Level"] === "State" && a["State/US"] === d.properties.state);
+				const stateActivities = filteredActivities.filter(a => a.level === "State" && a.state === d.properties.state);
 				if(!stateActivities.length) return stateColors[0];
-				if(stateActivities.filter(d => d["Summary Status"] === "Enacted").length) return stateColors[2];
+				if(stateActivities.filter(d => d.progress === "Enacted").length) return stateColors[2];
 				return stateColors[1];
 			})
 			.attr("stroke-width", d => {
@@ -365,9 +365,9 @@ export default function Map({ statesGeo = {}, localsGeo = {}, filteredActivities
 
 		svg.select(".federal-icon rect")
 			.attr("fill", d => {
-				const federalActivities = filteredActivities.filter(a => a["Level"] === "Federal" && a["State/US"] === d.properties.state);
+				const federalActivities = filteredActivities.filter(a => a.level === "Federal" && a.state === d.properties.state);
 				if(!federalActivities.length) return stateColors[0];
-				if(federalActivities.filter(d => d["Summary Status"] === "Enacted").length) return stateColors[2];
+				if(federalActivities.filter(d => d.progress === "Enacted").length) return stateColors[2];
 				return stateColors[1];
 			})
 			.attr("stroke-width", d => {

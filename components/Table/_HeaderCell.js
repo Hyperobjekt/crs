@@ -5,10 +5,8 @@ export default function HeaderCell({ colKey, colSchema, sort, onHeaderClick }) {
 		<th
 			scole="col"
 			role="colheader"
-			colSpan={colSchema.table.col}
-			// className={`w-${colSchema.table.col}/12`}
+			className="w-2/12"
 			style={{
-				width: `${colSchema.table.col/12 * 100}%`,
 				cursor: colSchema.table.sortable ? "pointer" : "default"
 			}}
 			tabIndex={0}

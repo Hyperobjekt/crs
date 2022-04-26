@@ -8,12 +8,12 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 
 	stateActivities = stateActivities.filter(a =>
 		activeTab === "state" ?
-			["State","Federal"].includes(a["Level"])
-		: !["State","Federal"].includes(a["Level"])
+			["State","Federal"].includes(a.level)
+		: !["State","Federal"].includes(a.level)
 	)
 
-	const adoptedActivities = stateActivities.filter(a => a["Summary Status"] === "Enacted");
-	const introducedActivities = stateActivities.filter(a => a["Summary Status"] !== "Enacted");
+	const adoptedActivities = stateActivities.filter(a => a.progress === "Enacted");
+	const introducedActivities = stateActivities.filter(a => a.progress !== "Enacted");
 
 	useEffect(() => {
 		const newPanelData = panelData ? panelData.index === state.index ? {} : state : state;
@@ -37,8 +37,8 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 
 				<div>
 					{progressListLength ?
-						schema["Authority Type"].filter.options.map((type, index) => {
-							const typeListActivities = progressListActivities.filter(a => a["Authority Type"] === type);
+						schema.type.filter.options.map((type, index) => {
+							const typeListActivities = progressListActivities.filter(a => a.type === type);
 							return (
 								typeListActivities.length ?
 									<TypeList
@@ -87,10 +87,10 @@ export default function StatePanel({ state, stateActivities, schema, hasFilters,
 						{getTitle(activity)}
 					</div>
 					<div className="mt-1 text-md text-gray-400">
-						{activity["Date Passed"] ?
-							`Adopted ${getDate(activity["Date Passed"])}`
-						: activity["Date Intro"] ?
-							`Introduced ${getDate(activity["Date Intro"])}`
+						{activity.date_passed ?
+							`Adopted ${getDate(activity.date_passed)}`
+						: activity.date_intro ?
+							`Introduced ${getDate(activity.date_intro)}`
 						: null}
 					</div>
 				</div>

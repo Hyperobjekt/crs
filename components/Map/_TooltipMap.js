@@ -25,10 +25,10 @@ export default function TooltipMap({ feature = {}, transform, parentWidth }) {
 					{feature.hasOwnProperty("state") ?
 						<div className="p-4">
 							<div className="text-lg font-bold text-gray-blue-200">
-								{getText(feature["state"])}
+								{getText(feature.state)}
 							</div>
 							
-							{Object.keys(feature.tallies).length ?
+							{feature.tallies && Object.keys(feature.tallies).length ?
 								<div className="pt-2 text-gray-blue-400">
 									<strong>Adopted: </strong>
 									{Object.keys(feature.tallies).map((key, i) => (
@@ -48,7 +48,7 @@ export default function TooltipMap({ feature = {}, transform, parentWidth }) {
 								{getTitle(feature)}
 							</div>
 							<div className="text-gray-blue-400">
-								{getDate(feature["Date Intro"])}
+								{getDate(feature.date_intro)}
 							</div>
 						</div>
 					}

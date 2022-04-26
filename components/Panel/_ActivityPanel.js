@@ -69,7 +69,7 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 						})}
 				</ul>
 
-				{["Full text (link)", "Status (link)"].map((key, index) => (
+				{["url_text", "url_source"].map((key, index) => (
 					panelData[key] ? 
 						<div key={key} className="w-full p-4 border-b">
 							<div className="flex">
@@ -84,9 +84,9 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 					: null
 				))}
 
-				{panelData["Date Status Last Checked"] ?
+				{panelData.date_checked ?
 					<div className="p-4 text-md">
-						Progress status current as of {getDate(panelData["Date Status Last Checked"])}
+						Progress status current as of {getDate(panelData.date_checked)}
 					</div>
 				: null}
 
