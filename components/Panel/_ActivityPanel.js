@@ -16,7 +16,6 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 
 	const Field = ({ fieldKey, fieldVal, fieldSchema }) => {
 		let fieldContent;
-		console.log(fieldSchema);
 		if(fieldSchema.type === "date") {
 			fieldContent = getDate(fieldVal);
 		} else if(Array.isArray(fieldVal) && fieldVal.length) {
@@ -28,7 +27,7 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 		} else if(fieldSchema.type === "string") {
 			fieldContent = getText(fieldVal);
 		}
-		return fieldContent ? fieldContent : "N/A";
+		return fieldContent ? fieldContent : "";
 	};
 
 	return (
@@ -45,7 +44,7 @@ export default function ActivityPanel({ activity, closeBttn, schema }) {
 			<div className="overflow-y-scroll pb-6" ref={parentRef}>
 				<ul className="p-4 pt-6 border-b">
 					{Object.keys(schema)
-						.filter(k => panelData[k] && panelData[k].length)
+						.filter(key => panelData[key] && panelData[key].length)
 						.map(key => {
 							const fieldVal = panelData[key];
 							const fieldTitle = getText(key);

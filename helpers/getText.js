@@ -29,6 +29,8 @@ const siteCopy = {
   "Other": "Other activity",
 
   "statement_content": "Statement Content",
+  "Denounces CRT": "Denounces CRT",
+  "CRT Not Taught": "CRT not taught",
   
   "target": "Target Institution",
   "target_1": "K-12",
@@ -67,8 +69,8 @@ const siteCopy = {
   "Race or ethnicity & sex": "Race or ethnicity and sex",
   "Race or ethnicity, sex & more": "Race or ethnicity, sex, and more",
 
-  "bill": "",
-  "related": "",
+  "bill": "Bill",
+  "related": "Related Bill(s)",
   "date_intro": "Date Introduced",
   "date_adopted": "Date Adopted",
 
@@ -81,7 +83,7 @@ const siteCopy = {
   "url_source": "Source for current progress status",
   "url_text": "Full text",
   
-  "N/A": "Not Specified",
+  "N/A": "Not specified",
 
   "state": "State",
   "US": "Federal",

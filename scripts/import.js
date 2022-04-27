@@ -35,13 +35,12 @@ let d3, fetchJson, stateCodes, activities;
 			if(key === "date_intro") {
 				newVal = new Date(val).toJSON();	
 			}
-
 			const booleanGroups = {
 				"target": ["target_1", "target_2", "target_3", "target_4", "target_5"],
 				"prohibited": ["prohibited_1", "prohibited_2", "prohibited_3", "prohibited_4"],
 				"required": ["required_1", "required_2", "required_3"],
 				"trigger": ["trigger_1", "trigger_2", "trigger_3", "trigger_4", "trigger_5" ,"trigger_6", "trigger_7"],
-				"mechanism": ["mechanism_1", "mechanism_2", "mechanism_3"]
+				"enforcement": ["enforcement_1", "enforcement_2", "enforcement_3"]
 			};
 			let isBooleanGroup = false;
 			Object.keys(booleanGroups).forEach(groupKey => {

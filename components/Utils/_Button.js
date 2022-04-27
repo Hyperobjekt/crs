@@ -1,11 +1,16 @@
 export default function Button({ style, imgSrc, url, className, onClick, children, ...props }) {
+	
 	let classes = "button w-full flex";
-
 	if(style === "blue") {
 		classes = "button w-full flex bg-gray-blue-200 text-md border-0";
 	}
 	if(style === "active") {
 		classes = "button w-full flex bg-gray-blue-200 text-md border-accent-blue text-dark-blue";
+	}
+
+	let spanClasses = "";
+	if(imgSrc) {
+		spanClasses = "ml-4";
 	}
 
 	let TagName = url ? "a" : "button";
@@ -25,7 +30,7 @@ export default function Button({ style, imgSrc, url, className, onClick, childre
 					</div>
 				: null}
 				{children ?
-					<span className="auto ml-4">
+					<span className={spanClasses}>
 						{children}
 					</span>
 				: null}

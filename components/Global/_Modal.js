@@ -22,17 +22,21 @@ export default function Modal({ modalOpen, activeView, setModalOpen, setActiveVi
 
 	return(
 		<div
-			className="w-full h-full flex p-6 absolute left-0 top-0 z-[60] transition-opacity duration-700 ease-in-out"
-			style={modalOpen ? null : {
+			className="w-full h-full flex p-6 absolute left-0 top-0 transition-opacity duration-700 ease-in-out"
+			style={modalOpen ?
+			{
+				zIndex: 100
+			} : {
+				zIndex: 100,
 				opacity: 0,
 				pointerEvents: "none"
 			}}>
 
 			<div
-				className="w-full h-full flex absolute left-0 top-0 z-10 bg-dark-blue/50"
+				className="w-full h-full flex absolute left-0 top-0 bg-dark-blue/50"
 				onClick={() => setModalOpen(false)} />
 
-			<div className="relative z-20 p-6 md:p-12 m-auto bg-white rounded-xl shadow">
+			<div className="relative p-6 md:p-12 m-auto bg-white rounded-xl shadow">
 				<div className="max-w-prose">
 					<p>The CRT Forward Tracking Project (FTP) identifies, tracks, and analyzes local, state, and federal activity that attempts to restrict access to truthful information about Critical Race Theory (CRT), race, and systemic racism. To demonstrate the breadth of anti-CRT activity across the country, FTP provides a comprehensive database of anti-CRT activity across all levels of government and varying types of official action.</p>
 				</div>

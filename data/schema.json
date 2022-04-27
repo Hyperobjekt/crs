@@ -219,7 +219,18 @@
 			"options": [
 				"Race or ethnicity only",
 				"Race or ethnicity & sex",
-				"Race or ethnicity, sex & more"
+				"Race or ethnicity, sex & more",
+				"N/A"
+			]
+		}
+	},
+	"statement_content": {
+		"type": "string",
+		"filter": {
+			"options": [
+				"Denounces CRT",
+				"CRT Not Taught",
+				"N/A"
 			]
 		}
 	},
