@@ -156,6 +156,17 @@
 			]
 		}
 	},
+	"statement_content": {
+		"tooltip": "Only applies to anti-CRT activity identified as statements",
+		"type": "string",
+		"filter": {
+			"options": [
+				"Denounces CRT",
+				"CRT Not Taught",
+				"N/A"
+			]
+		}
+	},
 	"trigger": {
 		"tooltip": "Features of the regulated conduct that trigger anti-CRT restrictions",
 		"type": "string",
@@ -220,16 +231,6 @@
 				"Race or ethnicity only",
 				"Race or ethnicity & sex",
 				"Race or ethnicity, sex & more",
-				"N/A"
-			]
-		}
-	},
-	"statement_content": {
-		"type": "string",
-		"filter": {
-			"options": [
-				"Denounces CRT",
-				"CRT Not Taught",
 				"N/A"
 			]
 		}
