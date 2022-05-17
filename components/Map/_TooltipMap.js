@@ -22,7 +22,7 @@ export default function TooltipMap({ feature = {}, transform, parentWidth }) {
 				open={true}
 				parentWidth={parentWidth}>
 				<div>
-					{feature.hasOwnProperty("state") ?
+					{feature.type === "state" ?
 						<div className="p-4">
 							<div className="text-lg font-bold text-gray-blue-200">
 								{getText(feature.state)}
