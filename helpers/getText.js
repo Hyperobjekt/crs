@@ -84,6 +84,7 @@ const siteCopy = {
   "url_text": "Full text",
   
   "N/A": "Not specified",
+  "Not Specified": "Not specified",
 
   "state": "State",
   "US": "Federal",

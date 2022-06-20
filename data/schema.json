@@ -130,7 +130,7 @@
 					"key": "prohibited_4",
 					"tooltip": "Staff or student trainings"
 				},
-				"N/A"
+				"Not Specified"
 			]
 		}
 	},
@@ -152,7 +152,7 @@
 					"key": "required_3",
 					"tooltip": "Allows parents to restrict their student from certain education"
 				},
-				"N/A"
+				"Not Specified"
 			]
 		}
 	},
@@ -163,7 +163,7 @@
 			"options": [
 				"Denounces CRT",
 				"CRT Not Taught",
-				"N/A"
+				"Not Specified"
 			]
 		}
 	},
@@ -201,7 +201,7 @@
 					"key": "trigger_7",
 					"tooltip": "Concept from the now rescinded Trump Executive Order 13950"
 				},
-				"N/A"
+				"Not Specified"
 			]
 		}
 	},
@@ -219,7 +219,7 @@
 					"key": "enforcement_2",
 					"tooltip": "An individual can privately sue an individual or school for engaging in CRT activity"
 				},
-				"N/A"
+				"Not Specified"
 			]
 		}
 	},
@@ -231,7 +231,7 @@
 				"Race or ethnicity only",
 				"Race or ethnicity & sex",
 				"Race or ethnicity, sex & more",
-				"N/A"
+				"Not Specified"
 			]
 		}
 	},

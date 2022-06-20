@@ -6,7 +6,6 @@ const fs = require("fs");
 const fetch = (...args) => import("node-fetch").then(({default: fetch}) => fetch(...args));
 
 const isDry = process.argv.indexOf("--dry") > -1;
-const isNoApi = process.argv.indexOf("--no-api") > -1;
 
 let d3, fetchJson, stateCodes, activities;
 
@@ -61,7 +60,6 @@ let d3, fetchJson, stateCodes, activities;
 	});
 }).then(async () => {
 	//GET COORDINATES
-	if(isNoApi) return;
 	const accessToken = process.env.MAPBOX_ACCESS_TOKEN;
 	const endpoint = "mapbox.places";
 	activities = await Promise.all(activities.map(async (row) => {
@@ -82,15 +80,6 @@ let d3, fetchJson, stateCodes, activities;
 		flag: "r",
 	});
 	const countryTopo = JSON.parse(countryStr);
-	//HANDLE CONUS
-	// const conus = topojson.feature(countryTopo, {
-	// 	type: "GeometryCollection",
-	// 	geometries: countryTopo.objects.states.geometries.filter(function(d) {
-	// 		return d.id !== 2 // AK
-	// 			&& d.id !== 15 // HI
-	// 			&& d.id < 60; // outlying areas
-	// 	})
-	// });
 	//HANDLE STATE ACTIVITIES
 	const states = {
 		type: "FeatureCollection",
@@ -108,26 +97,7 @@ let d3, fetchJson, stateCodes, activities;
 			});
 		})
 	};
-	//HANDLE FEDERAL ACTIVITIES
-	// 38.8938672,-77.0846159
-	// const states = {
-	// 	type: "FeatureCollection",
-	// 	name: "federal",
-	// 	features: topojson.feature(countryTopo, countryTopo.objects.states).features.map((d, i) => {
-	// 		const { [d.id]: state } = stateCodes;
-	// 		return({
-	// 			type: "Feature",
-	// 			properties: {
-	// 				state: state,
-	// 				activities: activities.filter((row) => row.level === "State" && row.state === state),
-	// 				index: i + 1
-	// 			},
-	// 			geometry: d.geometry
-	// 		});
-	// 	})
-	// };
 	// //HANDLE LOCAL ACTIVITIES
-	// activities.filter((row) => console.log(row.level, row.level.includes("Local")));
 	const locals = {
 		type: "FeatureCollection",
 		name: "local",
@@ -150,20 +120,10 @@ let d3, fetchJson, stateCodes, activities;
 				});
 			})
 	};
-	//HANDLE TABLE DATA
-	// const table = activities
-	// 	.filter(row => row.level)
-	// 	.reduce((obj, row) => {
-	// 	const level = row.level.indexOf("Local") > -1 ? "Local" : row.level;
-	// 	obj[level] = obj[level] ? obj[level] : [];
-	// 	obj[level].push(row);
-	// 	return obj;
-	// }, {});
-	// const table = activities.map((a, i) => ({ ...a }));
 
-	if(isDry) return;
-	// fs.writeFileSync("./data/conus.json", JSON.stringify(conus));
+	if(isDry) return console.log(activities);
 	fs.writeFileSync("./data/states.json", JSON.stringify(states));
 	fs.writeFileSync("./data/locals.json", JSON.stringify(locals));
 	fs.writeFileSync("./data/activities.json", JSON.stringify({activities: activities}));
+	console.log(`Imported ${activities.length} activities`);
 });

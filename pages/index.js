@@ -46,7 +46,7 @@ export default function Index({ statesGeo, localsGeo, activities, schema }) {
 						if(start) return d[groupKey] >= start;
 						if(end) return d[groupKey] <= end;
 					} else if(Array.isArray(d[groupKey])) {
-						return activeFilters[groupKey].some(o => (o === "N/A" && !d[groupKey].length) || d[groupKey].includes(o));
+						return activeFilters[groupKey].some(o => (o === "Not Specified" && !d[groupKey].length) || d[groupKey].includes(o));
 					} else {
 						return activeFilters[groupKey].includes(d[groupKey]);
 					}
