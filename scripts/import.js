@@ -7,19 +7,16 @@ const fetch = (...args) => import("node-fetch").then(({default: fetch}) => fetch
 
 const isDry = process.argv.indexOf("--dry") > -1;
 
-let d3, fetchJson, stateCodes, activities;
+let stateCodes, activities;
 
 (async () => {
-	//GET D3
-	d3 = await import("d3");
-})().then(async () => {
 	//GET ANSI
 	const stateCodesCsv = fs.readFileSync("./data/raw/ANSI_State_Codes.csv", {
 		encoding: "utf8",
 		flag: "r",
 	});
-	stateCodes = (await neatCsv(stateCodesCsv)).reduce((obj, row) => ({ ...obj, [row.id]: row.code}), {});
-}).then(async () => {
+	stateCodes = (await neatCsv(stateCodesCsv)).reduce((obj, row) => ({ ...obj, [row.id]: row.code }), {});
+})().then(async () => {
 	//GET ACTIVITIES
 	const activitiesCsv = fs.readFileSync("./data/raw/CRT_Data.csv", {
 		encoding: "utf8",
