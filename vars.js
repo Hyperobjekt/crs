@@ -58,7 +58,7 @@ const LOCAL_PATTERNS = (
 					y="0"
 					x2="0"
 					y2={patternSpace + patternWidth / 2}
-					stroke={LOCAL_COLORS["LocalSch"][0]}
+					stroke={LOCAL_COLORS[level][0]}
 					strokeWidth={patternWidth} />
 			</pattern>
 		))}
