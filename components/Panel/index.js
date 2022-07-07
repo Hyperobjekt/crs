@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 
 import { ButtonClose } from "./../Utils";
 
-export default function Panel({ open, zIndex, children, onClosePanel }) {
+export default function Panel({
+	open,
+	zIndex,
+	children,
+	onClosePanel,
+}) {
 
 	const [active, setActive] = useState(true);
 	const [style, setStyle] = useState({});

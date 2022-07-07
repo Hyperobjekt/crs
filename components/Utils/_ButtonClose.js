@@ -1,4 +1,7 @@
-export default function CloseBttn({ className, callback }) {
+export default function CloseBttn({
+	className,
+	callback,
+}) {
 
 	const onClick = () => {
 		if(callback) callback();

@@ -1,7 +1,16 @@
 import { Svg } from "../Utils";
 import { TooltipInfo } from "../Utils";
 
-export default function Checkbox({ val, label, id, group, active, tooltip, parent, onChange }) {
+export default function Checkbox({
+	val,
+	label,
+	id,
+	group,
+	active,
+	tooltip,
+	parent,
+	onChange,
+}) {
 	let symbolClassName;
 	if(val === "LocalSch") symbolClassName = "w-4 h-4 mr-2 inline fill-local-1";
 	if(val === "LocalOth") symbolClassName = "w-4 h-4 mr-2 inline fill-local-2";

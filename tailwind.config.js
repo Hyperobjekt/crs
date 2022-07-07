@@ -9,21 +9,15 @@ module.exports = {
 				"100": "25rem",
 			},
 			colors: {
-
 				"primary": "#99ABB0",
 				"secondary": "#D4DFE3",
 
 				"accent-blue": "#3EA2ED",
-				"accent-purple": "#5B5D84",
-				"accent-orange": "#C66E3B",
-
-				// "text-primary": "#393B3D",
-				// "text-secondary": "#72746D",
-				// "text-light": "#A5ACB2",
-
-				// "bg-default": "#F7FAFB",
-				// "bg-paper": "#FFFFFF",
-				// "bg-dark": "#1A212A",
+				// "accent-blue-dark": "#3EA2ED",
+				"accent-purple": "#AD9BC8",
+				"accent-purple-dark": "#2D0E5C",
+				"accent-orange": "#EEC266",
+				"accent-orange-dark": "#80652C",
 
 				"gray-100": "#F9F9F9",
 				"gray-200": "#EAEAEA",
@@ -36,16 +30,17 @@ module.exports = {
 				"gray-blue-200": "#E6F0F3",
 				"gray-blue-300": "#D4DFE3",
 				"gray-blue-400": "#7E8D92",
+				"gray-blue-500": "#273842",
 				"dark-blue": "#326A96",
 
-				"local-1": "#5B5D84",
+				"local-1": "#393B5F",
 				"local-2": "#C66E3B",
 
 				"state-1": "#FCFCFF",
-				"state-2": "#E9EFF1",
-				"state-3": "#CBD8DD",
+				"state-2": "#E1EEF7",
+				"state-3": "#ABC7D8",
 
-				"map-outline": "#99ABB0"
+				"map-outline": "#5F7F9B"
 			},
 			fontSize: {
 				"xs": [10, "12px"],

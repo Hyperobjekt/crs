@@ -1,4 +1,12 @@
-export default function Button({ style, imgSrc, url, className, onClick, children, ...props }) {
+export default function Button({
+	style,
+	imgSrc,
+	url,
+	className,
+	onClick,
+	children,
+	...props
+}) {
 	
 	let classes = "button w-full flex";
 	if(style === "blue") {

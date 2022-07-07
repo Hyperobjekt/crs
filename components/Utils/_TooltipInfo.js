@@ -1,7 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import Tooltip from "./_Tooltip";
 
-export default function TooltipInfo({ parent, children }) {
+export default function TooltipInfo({
+	parent,
+	children,
+}) {
 	const [hovered, setHovered] = useState(false);
 
 	const onHover = () => {

@@ -3,7 +3,13 @@ import { getText } from "./../../helpers";
 import Checkbox from "./_Checkbox";
 import DateSelector from "./_DateSelector";
 
-export default function Filter({ group, schema, activeFilters = {}, parent, onChange }) {
+export default function Filter({
+	group,
+	schema,
+	activeFilters = {},
+	parent,
+	onChange,
+}) {
 
 	const onCheckboxChange = (e) => {
 		const { group, value } = e.target.dataset;

@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function Tooltip({ open, parentWidth, children }) {
+export default function Tooltip({
+	open,
+	parentWidth,
+	children,
+}) {
 	const tooltipRef = useRef(null);
 	const [outerStyle, setOuterStyle] = useState({});
 	const [innerStyle, setInnerStyle] = useState({});

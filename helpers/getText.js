@@ -75,7 +75,7 @@ const siteCopy = {
   "date_adopted": "Date Adopted",
 
   "progress": "Progress Status",
-  "Pending": "Pending",
+  "Pending": "Introduced",
   "Enacted": "Adopted",
   "Expired or Withdrawn": "Withdrawn/expired",
   "Rejected": "Failed",

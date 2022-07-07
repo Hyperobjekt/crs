@@ -1,6 +1,9 @@
 import Button from "./_Button";
 
-export default function ButtonExt({ url, children }) {
+export default function ButtonExt({
+	url,
+	children,
+}) {
 	return (
 		url ?
 			<a href={url}

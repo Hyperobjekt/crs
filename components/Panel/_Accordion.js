@@ -2,7 +2,12 @@ import { useState, useRef } from "react";
 import { getText } from "./../../helpers";
 import { TooltipInfo } from "../Utils";
 
-export default function Accordion({ label, tooltip, open, children }) {
+export default function Accordion({
+	label,
+	tooltip,
+	open,
+	children,
+}) {
 	const parentRef = useRef(null);
 	const [pseudoOpen, setPseudoOpen] = useState(open);
 

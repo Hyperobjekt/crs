@@ -6,7 +6,11 @@ import FieldRow from "./_FieldRow";
 import { Button } from "../Utils";
 import { TooltipInfo } from "../Utils";
 
-export default function ActivityPanel({ activity, closeBttn, schema }) {
+export default function ActivityPanel({
+	activity,
+	closeBttn,
+	schema,
+}) {
 	const [panelData, setPanelData] = useState({});
 	const parentRef = useRef(null);
 

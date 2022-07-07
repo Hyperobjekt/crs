@@ -6,7 +6,13 @@ import { Button } from "../Utils";
 import Accordion from "./_Accordion";
 import Filter from "./_Filter";
 
-export default function FilterPanel({ activeCount, activeFilters = {}, schema = {}, onFilterChange, closeBttn }) {
+export default function FilterPanel({
+	activeCount,
+	activeFilters = {},
+	schema = {},
+	onFilterChange,
+	closeBttn,
+}) {
 	const [openedFilter, setOpenedFilter] = useState(null);
 	const parentRef = useRef(null);
 

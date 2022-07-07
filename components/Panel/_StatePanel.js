@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 
 import { getText, getDate, getTitle } from "./../../helpers";
 
-export default function StatePanel({ state, stateActivities, schema, hasFilters, onClickActivityRow, closeBttn }) {
+export default function StatePanel({
+	state,
+	stateActivities,
+	schema,
+	hasFilters,
+	onClickActivityRow,
+	closeBttn,
+}) {
 	const [panelData, setPanelData] = useState({});
 	const [activeTab, setActiveTab] = useState("state");
 

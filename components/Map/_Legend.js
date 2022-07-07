@@ -1,10 +1,14 @@
 import * as d3 from "d3";
 
+import VARS from "../../vars";
 import { getText } from "./../../helpers";
 import { Svg } from "../Utils";
+
+
+
 // import activitySchema from "./../data/activity";
 
-export default function Legend({ localColors, stateColors  }) {
+export default function Legend() {
 	return (
 		<div className="p-4 absolute hidden md:block bottom-4 right-4 bg-white shadow rounded-xl">
 			<h3 className="text-md font-bold center pb-3 px-[5px]">
@@ -21,17 +25,22 @@ export default function Legend({ localColors, stateColors  }) {
 				<tbody>
 
 					{["LocalSch", "LocalOth"].map((key, i) => {
-						let className;
-						if(key === "LocalSch") className = "w-4 h-4 m-auto fill-local-1";
-						if(key === "LocalOth") className = "w-4 h-4 m-auto fill-local-2";
 						return(
 							<tr key={i}>
 								<td className="w-22">{getText(key)}</td>
-								<td className="w-18">
-									<Svg symbol={key} className={className} opacity={0.5} />
+								<td className="w-18 overflow-visible">
+									<Svg
+										symbol={key}
+										className="w-4 h-4 m-auto"
+										fill={`url(#pattern-${key})`}
+										stroke={VARS.LOCAL_COLORS[key][1]} />
 								</td>
-								<td className="w-18">
-									<Svg symbol={key} className={className} />
+								<td className="w-18 overflow-visible">
+									<Svg
+										symbol={key}
+										className="w-4 h-4 m-auto"
+										fill={VARS.LOCAL_COLORS[key][0]}
+										stroke={VARS.LOCAL_COLORS[key][1]} />
 								</td>
 							</tr>
 						)
@@ -40,10 +49,18 @@ export default function Legend({ localColors, stateColors  }) {
 					<tr>
 						<td className="w-22">State and federal</td>
 						<td className="w-18">
-							<Svg symbol={"State"} className="w-4 h-4 m-auto fill-state-2 stroke-map-outline" />
+							<Svg
+								symbol="State"
+								className="w-4 h-4 m-auto stroke-map-outline"
+								fill={VARS.STATE_COLORS[1]}
+								stroke={VARS.STROKE_COLOR_DEFAULT} />
 						</td>
 						<td className="w-18">
-							<Svg symbol={"State"} className="w-4 h-4 m-auto fill-state-3 stroke-map-outline" />
+							<Svg
+								symbol="State"
+								className="w-4 h-4 m-auto stroke-map-outline"
+								fill={VARS.STATE_COLORS[2]}
+								stroke={VARS.STROKE_COLOR_DEFAULT} />
 						</td>
 					</tr>
 

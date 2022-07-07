@@ -2,7 +2,11 @@ import { useEffect, useState, useRef } from "react";
 import { getText, getDate, getTitle } from "./../../helpers";
 import { Tooltip } from "../Utils";
 
-export default function TooltipMap({ feature = {}, transform, parentWidth }) {
+export default function TooltipMap({
+	feature = {},
+	transform,
+	parentWidth,
+}) {
 	const [style, setStyle] = useState({});
 
 	useEffect(() => {
@@ -28,19 +32,21 @@ export default function TooltipMap({ feature = {}, transform, parentWidth }) {
 								{getText(feature.state)}
 							</div>
 							
-							{feature.tallies && Object.keys(feature.tallies).length ?
-								<div className="pt-2 text-gray-blue-400">
-									<strong>Adopted: </strong>
-									{Object.keys(feature.tallies).map((key, i) => (
-										<span key={key}>
-											{feature.tallies[key]}
-											&nbsp;
-											{getText(key).toLowerCase()}{feature.tallies[key] > 1 ? "s" : null}
-											{i < Object.keys(feature.tallies).length - 1 ? ", " : ""}
-										</span>
-									))}
-								</div>
-							: null}
+							{["Enacted", "Pending"].map((progress, i) => (
+								feature.tallies[progress] && Object.keys(feature.tallies[progress]).length ?
+									<div className="pt-2 text-gray-blue-400" key={i}>
+										<strong>{getText(progress)}: </strong>
+										{Object.keys(feature.tallies[progress]).map((key, i) => (
+											<span key={key}>
+												{feature.tallies[progress][key]}
+												&nbsp;
+												{getText(key).toLowerCase()}{feature.tallies[progress][key] > 1 ? "s" : null}
+												{i < Object.keys(feature.tallies[progress]).length - 1 ? ", " : ""}
+											</span>
+										))}
+									</div>
+								: null
+							))}
 
 						</div>
 					: <div className="p-4">

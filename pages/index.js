@@ -24,7 +24,12 @@ export const getStaticProps = async () => {
 	}
 }
 
-export default function Index({ statesGeo, localsGeo, activities, schema }) {
+export default function Index({
+	statesGeo,
+	localsGeo,
+	activities,
+	schema,
+}) {
 	const [activeView, setActiveView] = useState("map");
 	const [activeActivity, setActiveActivity] = useState(null);
 	const [activeState, setActiveState] = useState(null);

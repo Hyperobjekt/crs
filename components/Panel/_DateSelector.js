@@ -37,7 +37,11 @@ const getDateStr = (date) => {
 	return newStr;
 }
 
-export default function DateSelector({ start, end, onChange }) {
+export default function DateSelector({
+	start,
+	end,
+	onChange,
+}) {
 	const [openSelector, setToggledOpen] = useState(null);
 	const [startDate, setStartDate] = useState(null);
 	const [endDate, setEndDate] = useState(null);
