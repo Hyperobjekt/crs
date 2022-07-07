@@ -32,7 +32,7 @@ export default function TooltipMap({
 								{getText(feature.state)}
 							</div>
 							
-							{["Enacted", "Pending"].map((progress, i) => (
+							{["Enacted"].map((progress, i) => (
 								feature.tallies[progress] && Object.keys(feature.tallies[progress]).length ?
 									<div className="pt-2 text-gray-blue-400" key={i}>
 										<strong>{getText(progress)}: </strong>

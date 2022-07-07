@@ -242,7 +242,6 @@ export default function Map({
 		if(d.properties.type === "state" || d.properties.type === "federal") {
 			data = { ...d.properties, tallies: {} };
 			const stateActivities = filteredActivities.filter(a => a.state === data.state && ["State", "Federal"].includes(a.level));
-			// .filter(a => a.progress === "Enacted")
 			stateActivities.forEach(a => {
 				const { type, progress } = a;
 				if(!data.tallies[progress]) data.tallies[progress] = {};

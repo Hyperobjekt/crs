@@ -59,7 +59,7 @@ export default function Table({ filteredActivities = [], setActiveActivity, sche
 				className="w-full h-full min-w-[70rem] flex flex-col table-fixed relative">
 				<thead className="bg-white sticky z-50">
 					<tr
-						className="flex px-4 space-x-2 border-b">
+						className="flex px-4 md:px-12 space-x-2 border-b">
 						{colKeys.map((key, index) => (
 							<HeaderCell
 								key={index}
@@ -82,7 +82,7 @@ export default function Table({ filteredActivities = [], setActiveActivity, sche
 						<tr
 							key={index}
 							role="row"
-							className={index % 2 ? "body-row flex px-4 py-6 space-x-2 bg-gray-100" : "body-row flex px-4 py-6 space-x-2 bg-white"}>
+							className={index % 2 ? "body-row flex px-4 md:px-12 py-6 space-x-2 bg-gray-100" : "body-row flex px-4 md:px-12 py-6 space-x-2 bg-white"}>
 							{colKeys.map(key => (
 								<BodyCell
 									key={key}
