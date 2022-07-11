@@ -28,6 +28,9 @@ const PRESET_3_END = `2021-07-31${UTC_TZ}`;
 const PRESET_4_START = `2021-08-01${UTC_TZ}`;
 const PRESET_4_END = `2021-10-31${UTC_TZ}`;
 
+const PRESET_5_START = `2021-11-01${UTC_TZ}`;
+const PRESET_5_END = `2022-02-28${UTC_TZ}`;
+
 const getDateStr = (date) => {
 	const dateObj = new Date(date);
 	const dd = ("0" + (dateObj.getDate())).slice(-2);
@@ -137,7 +140,7 @@ export default function DateSelector({
 			value: [getDateStr(PRESET_2_START), getDateStr(PRESET_2_END)]
 		},
 		{
-			className: "w-1/2 rounded-none rounded-bl-md",
+			className: "w-1/2 rounded-none",
 			label: "Apr 2021 - Aug 2021",
 			name: "3",
 			value: [getDateStr(PRESET_3_START), getDateStr(PRESET_3_END)]
@@ -147,6 +150,12 @@ export default function DateSelector({
 			label: "Aug 2021 - Nov 2021",
 			name: "4",
 			value: [getDateStr(PRESET_4_START), getDateStr(PRESET_4_END)]
+		},
+		{
+			className: "w-1/2 rounded-none rounded-bl-md rounded-br-md -mt-[1px]",
+			label: "Nov 2021 - Feb 2022",
+			name: "5",
+			value: [getDateStr(PRESET_5_START), getDateStr(PRESET_5_END)]
 		}
 	];
 
