@@ -219,6 +219,10 @@
 					"key": "enforcement_2",
 					"tooltip": "An individual can privately sue an individual or school for engaging in CRT activity"
 				},
+				{
+					"key": "enforcement_3",
+					"tooltip": ""
+				},
 				"Not Specified"
 			]
 		}

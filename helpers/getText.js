@@ -62,7 +62,7 @@ const siteCopy = {
   "enforcement": "Enforcement Mechanism",
   "enforcement_1": "Funding withheld",
   "enforcement_2": "Private cause of action",
-
+  "enforcement_3": "Vouchers",
 
   "category": "Category",
   "Race or ethnicity only": "Race or ethnicity only",
