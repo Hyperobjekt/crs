@@ -9,7 +9,6 @@ export default function ZoomBttns({
 					onClick={onZoomClick}>
 					+
 				</button>
-
 				<button
 					className="w-7 h-7 text-center bg-white"
 					onClick={onZoomClick}>

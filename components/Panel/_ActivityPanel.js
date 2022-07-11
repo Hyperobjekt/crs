@@ -44,7 +44,6 @@ export default function ActivityPanel({
 					{closeBttn}
 				</div>
 			</header>
-
 			<div className="overflow-y-scroll pb-6" ref={parentRef}>
 				<ul className="p-4 pt-6 border-b">
 					{Object.keys(schema)
@@ -71,7 +70,6 @@ export default function ActivityPanel({
 							);
 						})}
 				</ul>
-
 				{["url_text", "url_source"].map((key, index) => (
 					panelData[key] ? 
 						<div key={key} className="w-full p-4 border-b">
@@ -86,15 +84,12 @@ export default function ActivityPanel({
 						</div>
 					: null
 				))}
-
 				{panelData.date_checked ?
 					<div className="p-4 text-md">
 						Progress status current as of {getDate(panelData.date_checked)}
 					</div>
 				: null}
-
 			</div>
-
 		</>
 	);
 }

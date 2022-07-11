@@ -4,10 +4,6 @@ import VARS from "../../vars";
 import { getText } from "./../../helpers";
 import { Svg } from "../Utils";
 
-
-
-// import activitySchema from "./../data/activity";
-
 export default function Legend() {
 	return (
 		<div className="p-4 absolute hidden md:block bottom-4 right-4 bg-white shadow rounded-xl">
@@ -23,7 +19,6 @@ export default function Legend() {
 					</tr>
 				</thead>
 				<tbody>
-
 					{["LocalSch", "LocalOth"].map((key, i) => {
 						return(
 							<tr key={i}>
@@ -45,7 +40,6 @@ export default function Legend() {
 							</tr>
 						)
 					})}
-
 					<tr>
 						<td className="w-22">State and federal</td>
 						<td className="w-18">
@@ -66,10 +60,6 @@ export default function Legend() {
 
 				</tbody>
 			</table>
-
-			<ul>
-				
-			</ul>
 		</div>
 	);
 }

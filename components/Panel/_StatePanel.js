@@ -35,13 +35,7 @@ export default function StatePanel({
 					<h3 className="type-heading-2 inline">
 						{title}
 					</h3>
-					{/*{hasFilters ?
-						<span className="ml-1 relative -top-0.5 text-md">
-							({progressListLength}/{state.activities.length})
-						</span>
-					: null}*/}
 				</header>
-
 				<div>
 					{progressListLength ?
 						schema.type.filter.options.map((type, index) => {
@@ -76,7 +70,6 @@ export default function StatePanel({
 						({typeListActivities.length}/{progressListLength})
 					</span>
 				</header>
-
 				{typeListActivities.map((activity, index) => (
 					<ActivityRow key={index} activity={activity} />
 				))}
@@ -128,12 +121,6 @@ export default function StatePanel({
 					</h2>
 					{closeBttn}
 				</div>
-				{/*<div>
-					{hasFilters ?
-						`Displaying ${activities.length} out of ${state.activities.length}.
-						${state.activities.length ? "Clear filters to see all." : ""}`
-					: ""}
-				</div>*/}
 				{panelData.state !== "US" ?
 					<div className="flex gap-4">
 						{tabs.map(tab => {
@@ -155,17 +142,13 @@ export default function StatePanel({
 					</div>
 				: null}
 			</header>
-
 			<div className="overflow-y-scroll pb-16">
-
 				<ProgessList
 					title="Adopted"
 					progressListActivities={adoptedActivities} />
-
 				<ProgessList
 					title="Introduced"
 					progressListActivities={introducedActivities} />
-
 			</div>
 		</>
 	);

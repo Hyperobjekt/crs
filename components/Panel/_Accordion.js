@@ -39,11 +39,9 @@ export default function Accordion({
 						height={16} />
 				</div>
 			</summary>
-
 			<div className="px-4 pb-4">
 				{children}
 			</div>
-
 		</details>
 	);
 }

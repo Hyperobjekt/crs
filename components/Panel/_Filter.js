@@ -53,11 +53,10 @@ export default function Filter({
 								tooltip={typeof option === "object" ? option.tooltip : null}
 								parent={parent}
 								onChange={onCheckboxChange} />
-						)
+						);
 					})}
 				</div>
 			: null}
-
 			{schema.type === "date" ?
 				<div>
 					<DateSelector

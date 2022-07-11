@@ -63,7 +63,6 @@ export default function FilterPanel({
 					{closeBttn}
 				</div>
 			</header>
-			
 			<div className="overflow-hidden relative">
 				<div className="h-full overflow-hidden overflow-y-scroll pt-6 pb-16" ref={parentRef}>
 					<div className="flex gap-2 px-4">

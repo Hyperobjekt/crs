@@ -51,7 +51,14 @@ export default function Checkbox({
 					</span>
 					<span className="inline pl-2">
 						{group === "level" ?
-							<Svg symbol={val} className={symbolClassName} />
+							val === "Federal" ?
+								<img
+									src="/IconFederal.svg"
+									alt=""
+									className={symbolClassName} />
+							: <Svg
+									symbol={val}
+									className={symbolClassName} />
 						: null}
 						<span className="type-label">
 							{label}

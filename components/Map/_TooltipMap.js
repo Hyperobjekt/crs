@@ -58,7 +58,6 @@ export default function TooltipMap({
 							</div>
 						</div>
 					}
-
 					<div className="p-4 border-t border-gray-blue-400 text-xs text-gray-blue-400">
 						{feature.hasOwnProperty("state") ?
 							"Click to see all activity"
