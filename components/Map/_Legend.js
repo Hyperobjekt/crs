@@ -10,7 +10,7 @@ export default function Legend() {
 			<h3 className="text-md font-bold center pb-3 px-[5px]">
 				Progress and level of anti-CRT activity
 			</h3>
-			<table cellPadding="5" className="text-sm">
+			<table cellPadding="5" className="text-md">
 				<thead className="font-bold">
 					<tr>
 						<td className="w-22">{getText("level")}</td>
