@@ -115,11 +115,18 @@ export default function Map({
 				.on("dblclick", (e) => e.stopPropagation());
 	};
 
+	
 	const addStates = () => {
 		const states = d3.select(svgRef.current)
 			.select("g")
 				.append("g")
-					.attr("class", "states")
+					.attr("class", "states");
+
+		const stateShapes = d3.select(svgRef.current)
+			.select("g")
+				.append("g")
+					.attr("class", "state-shapes")
+					.append("g")
 			.selectAll("path")
 				.data(statesGeo.features)
 				.attr("stroke-width", VARS.STROKE_WIDTH_DEFAULT)
@@ -131,11 +138,28 @@ export default function Map({
 				.on("mouseout", onUnhoverFeature)
 				.on("click", onClickFeature)
 				.on("dblclick", (e) => e.stopPropagation());
+		
+		const pathRenderer = d3.geoPath().projection(projection);
+		const labels = d3.select(svgRef.current)
+			.select("g")
+				.append("g")
+					.attr("class", "state-labels")
+					.attr("pointer-events", "none")
+					.append("g")
+			.selectAll("text")
+		    .data(statesGeo.features)
+		    .join("text")
+		      .attr("text-anchor", "middle")
+		      .attr("font-size", 10)
+		      .attr("fill", d => d.properties.state !== "HI" ? VARS.STROKE_COLOR_DEFAULT : "white")
+		      .text(d => d.properties.state !== "US" ? d.properties.state : "")
+		      .attr("x", d => d.properties.state ? pathRenderer.centroid(d)[0] : null)
+		      .attr("y", d => d.properties.state ? pathRenderer.centroid(d)[1] : null);
 	};
 
 	const addFederal = () => {
-		const dcGeo = statesGeo.features.filter(d => d.properties.state === "US"),
-					dcCoords = dcGeo[0].geometry.coordinates[0][0][4];
+		const dcGeo = statesGeo.features.filter(d => d.properties.state === "US");
+		const dcCoords = dcGeo[0].geometry.coordinates[0][0][4];
 
 		d3.select(svgRef.current)
 			.select("g")
@@ -210,7 +234,7 @@ export default function Map({
 	const onClickFederalFeature = (e, d) => {
 		const elem = e.target,
 					path = d3.select(elem),
-					states = d3.select(svgRef.current).selectAll(".states path");
+					states = d3.select(svgRef.current).selectAll(".state-shapes path");
 		setActiveActivity(null);
 		setActiveState(null);
 		setActiveState(d.properties);
@@ -219,7 +243,7 @@ export default function Map({
 	const onClickStateFeature = (e, d) => {
 		const elem = e.target,
 					path = d3.select(elem),
-					states = d3.select(svgRef.current).selectAll(".states path, .federal-icon rect");
+					states = d3.select(svgRef.current).selectAll(".state-shapes path, .federal-icon rect");
 		elem.parentElement.appendChild(elem);
 		setActiveActivity(null);
 		setActiveState(null);
@@ -312,7 +336,7 @@ export default function Map({
 	}
 
 	const translateLocal = (d) => {
-		return projection(d.geometry.coordinates).map(l => l - VARS.MARKER_SIZE / 2);
+		return projection(d.geometry.coordinates).map(l => l - VARS.MARKER_SIZE / 4);
 	}
 
 	const updateMapStyle = () => {
@@ -326,7 +350,7 @@ export default function Map({
 				return strokeWidth;
 			});
 
-		svg.selectAll(".states path")
+		svg.selectAll(".state-shapes path")
 			.attr("fill", d => {
 				const stateActivities = filteredActivities.filter(a => a.level === "State" && a.state === d.properties.state);
 				if(!stateActivities.length) return VARS.STATE_COLORS[0];
