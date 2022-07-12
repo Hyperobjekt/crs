@@ -104,8 +104,7 @@ export default function Map({
 				.data(localsGeo.features)
 			.enter().append("path")
 				.attr("d", d => VARS.SHAPES[d.properties.level])
-				.attr("fill", d => d.properties.progress === "Enacted" ? VARS.LOCAL_COLORS[d.properties.level][0] : `url(#pattern-${d.properties.level})`)
-				// .attr("fill", d => d.properties.progress === "Enacted" ? VARS.LOCAL_COLORS[d.properties.level][0] : `transparent`)
+				.attr("fill", d => d.properties.progress === "Enacted" ? VARS.LOCAL_COLORS[d.properties.level][0] : `transparent`)
 				.attr("stroke-width", VARS.STROKE_WIDTH_DEFAULT)
 				.attr("stroke", d => VARS.LOCAL_COLORS[d.properties.level][1])
 				.attr("transform", d => `translate(${translateLocal(d)}) scale(${mapTransform.k})`)
@@ -414,7 +413,7 @@ export default function Map({
 					<svg ref={svgRef}
 						width={mapSizes.width}
 						height={mapSizes.height}>
-						{VARS.LOCAL_PATTERNS}
+						{/*{VARS.LOCAL_PATTERNS}*/}
 					</svg>
 				</div>
 
