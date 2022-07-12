@@ -150,21 +150,21 @@ export default function Map({
 		// });
 		// console.log(JSON.stringify(centroids));
 		
-		// const stateLabels = d3.select(svgRef.current)
-		// 	.select("g")
-		// 		.append("g")
-		// 			.attr("class", "state-labels")
-		// 			.attr("pointer-events", "none")
-		// 			.append("g")
-		// 	.selectAll("text")
-		//     .data(statesGeo.features)
-		//     .join("text")
-		//       .attr("text-anchor", "middle")
-		//       .attr("font-size", 10)
-		//       .attr("fill", d => d.properties.state !== "HI" ? VARS.STROKE_COLOR_DEFAULT : "white")
-		//       .text(d => d.properties.state !== "US" ? d.properties.state : "")
-		//       .attr("x", d => d.properties.state ? pathRenderer.centroid(d)[0] : null)
-		//       .attr("y", d => d.properties.state ? pathRenderer.centroid(d)[1] : null);
+		const stateLabels = d3.select(svgRef.current)
+			.select("g")
+				.append("g")
+					.attr("class", "state-labels")
+					.attr("pointer-events", "none")
+					.append("g")
+			.selectAll("text")
+		    .data(statesGeo.features)
+		    .join("text")
+		      .attr("text-anchor", "middle")
+		      .attr("font-size", 10)
+		      .attr("fill", d => d.properties.state !== "HI" ? VARS.STROKE_COLOR_DEFAULT : "white")
+		      .text(d => d.properties.state !== "US" ? d.properties.state : "")
+		      .attr("x", d => d.properties.state ? pathRenderer.centroid(d)[0] : null)
+		      .attr("y", d => d.properties.state ? pathRenderer.centroid(d)[1] : null);
 	};
 
 	const addFederal = () => {
