@@ -105,6 +105,7 @@ export default function Map({
 			.enter().append("path")
 				.attr("d", d => VARS.SHAPES[d.properties.level])
 				.attr("fill", d => d.properties.progress === "Enacted" ? VARS.LOCAL_COLORS[d.properties.level][0] : `url(#pattern-${d.properties.level})`)
+				// .attr("fill", d => d.properties.progress === "Enacted" ? VARS.LOCAL_COLORS[d.properties.level][0] : `transparent`)
 				.attr("stroke-width", VARS.STROKE_WIDTH_DEFAULT)
 				.attr("stroke", d => VARS.LOCAL_COLORS[d.properties.level][1])
 				.attr("transform", d => `translate(${translateLocal(d)}) scale(${mapTransform.k})`)
@@ -138,9 +139,18 @@ export default function Map({
 				.on("mouseout", onUnhoverFeature)
 				.on("click", onClickFeature)
 				.on("dblclick", (e) => e.stopPropagation());
-		
+			
+
 		const pathRenderer = d3.geoPath().projection(projection);
-		const labels = d3.select(svgRef.current)
+		// const centroids = [];
+		// statesGeo.features.forEach(d => {
+		// 	if(d.properties.state) {
+		// 	 centroids.push([d.properties.state, pathRenderer.centroid(d)[0], pathRenderer.centroid(d)[1]]);
+		// 	}
+		// });
+		// console.log(JSON.stringify(centroids));
+		
+		const stateLabels = d3.select(svgRef.current)
 			.select("g")
 				.append("g")
 					.attr("class", "state-labels")

@@ -15,7 +15,7 @@ let stateCodes, activities;
 		encoding: "utf8",
 		flag: "r",
 	});
-	stateCodes = (await neatCsv(stateCodesCsv)).reduce((obj, row) => ({ ...obj, [row.id]: row.code }), {});
+	stateCodes = (await neatCsv(stateCodesCsv)).reduce((obj, row) => ({...obj, [row.id]: row.code }), {});
 })().then(async () => {
 	//GET ACTIVITIES
 	const activitiesCsv = fs.readFileSync("./data/raw/CRT_Data.csv", {
@@ -106,7 +106,6 @@ let stateCodes, activities;
 				delete row.geometry;
 				return({
 					type: "Feature",
-					// properties: { ...row, index: i },
 					properties: {
 						type: "local",
 						level: row.level,
