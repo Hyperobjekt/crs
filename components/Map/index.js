@@ -256,6 +256,7 @@ export default function Map({
 		elem.parentElement.appendChild(elem);
 		setActiveActivity(null);
 		setActiveState(null);
+		console.log(d.properties);
 		setActiveState(d.properties);
 	}
 
