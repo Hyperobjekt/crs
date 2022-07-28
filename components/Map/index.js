@@ -64,6 +64,8 @@ export default function Map({
 		g.attr("transform", mapTransform);
 		g.selectAll(".local path")
 			.attr("transform", scaleNode)
+		g.selectAll(".state-labels text")
+			.attr("transform", scaleNode)
 		g.select(".federal-icon")
 			.attr("transform", scaleNode)
 		g.select(".federal-line")
@@ -140,7 +142,7 @@ export default function Map({
 				.on("dblclick", (e) => e.stopPropagation());
 			
 
-		const pathRenderer = d3.geoPath().projection(projection);
+		// const pathRenderer = d3.geoPath().projection(projection);
 		// const centroids = [];
 		// statesGeo.features.forEach(d => {
 		// 	if(d.properties.state) {
@@ -162,8 +164,11 @@ export default function Map({
 		      .attr("font-size", 10)
 		      .attr("fill", d => d.properties.state !== "HI" ? VARS.STROKE_COLOR_DEFAULT : "white")
 		      .text(d => d.properties.state !== "US" ? d.properties.state : "")
-		      .attr("x", d => d.properties.state ? pathRenderer.centroid(d)[0] : null)
-		      .attr("y", d => d.properties.state ? pathRenderer.centroid(d)[1] : null);
+		      .attr("transform", d => `translate(${translateText(d)}) scale(${mapTransform.k})`)
+		      // .attr("x", d => d.properties.state ? pathRenderer.centroid(d)[0] : null)
+		      // .attr("y", d => d.properties.state ? pathRenderer.centroid(d)[1] : null)
+		      // .attr("transform", d => `scale(${mapTransform.k})`);
+		      
 	};
 
 	const addFederal = () => {
@@ -256,7 +261,6 @@ export default function Map({
 		elem.parentElement.appendChild(elem);
 		setActiveActivity(null);
 		setActiveState(null);
-		console.log(d.properties);
 		setActiveState(d.properties);
 	}
 
@@ -343,11 +347,15 @@ export default function Map({
 		const transformSplit = transform.split("scale(");
 		const transformBegin = transformSplit[0];
 		return [transformBegin,`scale(${1/mapTransform.k})`].join("");
-	}
+	};
 
 	const translateLocal = (d) => {
 		return projection(d.geometry.coordinates).map(l => l - VARS.MARKER_SIZE / 4);
-	}
+	};
+
+	const translateText = (d) => {
+		return d.properties.state ? d3.geoPath().projection(projection).centroid(d) : [0, 0];
+	};
 
 	const updateMapStyle = () => {
 		const svg = d3.select(svgRef.current);
