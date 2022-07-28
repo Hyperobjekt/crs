@@ -39,7 +39,9 @@ export default function StatePanel({
 				<div>
 					{progressListLength ?
 						schema.type.filter.options.map((type, index) => {
-							const typeListActivities = progressListActivities.filter(a => a.type === type);
+							const typeListActivities = progressListActivities.filter(a =>
+								a.type === (typeof type === "object" ? type.key : type)
+							);
 							return (
 								typeListActivities.length ?
 									<TypeList
@@ -64,7 +66,7 @@ export default function StatePanel({
 			<div className="mb-6">
 				<header className="mb-3">
 					<h4 className="type-heading-3 inline">
-						{getText(type)}
+						{getText(typeof type === "object" ? type.key : type)}
 					</h4>
 					<span className="ml-1 text-md">
 						({typeListActivities.length}/{progressListLength})

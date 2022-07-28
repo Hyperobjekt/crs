@@ -46,7 +46,10 @@
 				"Regulation",
 				"Resolution",
 				"Statement",
-				"Policy"
+				{
+					"key": "Policy",
+					"tooltip": "Newly introduced anti-CRT plan or revision to a former diversity plan"
+				}
 			]
 		},
 		"table": {
